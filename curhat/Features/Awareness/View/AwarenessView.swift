@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AwarenessView: View {
     var body: some View {
-        Text("Hello, Bung!")
+        Text("Hello, Bung hattas!")
     }
 }
 
