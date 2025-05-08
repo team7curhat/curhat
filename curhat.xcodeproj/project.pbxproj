@@ -591,14 +591,6 @@
 				minimumVersion = 4.5.1;
 			};
 		};
-		951C2D772DCC958B004E3846 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google-gemini/deprecated-generative-ai-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.5.6;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
