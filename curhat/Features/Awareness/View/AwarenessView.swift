@@ -62,6 +62,8 @@ struct AwarenessView: View {
                 Image(systemName: "speaker.wave.2.fill").foregroundColor(Color.primary6)
             }
         }
+        .navigationBarBackButtonHidden(true)
+    
     }
 }
 
