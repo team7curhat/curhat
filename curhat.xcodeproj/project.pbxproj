@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D3DCBAC92DCC93A6000A7457 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */; };
+		D3DCBACC2DCC93CB000A7457 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D3DCBACB2DCC93CB000A7457 /* Lottie */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B4BC69D72DC9FA7600E888DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3DCBAC92DCC93A6000A7457 /* GoogleGenerativeAI in Frameworks */,
+				D3DCBACC2DCC93CB000A7457 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = curhat;
 			packageProductDependencies = (
+				D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */,
+				D3DCBACB2DCC93CB000A7457 /* Lottie */,
 			);
 			productName = curhat;
 			productReference = B4BC69C92DC9FA7500E888DA /* curhat.app */;
@@ -196,8 +205,8 @@
 			mainGroup = B4BC69C02DC9FA7500E888DA;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				951C2D762DCC9564004E3846 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				951C2D772DCC958B004E3846 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
+				D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
+				D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B4BC69CA2DC9FA7500E888DA /* Products */;
@@ -401,7 +410,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7N4ZY27HB5;
+				DEVELOPMENT_TEAM = 43D48TSAU5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -430,7 +439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7N4ZY27HB5;
+				DEVELOPMENT_TEAM = 43D48TSAU5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -566,9 +575,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		951C2D762DCC9564004E3846 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			repositoryURL = "https://github.com/google-gemini/deprecated-generative-ai-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
+		D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.5.1;
@@ -583,6 +600,19 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
+		};
+		D3DCBACB2DCC93CB000A7457 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B4BC69C12DC9FA7500E888DA /* Project object */;
 }
