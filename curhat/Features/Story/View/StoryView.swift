@@ -50,13 +50,17 @@ struct StoryView: View {
     
     @State private var hasKeyboardShown: Bool = true
     
+    // Speech to Text Coordinator
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    @State private var lastAudioLevel: Float = 0.0
+    let checkInterval: TimeInterval = 1.0
+    
+    
     
     var body: some View {
         NavigationView{
             
             VStack{
-                
-                
                 
                 if(hasKeyboardShown){
                     
@@ -168,8 +172,6 @@ struct StoryView: View {
                             .onTapGesture {
                                 hasKeyboardShown = true
                                 isTextFieldFocused.toggle()
-                                
-                                
                             }
                         
                         Circle()
@@ -188,6 +190,12 @@ struct StoryView: View {
                             )
                             .onTapGesture {
                                 isMicActive.toggle()
+                                if isMicActive {
+                                    try? speechRecognizer.startRecording()
+                                    startAudioLevelMonitor()
+                                } else {
+                                    speechRecognizer.stopRecording()
+                                }
                             }
                         
                     }
@@ -255,6 +263,19 @@ struct StoryView: View {
                     .hidden()
                 )
             
+        }
+        
+        .onChange(of: speechRecognizer.transcribedText) { newValue in
+            if isMicActive {
+                userPrompt = newValue
+            }
+        }
+    }
+    
+    func startAudioLevelMonitor() {
+        Timer.scheduledTimer(withTimeInterval: checkInterval, repeats: true) { _ in
+            let currentLevel = speechRecognizer.audioLevel
+            lastAudioLevel = currentLevel
         }
     }
     
