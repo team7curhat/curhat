@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3DCBAC92DCC93A6000A7457 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */; };
-		D3DCBACC2DCC93CB000A7457 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D3DCBACB2DCC93CB000A7457 /* Lottie */; };
+		B4BC6CFE2DCC8E1F00E888DA /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = B4BC6CFD2DCC8E1F00E888DA /* GoogleGenerativeAI */; };
+		B4BC6D012DCC8E3400E888DA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B4BC6D002DCC8E3400E888DA /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3DCBAC92DCC93A6000A7457 /* GoogleGenerativeAI in Frameworks */,
-				D3DCBACC2DCC93CB000A7457 /* Lottie in Frameworks */,
+				B4BC6CFE2DCC8E1F00E888DA /* GoogleGenerativeAI in Frameworks */,
+				B4BC6D012DCC8E3400E888DA /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,8 +119,8 @@
 			);
 			name = curhat;
 			packageProductDependencies = (
-				D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */,
-				D3DCBACB2DCC93CB000A7457 /* Lottie */,
+				B4BC6CFD2DCC8E1F00E888DA /* GoogleGenerativeAI */,
+				B4BC6D002DCC8E3400E888DA /* Lottie */,
 			);
 			productName = curhat;
 			productReference = B4BC69C92DC9FA7500E888DA /* curhat.app */;
@@ -205,8 +205,8 @@
 			mainGroup = B4BC69C02DC9FA7500E888DA;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
-				D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				B4BC6CFC2DCC8E1F00E888DA /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+				B4BC6CFF2DCC8E3400E888DA /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B4BC69CA2DC9FA7500E888DA /* Products */;
@@ -335,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -393,7 +393,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -410,7 +410,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 43D48TSAU5;
+				DEVELOPMENT_TEAM = 7N4ZY27HB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,7 +439,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 43D48TSAU5;
+				DEVELOPMENT_TEAM = 7N4ZY27HB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -575,15 +575,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */ = {
+		B4BC6CFC2DCC8E1F00E888DA /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google-gemini/deprecated-generative-ai-swift";
+			repositoryURL = "https://github.com/google/generative-ai-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.5.6;
 			};
 		};
-		D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		B4BC6CFF2DCC8E3400E888DA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
 			requirement = {
@@ -594,14 +594,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */ = {
+		B4BC6CFD2DCC8E1F00E888DA /* GoogleGenerativeAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
+			package = B4BC6CFC2DCC8E1F00E888DA /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
 		};
-		D3DCBACB2DCC93CB000A7457 /* Lottie */ = {
+		B4BC6D002DCC8E3400E888DA /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = B4BC6CFF2DCC8E3400E888DA /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -33,7 +33,7 @@ struct StoryView: View {
     
     // MARK: - Feedback Content
     @State private var expression: String = "netral"    // default image
-    @State private var feedback: String = "Apa yang sedang kamu alami hari ini?"// feedback text
+    @State private var feedback: String = "Apa yang bikin kamu sedih hari ini?"// feedback text
     @State private var followUp: String = ""            // follow-up question
     
     // MARK: - Confirmation Dialog Content
@@ -48,7 +48,8 @@ struct StoryView: View {
     
     @State private var keyboardHeight: CGFloat = 0
     
-    @State private var hasKeyboardShown: Bool = false
+    @State private var hasKeyboardShown: Bool = true
+    
     
     var body: some View {
         NavigationView{
@@ -60,7 +61,19 @@ struct StoryView: View {
                 if(hasKeyboardShown){
                     
                     HStack(alignment: .top, spacing:0){
-                        Image("emochi-duduk")
+                        if(isSpeaking){
+                            LottieView(animation: .named("SadTalking")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(2.5)))).animationSpeed(1.2)
+                                .frame(width: 135.62, height: 132)
+                                
+                        }else{
+                            Image("exploration-pertama")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 130.62, height: 106)
+                        }
+                        
+                        
+                        
                         BubbleChatView(message: feedback, isKeyboardActive: hasKeyboardShown)
                     }
                     .padding(.bottom, 8)
@@ -70,11 +83,11 @@ struct StoryView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: 1)
                 }else{
-                    Spacer(minLength: isTextFieldFocused ? 0 : 120 )
+                    Spacer(minLength: isTextFieldFocused ? 0 : 80 )
                     VStack{
                         
                         BubbleChatView(message: feedback, isKeyboardActive: hasKeyboardShown)
-                        Image("takut")
+                        Image("exploration-pertama")
                         
                         
                         ZStack {
@@ -113,9 +126,12 @@ struct StoryView: View {
                                             }
                                         }
                                     }
+                                    .onChange(of: isTextFieldFocused) {
+                                                      hasKeyboardShown = true
+                                                  }
                                 
                             }
-//                            .background(.blue)
+                            //                            .background(.blue)
                         }
                         
                         LottieView(animation: .named("SoundWave2")).playbackMode(.playing(.toProgress(1, loopMode: .loop))).animationSpeed(1.2)
@@ -136,46 +152,46 @@ struct StoryView: View {
                 ZStack{
                     HStack(alignment: .center, spacing: 48) {
                         Circle()
-                            .fill(isTextFieldFocused ? Color("primary-3") : Color.white)
+                            .fill(isTextFieldFocused ? Color("primary-6") : Color.white)
                             .frame(width: 56, height: 56)
                             .overlay(
                                 Circle()
-                                    .stroke(Color("primary-3"), lineWidth: 2)
+                                    .stroke(Color("primary-6"), lineWidth: 2)
                             )
                             .overlay(
                                 Image(systemName: isTextFieldFocused ? "keyboard.fill" : "keyboard")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 21, height: 21)
-                                    .foregroundColor(isTextFieldFocused ? .white : Color("primary-3"))
+                                    .foregroundColor(isTextFieldFocused ? .white : Color("primary-6"))
                             )
                             .onTapGesture {
                                 hasKeyboardShown = true
                                 isTextFieldFocused.toggle()
                                 
-                              
+                                
                             }
                         
                         Circle()
-                            .fill(isMicActive ? Color("primary-3") : Color.white)
+                            .fill(isMicActive ? Color("primary-6") : Color.white)
                             .frame(width: 56, height: 56)
                             .overlay(
                                 Circle()
-                                    .stroke(Color("primary-3"), lineWidth: 2)
+                                    .stroke(Color("primary-6"), lineWidth: 2)
                             )
                             .overlay(
                                 Image(systemName: isMicActive ? "microphone.fill" : "microphone")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 21, height: 21)
-                                    .foregroundColor(isMicActive ? .white : Color("primary-3"))
+                                    .foregroundColor(isMicActive ? .white : Color("primary-6"))
                             )
                             .onTapGesture {
                                 isMicActive.toggle()
                             }
-
+                        
                     }
-
+                    
                 }
                 
                 
@@ -205,31 +221,33 @@ struct StoryView: View {
                             showingConfirmationDialog = true
                         }){
                             Text("Selesai").font(.body).fontWeight(.semibold)
-                        }.confirmationDialog(Text(confirmationDialogTitle),
-                                             isPresented: $showingConfirmationDialog,
-                                             titleVisibility: .automatic,
-                                             actions: {
-                            Button("Discard", role: .destructive) { }
-                            Button("Summary") { }
-                            Button("Cancel", role: .cancel) { }
-                        },
-                                             message: {
-                            confirmationDialogMessage == "" ? nil : Text(confirmationDialogMessage)
-                        }
-                        )
+                        }.disabled(promptLimit == 0)
+                            .alert(Text("Akhiri Cerita?"),
+                                   isPresented: $showingConfirmationDialog,
+                                   actions: {
+                                Button("Ya akhiri", role: .destructive) {
+                                    // Set state to trigger navigation
+                                    shouldNavigate = true
+                                }
+                                Button("Batal", role: .cancel) { }
+                            }, message: {
+                                Text("Kamu masih dalam proses bercerita. Jika berhenti sekarang, kamu akan langsung ke halaman akhir dan tidak bisa melanjutkan cerita ini.")
+                            }
+                            )
                     }
                 }
                 .onChange(of: promptLimit) { newValue in
-                    if newValue >= 3 {
+                    if newValue >= 10 {
                         promptLimit = 0
                         logPrompts.removeAll()
                         shouldNavigate = true
+                        
                     }
                 }
             // hidden link that actually does the navigation
                 .background(
                     NavigationLink(
-                        destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: logPrompts),      // <-- the view you want to go to
+                        destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: logPrompts).navigationBarBackButtonHidden(true),      // <-- the view you want to go t
                         isActive: $shouldNavigate,
                         label: { EmptyView() }
                     )
@@ -243,26 +261,33 @@ struct StoryView: View {
     
     func generateResponse() {
         let fullPrompt = """
-        jadilah chatbot seperti persona ini:
-        jadi pribadi yang supportive tetapi juga straight forward
+         
+        jadilah teman curhat seperti persona ini:
+                        - jadi pribadi yang supportive tetapi juga straight forward
+                        - kamu bisa pakai bahasa untuk orang berusia 18-25 tahun
+                          gunakan struktur percakapan curhat sebagai panduan dalam menyusun respons:
         
-        gunakan struktur percakapan curhat sebagai panduan dalam menyusun respons:
-        1. **Awareness**: tanyakan tentang emosi yang sedang dihadapi oleh user.
-        2. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, di mana, kapan, mengapa, dan bagaimana.
-        3. **Reflection**: tanyakan kepada user apakah mereka bersedia untuk melakukan refleksi. Jika mereka setuju, bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
-        4. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
+                        1. **Awareness**: tanyakan tentang emosi yang sedang dihadapi oleh user
+                        2. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, di mana, kapan, mengapa, dan bagaimana tapi jangan ditanya lagi kalau sudah dijelaskan diawal terkait siapa, apa, di mana, kapan, mengapa, dan bagaimananya buat bahasanya seperti best friend yang sangat care terhadap apa yang ingin diceritakan.
+                        3. **Reflection**: tanyakan kepada user apakah mereka bersedia untuk melakukan refleksi. Jika mereka setuju, bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
+                        4. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
         
-        Berikut log cerita user:
-        \(logPrompts)
+                        Berikut log cerita user:
+                        
+                        \(logPrompts)
+                        Berikut ini adalah jawaban dari user:
+                        
+                        \(userPrompt)
+                        
+                        Tugasmu:
         
-        Berikut ini adalah jawaban dari user:
-        \(userPrompt)
-        
-        Tugasmu:
-        - Analisis teks user tersebut dan tentukan ekspresi emosinya (hanya satu dari: senang, netral, atau sedih).
-        - Buatkan pertanyaan lanjutan (follow-up question) sesuai dengan tahap **struktur curhat** yang paling relevan saat ini.
-        - Berikan feedback yang singkat namun bermakna, sesuai dengan persona yang supportive dan straight forward.
-        - tanyakan hanya dua pertanyaan setelah itu berikan summary percakapannya
+                        - buat user merasa diperhatikan dengan menyebut namanya
+                        - Analisis teks user tersebut dan tentukan ekspresi emosinya (hanya satu dari: senang, netral, atau sedih).
+                        - Buatkan pertanyaan lanjutan (follow-up question) sesuai dengan tahap **struktur curhat** yang paling relevan saat ini.
+                        - kamu hanya punya maksimal 10 pertanyaan
+                        - Berikan feedback yang singkat maksimal 5 kata namun bermakna, sesuai dengan persona yang supportive dan straight forward.
+                        - runtutan setiap bertanya adalah berikan dia feedback dulu baru kamu boleh lanjut kasih pertanyaan
+                        - maksimalkan 10 pertanyaan yang sesuai dengan **struktur curhat** untuk mendapatkan informasi apa, dimana, kapan, kenapa, siapa, bagaimana tapi jika sudah diceritakan dari beberapa informasi yang dibutuhkan kamu tidak perlu bertanya lagi.
         
         ⚠️ Jawab hanya dalam 1 objek JSON, contoh:
         {"expression":"senang","follow_up_question":"Apa …?","feedback":"Keren …"}
