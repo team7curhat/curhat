@@ -229,7 +229,7 @@ struct StoryView: View {
             // hidden link that actually does the navigation
                 .background(
                     NavigationLink(
-                        destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: logPrompts,),      // <-- the view you want to go to
+                        destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: logPrompts),      // <-- the view you want to go to
                         isActive: $shouldNavigate,
                         label: { EmptyView() }
                     )
