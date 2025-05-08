@@ -7,6 +7,8 @@
 
 import Foundation
 import GoogleGenerativeAI
+
+let APIKey = "AIzaSyCxvrTvPEOPIk6FWsIBF_3dgIwPDBOGCq0"
 final class GeminiModel {
   static let shared = GeminiModel()
 
@@ -15,7 +17,7 @@ final class GeminiModel {
   private init() {
     self.generativeModel = GenerativeModel(
       name: "gemini-1.5-flash",
-      apiKey: APIKey.default
+      apiKey: APIKey
     )
   }
 }
