@@ -78,9 +78,10 @@ struct onboarding3: View {
             .ignoresSafeArea()
         }
     }
-    struct onboarding3_Previews: PreviewProvider {
-        static var previews: some View {
-            onboarding3()
-        }
+    
+}
+struct onboarding3_Previews: PreviewProvider {
+    static var previews: some View {
+        onboarding3()
     }
 }
