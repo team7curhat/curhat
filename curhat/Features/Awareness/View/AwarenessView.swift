@@ -65,7 +65,7 @@ struct AwarenessView: View {
             .navigationBarBackButtonHidden(true)
         
         }
-        }
+    }
         
 }
 

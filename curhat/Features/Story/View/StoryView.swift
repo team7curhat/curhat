@@ -13,13 +13,9 @@ import Lottie
 struct StoryView: View {
     let model = GeminiModel.shared.generativeModel
     
-  
-    
     
     @State private var isActive : Bool = false
     // MARK: - Model
-    
-    
     
     
     // MARK: - Focus State
