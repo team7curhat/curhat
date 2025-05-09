@@ -14,8 +14,6 @@ class SpeechRecognizer: ObservableObject {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     
-
-    
     @Published var transcribedText: String = ""
     @Published var audioLevel: Float = 0.0
     
@@ -63,9 +61,6 @@ class SpeechRecognizer: ObservableObject {
         audioEngine.stop()
         recognitionRequest?.endAudio()
     }
-    
-    
-   
     
     private func updateAudioLevel(buffer: AVAudioPCMBuffer) {
         guard let channelData = buffer.floatChannelData?[0] else { return }
