@@ -46,7 +46,7 @@ struct onboarding1: View {
 //===================================  Button Gambar  ====================================
                 }
                 VStack{
-                    NavigationLink (destination: onboarding2()){
+                    NavigationLink (destination: onboarding2().navigationBarBackButtonHidden(true)){
                         Image("Gigi")
                             .padding(.bottom, 85)
                     }

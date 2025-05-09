@@ -10,8 +10,11 @@ import SwiftUI
 
 struct onboarding3: View {
     
-    @AppStorage("nickname") private var nickname = ""
+    @AppStorage("userNickname") private var nickname = ""
     
+    @State private var tempNickname: String = ""
+    
+    @State private var goHome = false
     var body: some View {
         NavigationStack{
             ZStack(alignment: .bottom){
@@ -43,26 +46,38 @@ struct onboarding3: View {
                                     .multilineTextAlignment(.center)
                             }
                             VStack {
-                                TextField("Masukkan namamu di sini", text: $nickname)
+                                TextField("Masukkan namamu di sini", text: $tempNickname)
                                     .padding(12)
+                                    .disableAutocorrection(true)
                                     .background(Color(.systemGray6))
                                     .cornerRadius(8)
                                     .frame(width: 347)
                             }
                             // Button
-                            VStack{
-                                NavigationLink (destination: onboarding1()){
-                                    Text("OK!")
-                                        .font(.system(.title, design: .rounded))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.white)
-                                        .frame(width:100)
-                                        .padding(10)
-                                        .background(Color.primary8)
-                                        .cornerRadius(15)
-                                }
-                            }
-                            .safeAreaPadding()
+                            NavigationLink(
+                                                              destination: HomeView()
+                                                                            .navigationBarBackButtonHidden(true),
+                                                              isActive: $goHome
+                                                            ) {
+                                                                  EmptyView()
+                                                                }
+                                                        .hidden()
+                                                        
+                                                        // Tombol OK
+                                                        Button("OK!") {
+                                                                
+                                                                nickname = tempNickname
+                                                              // baru set ke true saat ditekan
+                                                              goHome = true
+                                                            }
+                                                        .font(.system(.title, design: .rounded))
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(.white)
+                                                        .frame(width: 100)
+                                                        .padding(10)
+                                                        .background(tempNickname.isEmpty ? Color.gray : Color("primary-6"))
+                                                        .cornerRadius(15)
+                                                        .disabled(tempNickname.isEmpty)
                         }
                         .padding(.bottom, 200)
                     }

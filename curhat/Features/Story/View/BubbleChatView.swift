@@ -22,22 +22,27 @@ struct Triangle: Shape {
 
 struct BubbleChatView: View {
     let message: String
+    let followUp: String
     let isKeyboardActive: Bool
-
+    
     var body: some View {
-        ZStack(alignment: isKeyboardActive ? .topLeading : .bottomLeading) {
+        ZStack(alignment: isKeyboardActive ? .topLeading : .bottom) {
             // 1. The “tail”:
             Triangle()
                 .fill(Color("bubble-chat"))
-                .frame(width: 20, height: 10)
-                .rotationEffect(.degrees(isKeyboardActive ? 0 : 180))
-                .offset(x: 16, y: isKeyboardActive ? -5 : 5)
-
+                .frame(width: 30, height: 20)
+                .overlay(
+                    Triangle()
+                        .stroke(Color("primary-2"), lineWidth: 1)
+                )
+                .rotationEffect(.degrees(isKeyboardActive ? 50 : 180))
+                .offset(x: 0, y: isKeyboardActive ? 5 : 10)
+            
             // 2. The bubble content:
             ScrollView {
-                Text(message)
-                    .font(.body)
-                    .foregroundColor(.purple)
+                Text("\(message) \(followUp)")
+                    .font(.headline)
+                    .foregroundColor(Color("primary-7"))
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
@@ -55,9 +60,20 @@ struct BubbleChatView: View {
             )
             .padding(.horizontal, 16)
             .padding(.vertical, 4)
+            
+            Rectangle()
+                .fill(Color("bubble-chat"))
+                .frame(width: 25, height: 3)
+                .offset(x: 0, y: -2) // Adjust these values to position the triangle
+            
+            Rectangle()
+                .fill(Color("bubble-chat"))
+                .frame(width: 3, height:18)
+                .offset(x: 15, y: 10)
+            
         }
     }
-
+    
     /// Compute five lines + vertical padding.
     private var maxBubbleHeight: CGFloat {
         let lineHeight = UIFont.preferredFont(forTextStyle: .body).lineHeight
@@ -71,5 +87,5 @@ struct BubbleChatView: View {
 [IMPORTANT] dear all - as I mentioned, untuk script dan storyboard is expected udah kalian mulai develop untuk production app/game video demo yg akan dishowcase di hari Rabu depan (14 mei). 
 
 untuk kelancaran di hari H, all teams are REQUIRED untuk mengupload final video dan Hi-Fid app/game kalian paling lambat hari Selasa (13 Mei) jam 23.59 WIB via link ini
-""", isKeyboardActive: true)
+""",followUp: "Halo", isKeyboardActive: false )
 }

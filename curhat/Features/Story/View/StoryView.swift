@@ -10,12 +10,20 @@ import GoogleGenerativeAI
 import Lottie
 
 
-
-
 struct StoryView: View {
-    @State var isActive : Bool = false
     // MARK: - Model
     let model = GeminiModel.shared.generativeModel
+    
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    var emotionName: String
+    
+    @State private var isActive : Bool = false
+    
+    
+    
+    
     
     // MARK: - Focus State
     @FocusState private var isTextFieldFocused: Bool
@@ -32,13 +40,9 @@ struct StoryView: View {
     @State private var promptLimit: Int = 0
     
     // MARK: - Feedback Content
-    @State private var expression: String = "netral"    // default image
-    @State private var feedback: String = "Apa yang sedang kamu alami hari ini?"// feedback text
+    @State private var expression: String = "sedih"    // default image
+    @State private var feedback: String = "Apa yang bikin kamu sedih hari ini?"// feedback text
     @State private var followUp: String = ""            // follow-up question
-    
-    // MARK: - Confirmation Dialog Content
-    private let confirmationDialogTitle: String = "Confirmation Dialog Title"
-    private var confirmationDialogMessage: String = ""
     
     // MARK: - Speech Manager
     @StateObject private var speechManager = SpeechManager()
@@ -46,232 +50,346 @@ struct StoryView: View {
     // <-- new state for navigation
     @State private var shouldNavigate = false
     
-    @State private var keyboardHeight: CGFloat = 0
     
     @State private var hasKeyboardShown: Bool = false
     
+    // Speech to Text Coordinator
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    @State private var lastAudioLevel: Float = 0.0
+    let checkInterval: TimeInterval = 1.0
+    
+    @AppStorage("userNickname") private var nickname: String = ""
+    
     var body: some View {
         NavigationView{
-            
-            VStack{
+            VStack(spacing: 0) {
                 
                 
                 
-                if(hasKeyboardShown){
-                    
-                    HStack(alignment: .top, spacing:0){
-                        Image("emochi-duduk")
-                        BubbleChatView(message: feedback, isKeyboardActive: hasKeyboardShown)
+                HStack {
+                    // Back button
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.backward")
+                            .foregroundColor(Color("primary-6"))
+                            .font(.system(size: 17, weight: .semibold))
                     }
-                    .padding(.bottom, 8)
                     
-                    Rectangle()
-                        .fill(Color(.gray.opacity(0.2)))
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 1)
-                }else{
-                    Spacer(minLength: isTextFieldFocused ? 0 : 120 )
-                    VStack{
-                        
-                        BubbleChatView(message: feedback, isKeyboardActive: hasKeyboardShown)
-                        Image("takut")
-                        
-                        
-                        ZStack {
-                            
-                            if isLoading {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .indigo))
-                                    .scaleEffect(2)
-                            }
+                    Spacer()
+                    
+                    // Speaker button
+                    Button(action: {
+                        isSpeaking.toggle()
+                        if isSpeaking {
+                            speechManager.speak("\(feedback)\n\n\(followUp)")
+                        } else {
+                            speechManager.stop()
                         }
-                        
+                    }) {
+                        Image(systemName: isSpeaking ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                            .resizable()
+                            .frame(width: 25, height: 22)
+                            .foregroundStyle(Color("primary-6"))
                     }
+                    .padding(.trailing, 16)
+                    
+                    // Selesai button
+                    Button(action: {
+                        showingConfirmationDialog = true
+                    }) {
+                        Text("Selesai")
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .foregroundColor(promptLimit == 0 ? Color.gray : Color("primary-6"))
+                    }
+                    .disabled(promptLimit == 0)
                 }
-                
-                
+                .padding(.horizontal)
+                .padding(.vertical, 12)
                 
                 VStack{
-                    ZStack(alignment: .bottom){
-                        ScrollView{
-                            VStack{
-                                
-                                TextField("Tuliskan di sini…", text: $userPrompt, axis: .vertical)
-                                    .disableAutocorrection(true)
-                                    .multilineTextAlignment(hasKeyboardShown ? .leading : .center)
-                                    .focused($isTextFieldFocused)       // ← this makes i focusable
-                                    .padding(12)
-                                    .frame(maxWidth: .infinity)
-                                
-                                    .toolbar {
-                                        ToolbarItemGroup(placement: .keyboard) {
-                                            Spacer()
-                                            Button("Selesai") {
-                                                // 3️⃣ Dismiss when “Done” is tapped
-                                                isTextFieldFocused = false
-                                                generateResponse()
-                                            }
-                                        }
-                                    }
+                    
+                    if(hasKeyboardShown){
+                        
+                        HStack(alignment: .top, spacing:0){
+                            if(isSpeaking){
+                                LottieView(animation: .named("SadTalking")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(2.5)))).animationSpeed(1.2)
+                                    .frame(width: 135.62, height: 132)
                                 
                             }
-//                            .background(.blue)
+                            else if( isLoading){
+                                Image("nyimak")
+                            }
+                            else if (expression == "senang" || expression == "sedih"){
+                                Image(expression)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 130.62, height: 106)
+                            }
+                            else{
+                                Image("senang")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 130.62, height: 106)
+                            }
+                            
+                            
+                            
+                            BubbleChatView(message: feedback, followUp: followUp, isKeyboardActive: hasKeyboardShown)
                         }
+                        .padding(.bottom, 8)
                         
-                        LottieView(animation: .named("SoundWave2")).playbackMode(.playing(.toProgress(1, loopMode: .loop))).animationSpeed(1.2)
-                            .frame(width: 80, height: 80)
-                        
-                        // fixed size so layout never changes
-                            .opacity(isMicActive ? 1 : 0)
-                            .offset(x: 0, y: 10)
-                        // hidden when off
+                        Rectangle()
+                            .fill(Color(.gray.opacity(0.2)))
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 1)
+                    }else{
+                        Spacer(minLength: isTextFieldFocused ? 0 : 60 )
+                        VStack{
+                            BubbleChatView(message: feedback, followUp: followUp, isKeyboardActive: hasKeyboardShown)
+                            if isLoading {
+                               
+                                Image("nyimak")
+                            }else{
+                                Image(expression)
+                            }
+                        }
                     }
                     
-                }.padding(.top,20)
-                
-                
-                
-                
-                Spacer()
-                ZStack{
-                    HStack(alignment: .center, spacing: 48) {
-                        Circle()
-                            .fill(isTextFieldFocused ? Color("primary-3") : Color.white)
-                            .frame(width: 56, height: 56)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color("primary-3"), lineWidth: 2)
-                            )
-                            .overlay(
-                                Image(systemName: isTextFieldFocused ? "keyboard.fill" : "keyboard")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 21, height: 21)
-                                    .foregroundColor(isTextFieldFocused ? .white : Color("primary-3"))
-                            )
-                            .onTapGesture {
-                                hasKeyboardShown = true
-                                isTextFieldFocused.toggle()
-                                
-                              
+                    
+                    
+                    VStack{
+                        ZStack(alignment: .bottom){
+                            ScrollView{
+                                VStack{
+                                    
+                                    TextField("Tuliskan di sini…", text: $userPrompt, axis: .vertical)
+                                        .disableAutocorrection(true)
+                                        .multilineTextAlignment(hasKeyboardShown ? .leading : .center)
+                                        .focused($isTextFieldFocused)       // ← this makes i focusable
+                                        .padding(12)
+                                        .frame(maxWidth: .infinity)
+                                    
+                                        .toolbar {
+                                            ToolbarItemGroup(placement: .keyboard) {
+                                                Spacer()
+                                                Button("Selesai") {
+                                                    // 3️⃣ Dismiss when “Done” is tapped
+                                                    isTextFieldFocused = false
+                                                    generateResponse()
+                                                }
+                                            }
+                                        }
+                                        .onChange(of: isTextFieldFocused) {
+                                            hasKeyboardShown = true
+                                        }
+                                    
+                                }
+                                //                            .background(.blue)
                             }
+                            
+                            LottieView(animation: .named("SoundWave2")).playbackMode(.playing(.toProgress(1, loopMode: .loop))).animationSpeed(1.2)
+                                .frame(width: 80, height: 80)
+                            
+                            // fixed size so layout never changes
+                                .opacity(isMicActive ? 1 : 0)
+                                .offset(x: 0, y: 10)
+                            // hidden when off
+                        }
                         
-                        Circle()
-                            .fill(isMicActive ? Color("primary-3") : Color.white)
-                            .frame(width: 56, height: 56)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color("primary-3"), lineWidth: 2)
-                            )
-                            .overlay(
-                                Image(systemName: isMicActive ? "microphone.fill" : "microphone")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 21, height: 21)
-                                    .foregroundColor(isMicActive ? .white : Color("primary-3"))
-                            )
-                            .onTapGesture {
-                                isMicActive.toggle()
-                            }
-
-                    }
-
-                }
-                
-                
-                
-            }.padding(.horizontal)
-                .toolbar{
-                    ToolbarItem{
-                        Image(systemName: isSpeaking
-                              ?"speaker.wave.2.fill"
-                              : "speaker.slash.fill")
-                        .resizable()
-                        .frame(width: 25, height: 22)
-                        .foregroundStyle(Color("primary-6"))
-                        .onTapGesture {
-                            isSpeaking.toggle()
-                            if isSpeaking {
-                                // speak both feedback and follow-up
-                                speechManager.speak("\(feedback)\n\n\(followUp)")
-                            } else {
-                                speechManager.stop()
-                            }
+                    }.padding(.top,20)
+                    
+                    
+                    
+                    
+                    Spacer()
+                    ZStack{
+                        HStack(alignment: .center, spacing: 48) {
+                            Circle()
+                                .fill(isTextFieldFocused ? Color("primary-6") : Color.white)
+                                .frame(width: 56, height: 56)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color("primary-6"), lineWidth: 2)
+                                )
+                                .overlay(
+                                    Image(systemName: isTextFieldFocused ? "keyboard.fill" : "keyboard")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(isTextFieldFocused ? .white : Color("primary-6"))
+                                )
+                                .onTapGesture {
+                                    hasKeyboardShown = true
+                                    isTextFieldFocused.toggle()
+                                }
+                            
+                            Circle()
+                                .fill(isMicActive ? Color("primary-6") : Color.white)
+                                .frame(width: 56, height: 56)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color("primary-6"), lineWidth: 2)
+                                )
+                                .overlay(
+                                    Image(systemName: isMicActive ? "microphone.fill" : "microphone")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 21, height: 21)
+                                        .foregroundColor(isMicActive ? .white : Color("primary-6"))
+                                )
+                                .onTapGesture {
+                                    isMicActive.toggle()
+                                    if isMicActive {
+                                        try? speechRecognizer.startRecording()
+                                        startAudioLevelMonitor()
+                                    } else {
+                                        speechRecognizer.stopRecording()
+                                    }
+                                }
+                            
                         }
                         
                     }
-                    ToolbarItem{
-                        Button(action: {
-                            showingConfirmationDialog = true
-                        }){
-                            Text("Selesai").font(.body).fontWeight(.semibold)
-                        }.confirmationDialog(Text(confirmationDialogTitle),
-                                             isPresented: $showingConfirmationDialog,
-                                             titleVisibility: .automatic,
-                                             actions: {
-                            Button("Discard", role: .destructive) { }
-                            Button("Summary") { }
-                            Button("Cancel", role: .cancel) { }
-                        },
-                                             message: {
-                            confirmationDialogMessage == "" ? nil : Text(confirmationDialogMessage)
+                    
+                    
+                    
+                }
+                .padding(.horizontal)
+                
+            }
+            .navigationBarHidden(true)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading) {
+                    //backbutton
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Image(systemName: isSpeaking
+                          ?"speaker.wave.2.fill"
+                          : "speaker.slash.fill")
+                    .resizable()
+                    .frame(width: 25, height: 22)
+                    .foregroundStyle(Color("primary-6"))
+                    .onTapGesture {
+                        isSpeaking.toggle()
+                        if isSpeaking {
+                            // speak both feedback and follow-up
+                            speechManager.speak("\(feedback)\n\n\(followUp)")
+                        } else {
+                            speechManager.stop()
                         }
-                        )
                     }
+                    
                 }
-                .onChange(of: promptLimit) { newValue in
-                    if newValue >= 3 {
-                        promptLimit = 0
-                        logPrompts.removeAll()
-                        shouldNavigate = true
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button(action: {
+                        showingConfirmationDialog = true
+                    }){
+                        Text("Selesai").font(.body).fontWeight(.semibold)
+                    }.disabled(promptLimit == 0)
+                }
+            }
+            .alert(Text("Akhiri Cerita?"),
+                    isPresented: $showingConfirmationDialog,
+                    actions: {
+                        Button("Ya akhiri", role: .destructive) {
+                            shouldNavigate = true
+                        }
+                        Button("Batal", role: .cancel) { }
+                    }, message: {
+                        Text("Kamu masih dalam proses bercerita. Jika berhenti sekarang, kamu akan langsung ke halaman akhir dan tidak bisa melanjutkan cerita ini.")
                     }
+             )
+            .onAppear {
+                
+                if(emotionName == "senang"){
+                    feedback = "Apa yang bikin kamu senang hari ini?"
+                    expression = "senang-start"
                 }
+            }
+            .onChange(of: promptLimit) { newValue in
+                if newValue >= 10 {
+                    promptLimit = 0
+                    logPrompts.removeAll()
+                    shouldNavigate = true
+                    
+                }
+            }
             // hidden link that actually does the navigation
-                .background(
-                    NavigationLink(
-                        destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: logPrompts),      // <-- the view you want to go to
-                        isActive: $shouldNavigate,
-                        label: { EmptyView() }
-                    )
-                    .isDetailLink(false)
-                    .hidden()
+            .background(
+                NavigationLink(
+                    destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: logPrompts).navigationBarBackButtonHidden(true),      // <-- the view you want to go t
+                    isActive: $shouldNavigate,
+                    label: { EmptyView() }
                 )
+                .isDetailLink(false)
+                .hidden()
+            )
             
+            
+        }
+        
+        .onChange(of: speechRecognizer.transcribedText) { newValue in
+            if isMicActive {
+                userPrompt = newValue
+            }
+        }
+    }
+    
+    func startAudioLevelMonitor() {
+        Timer.scheduledTimer(withTimeInterval: checkInterval, repeats: true) { _ in
+            let currentLevel = speechRecognizer.audioLevel
+            lastAudioLevel = currentLevel
         }
     }
     
     
     func generateResponse() {
         let fullPrompt = """
-        jadilah chatbot seperti persona ini:
-        jadi pribadi yang supportive tetapi juga straight forward
         
-        gunakan struktur percakapan curhat sebagai panduan dalam menyusun respons:
-        1. **Awareness**: tanyakan tentang emosi yang sedang dihadapi oleh user.
-        2. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, di mana, kapan, mengapa, dan bagaimana.
-        3. **Reflection**: tanyakan kepada user apakah mereka bersedia untuk melakukan refleksi. Jika mereka setuju, bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
-        4. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
+        Nama user = \(nickname)
+         
+        jadilah teman curhat seperti persona ini:
+                        - jadi pribadi yang supportive tetapi juga straight forward
+                        - kamu bisa pakai bahasa untuk orang berusia 18-25 tahun
+                          gunakan struktur percakapan curhat sebagai panduan dalam menyusun respons:
         
-        Berikut log cerita user:
-        \(logPrompts)
+                        1. **Awareness**: tanyakan tentang emosi yang sedang dihadapi oleh user
+                        2. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, di mana, kapan, mengapa, dan bagaimana tapi jangan ditanya lagi kalau sudah dijelaskan diawal terkait siapa, apa, di mana, kapan, mengapa, dan bagaimananya buat bahasanya seperti best friend yang sangat care terhadap apa yang ingin diceritakan.
+                        3. **Reflection**: tanyakan kepada user apakah mereka bersedia untuk melakukan refleksi. Jika mereka setuju, bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
+                        4. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
         
-        Berikut ini adalah jawaban dari user:
-        \(userPrompt)
+                        Berikut log cerita user:
+                        
+                        \(logPrompts)
+                        Berikut ini adalah jawaban dari user:
+                        
+                        \(userPrompt)
+                        
+                        Tugasmu:
         
-        Tugasmu:
-        - Analisis teks user tersebut dan tentukan ekspresi emosinya (hanya satu dari: senang, netral, atau sedih).
-        - Buatkan pertanyaan lanjutan (follow-up question) sesuai dengan tahap **struktur curhat** yang paling relevan saat ini.
-        - Berikan feedback yang singkat namun bermakna, sesuai dengan persona yang supportive dan straight forward.
-        - tanyakan hanya dua pertanyaan setelah itu berikan summary percakapannya
+                        - buat user merasa diperhatikan dengan menyebut namanya
+                        - Analisis teks user tersebut dan tentukan ekspresi emosinya (hanya satu dari: senang atau sedih).
+                        - Buatkan pertanyaan lanjutan (follow-up question) sesuai dengan tahap **struktur curhat** yang paling relevan saat ini.
+                        - kamu hanya punya maksimal 10 pertanyaan
+                        - Berikan feedback yang singkat maksimal 5 kata namun bermakna, sesuai dengan persona yang supportive dan straight forward.
+                        - runtutan setiap bertanya adalah berikan dia feedback dulu baru kamu boleh lanjut kasih pertanyaan
+                        - maksimalkan 10 pertanyaan yang sesuai dengan **struktur curhat** untuk mendapatkan informasi apa, dimana, kapan, kenapa, siapa, bagaimana tapi jika sudah diceritakan dari beberapa informasi yang dibutuhkan kamu tidak perlu bertanya lagi.
         
         ⚠️ Jawab hanya dalam 1 objek JSON, contoh:
         {"expression":"senang","follow_up_question":"Apa …?","feedback":"Keren …"}
-        JANGAN gunakan array untuk `expression`, dan JANGAN sertakan ```json fences```.
+        JANGAN gunakan array untuk `expression`, dan JANGAN sertakan ```json fences```. PERHATIKAN JANGAN GUNAKAN ```json fences```.
         
         """
         
         isLoading   = true
-        
+        feedback = "Oh jadi gitu, aku paham sih kondisinya"
         speechManager.stop()
         
         logPrompts.append(userPrompt)
@@ -282,7 +400,6 @@ struct StoryView: View {
             defer { isLoading = false; userPrompt = "" }
             do {
                 print("masuk")
-                expression = "netral"
                 let result = try await model.generateContent(fullPrompt)
                 let text   = result.text ?? ""
                 promptLimit = promptLimit + 1
@@ -298,7 +415,7 @@ struct StoryView: View {
                     
                 } else {
                     // fallback
-                    expression = "netral"
+                    expression = "sedih"
                     feedback   = text
                     followUp   = ""
                     
@@ -307,7 +424,7 @@ struct StoryView: View {
                 promptLimit = promptLimit + 1
                 feedback = "Error: \(error.localizedDescription)"
                 followUp = ""
-                expression = "senang"
+                expression = "sedih"
                 
                 print(error)
             }
@@ -319,5 +436,5 @@ struct StoryView: View {
 }
 
 #Preview {
-    StoryView()
+    StoryView(emotionName: "senang")
 }

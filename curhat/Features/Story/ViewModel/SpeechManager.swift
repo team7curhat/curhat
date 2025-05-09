@@ -22,7 +22,7 @@ final class SpeechManager: ObservableObject {
         // Default value: AVSpeechUtteranceDefaultSpeechRate (~0.5)
         // Customized here to be slightly slower for clarity:
         //   rate: 0.45
-        utterance.rate = 0.45
+        utterance.rate = 0.35
         
         // MARK: – Pitch
         // Pitch multiplier, from 0.5 (lower) to 2.0 (higher).
