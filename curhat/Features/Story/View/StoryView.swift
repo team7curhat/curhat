@@ -58,7 +58,7 @@ struct StoryView: View {
     @State private var lastAudioLevel: Float = 0.0
     let checkInterval: TimeInterval = 1.0
     
-    
+    @AppStorage("userNickname") private var nickname: String = ""
     
     var body: some View {
         NavigationView{
@@ -352,6 +352,8 @@ struct StoryView: View {
     
     func generateResponse() {
         let fullPrompt = """
+        
+        Nama user = \(nickname)
          
         jadilah teman curhat seperti persona ini:
                         - jadi pribadi yang supportive tetapi juga straight forward

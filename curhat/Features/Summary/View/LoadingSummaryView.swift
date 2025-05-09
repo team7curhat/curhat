@@ -19,7 +19,7 @@ struct LoadingSummaryView: View {
     @State private var summaryText: String = "ini summary"
     @State private var shouldNavigate = false
     @State private var progress: CGFloat = 0.0 // For loading bar progress
-    
+    @AppStorage("userNickname") private var nickname: String = ""
     var body: some View {
         NavigationStack {
             ZStack{
@@ -91,9 +91,14 @@ struct LoadingSummaryView: View {
     
     func summary() {
         let summaryPrompt = """
-        buatlah summary dari log cerita berikut
-        Berikut log cerita user:
+        
+        Nama user = \(nickname)
+        Buatkan ringkasan dari cerita  user, ini log ceritanya:
         \(logPrompts)
+        
+        kamu harus pakai bahasa untuk orang berusia 18-25 tahun
+        
+        jangan terlalu kaku 
         
         dan tambahkan kata penyemangat diakhir berdasarkan ceritanya
         """
