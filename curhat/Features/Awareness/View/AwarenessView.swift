@@ -7,64 +7,66 @@
 
 import SwiftUI
 
-import SwiftUI
 
 struct AwarenessView: View {
     @State private var selectedEmotion: String? = nil
 
     var body: some View {
-        VStack() {
-            Text("Kamu lagi ngerasain apa hari ini?")
-                .font(.title)
-                .bold()
-                .padding(.top, 10)
-                .padding(.bottom, 24)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .center)
-            
-            // Emotion Grid
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
+        NavigationStack {
+            VStack() {
+                Text("Kamu lagi ngerasain apa hari ini?")
+                    .font(.title)
+                    .bold()
+                    .padding(.top, 10)
+                    .padding(.bottom, 24)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 
-                ForEach(listEmotions.dropLast(listEmotions.count % 2)) { emotion in
-                    EmotionButton(
-                        emotion: emotion.label,
-                        isSelected: selectedEmotion == emotion.name,
-                        imageName: emotion.imageString
-                    ) {
-                        selectedEmotion = emotion.name
+                // Emotion Grid
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
+                    
+                    ForEach(listEmotions.dropLast(listEmotions.count % 2)) { emotion in
+                        EmotionButton(
+                            emotion: emotion.label,
+                            isSelected: selectedEmotion == emotion.name,
+                            imageName: emotion.imageString
+                        ) {
+                            selectedEmotion = emotion.name
+                        }
                     }
                 }
-            }
-            
-            LazyHStack {
-                ForEach(listEmotions.suffix(listEmotions.count % 2)) { emotion in
-                    EmotionButton(
-                        emotion: emotion.label,
-                        isSelected: selectedEmotion == emotion.name,
-                        imageName: emotion.imageString
-                    ) {
-                        selectedEmotion = emotion.name
+                
+                LazyHStack {
+                    ForEach(listEmotions.suffix(listEmotions.count % 2)) { emotion in
+                        EmotionButton(
+                            emotion: emotion.label,
+                            isSelected: selectedEmotion == emotion.name,
+                            imageName: emotion.imageString
+                        ) {
+                            selectedEmotion = emotion.name
+                        }
                     }
                 }
+                
+                Spacer()
             }
-            
-            Spacer()
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                //backbutton
-                NavigationLink(destination: HomeView()) {
-                    Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    //backbutton
+                    NavigationLink(destination: HomeView()) {
+                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Image(systemName: "speaker.wave.2.fill").foregroundColor(Color.primary6)
                 }
             }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Image(systemName: "speaker.wave.2.fill").foregroundColor(Color.primary6)
-            }
+            .navigationBarBackButtonHidden(true)
+        
         }
-        .navigationBarBackButtonHidden(true)
-    
-    }
+        }
+        
 }
 
 struct EmotionButton: View {
@@ -94,8 +96,8 @@ struct EmotionButton: View {
 }
 
 #Preview {
-    NavigationView {
+  
         AwarenessView()
-    }
+    
 }
 

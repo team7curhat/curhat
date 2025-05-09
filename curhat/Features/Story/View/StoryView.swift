@@ -10,12 +10,17 @@ import GoogleGenerativeAI
 import Lottie
 
 
-
-
 struct StoryView: View {
-    @State var isActive : Bool = false
-    // MARK: - Model
     let model = GeminiModel.shared.generativeModel
+    
+  
+    
+    
+    @State private var isActive : Bool = false
+    // MARK: - Model
+    
+    
+    
     
     // MARK: - Focus State
     @FocusState private var isTextFieldFocused: Bool
@@ -36,19 +41,14 @@ struct StoryView: View {
     @State private var feedback: String = "Apa yang bikin kamu sedih hari ini?"// feedback text
     @State private var followUp: String = ""            // follow-up question
     
-    // MARK: - Confirmation Dialog Content
-    private let confirmationDialogTitle: String = "Confirmation Dialog Title"
-    private var confirmationDialogMessage: String = ""
-    
     // MARK: - Speech Manager
     @StateObject private var speechManager = SpeechManager()
     
     // <-- new state for navigation
     @State private var shouldNavigate = false
     
-    @State private var keyboardHeight: CGFloat = 0
     
-    @State private var hasKeyboardShown: Bool = true
+    @State private var hasKeyboardShown: Bool = false
     
     // Speech to Text Coordinator
     @StateObject private var speechRecognizer = SpeechRecognizer()
