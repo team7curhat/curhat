@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3DCBAC92DCC93A6000A7457 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */; };
-		D3DCBACC2DCC93CB000A7457 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D3DCBACB2DCC93CB000A7457 /* Lottie */; };
+		95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C642DCDADE600A9638C /* GoogleGenerativeAI */; };
+		95250C672DCDADF000A9638C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C662DCDADF000A9638C /* Lottie */; };
+		95250C6B2DCDADF000A9638C /* Lottie-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 95250C682DCDADF000A9638C /* Lottie-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +28,20 @@
 			remoteInfo = curhat;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		95250C6A2DCDADF000A9638C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				95250C6B2DCDADF000A9638C /* Lottie-Dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B4BC69C92DC9FA7500E888DA /* curhat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = curhat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,8 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3DCBAC92DCC93A6000A7457 /* GoogleGenerativeAI in Frameworks */,
-				D3DCBACC2DCC93CB000A7457 /* Lottie in Frameworks */,
+				95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */,
+				95250C672DCDADF000A9638C /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,12 +94,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		95250C632DCDADE600A9638C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B4BC69C02DC9FA7500E888DA = {
 			isa = PBXGroup;
 			children = (
 				B4BC69CB2DC9FA7500E888DA /* curhat */,
 				B4BC69D92DC9FA7600E888DA /* curhatTests */,
 				B4BC69E32DC9FA7600E888DA /* curhatUITests */,
+				95250C632DCDADE600A9638C /* Frameworks */,
 				B4BC69CA2DC9FA7500E888DA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +132,7 @@
 				B4BC69C52DC9FA7500E888DA /* Sources */,
 				B4BC69C62DC9FA7500E888DA /* Frameworks */,
 				B4BC69C72DC9FA7500E888DA /* Resources */,
+				95250C6A2DCDADF000A9638C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -119,8 +143,9 @@
 			);
 			name = curhat;
 			packageProductDependencies = (
-				D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */,
-				D3DCBACB2DCC93CB000A7457 /* Lottie */,
+				95250C642DCDADE600A9638C /* GoogleGenerativeAI */,
+				95250C662DCDADF000A9638C /* Lottie */,
+				95250C682DCDADF000A9638C /* Lottie-Dynamic */,
 			);
 			productName = curhat;
 			productReference = B4BC69C92DC9FA7500E888DA /* curhat.app */;
@@ -205,8 +230,8 @@
 			mainGroup = B4BC69C02DC9FA7500E888DA;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
-				D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				95250C212DCDAC3300A9638C /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
+				95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B4BC69CA2DC9FA7500E888DA /* Products */;
@@ -410,7 +435,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 43D48TSAU5;
+				DEVELOPMENT_TEAM = 7N4ZY27HB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Emochi;
@@ -442,7 +467,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 43D48TSAU5;
+				DEVELOPMENT_TEAM = 7N4ZY27HB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Emochi;
@@ -581,17 +606,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */ = {
+		95250C212DCDAC3300A9638C /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google-gemini/deprecated-generative-ai-swift";
+			repositoryURL = "https://github.com/google-gemini/deprecated-generative-ai-swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.5.6;
 			};
 		};
-		D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.5.1;
@@ -600,15 +625,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D3DCBAC82DCC93A6000A7457 /* GoogleGenerativeAI */ = {
+		95250C642DCDADE600A9638C /* GoogleGenerativeAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D3DCBAC72DCC93A6000A7457 /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
+			package = 95250C212DCDAC3300A9638C /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
 		};
-		D3DCBACB2DCC93CB000A7457 /* Lottie */ = {
+		95250C662DCDADF000A9638C /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D3DCBACA2DCC93CB000A7457 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = 95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		95250C682DCDADF000A9638C /* Lottie-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = "Lottie-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
