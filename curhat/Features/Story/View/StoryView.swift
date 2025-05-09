@@ -58,6 +58,9 @@ struct StoryView: View {
     
     @AppStorage("userNickname") private var nickname: String = ""
     
+    @State private var indexPromts: Int = 1;
+        
+    
     var body: some View {
         NavigationView{
             VStack(spacing: 0) {
@@ -176,6 +179,7 @@ struct StoryView: View {
                                                     // 3️⃣ Dismiss when “Done” is tapped
                                                     isTextFieldFocused = false
                                                     generateResponse()
+                                                    indexPromts = indexPromts + 1
                                                 }
                                             }
                                         }
@@ -204,24 +208,50 @@ struct StoryView: View {
                     Spacer()
                     ZStack{
                         HStack(alignment: .center, spacing: 48) {
-                            Circle()
-                                .fill(isTextFieldFocused ? Color("primary-6") : Color.white)
-                                .frame(width: 56, height: 56)
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color("primary-6"), lineWidth: 2)
-                                )
-                                .overlay(
-                                    Image(systemName: isTextFieldFocused ? "keyboard.fill" : "keyboard")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 21, height: 21)
-                                        .foregroundColor(isTextFieldFocused ? .white : Color("primary-6"))
-                                )
-                                .onTapGesture {
-                                    hasKeyboardShown = true
-                                    isTextFieldFocused.toggle()
-                                }
+                            
+                            if isMicActive {
+                                Circle()
+                                    .fill(Color.gray)
+                                    .frame(width: 56, height: 56)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.gray, lineWidth: 2)
+                                    )
+                                    .overlay(
+                                        Image(systemName: "keyboard")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 21, height: 21)
+                                            .foregroundColor(Color.white)
+                                    )
+                                    .onTapGesture {
+                                        
+                                    }
+                                
+                            } else {
+                                Circle()
+                                    .fill(isTextFieldFocused ? Color("primary-6") : Color.white)
+                                    .frame(width: 56, height: 56)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color("primary-6"), lineWidth: 2)
+                                    )
+                                    .overlay(
+                                        Image(systemName: isTextFieldFocused ? "keyboard.fill" : "keyboard")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 21, height: 21)
+                                            .foregroundColor(isTextFieldFocused ? .white : Color("primary-6"))
+                                        
+                                    )
+                                    .onTapGesture {
+                                        
+                                        hasKeyboardShown = true
+                                        isTextFieldFocused.toggle()
+                                       
+                                    }
+                            }
+                            
                             
                             Circle()
                                 .fill(isMicActive ? Color("primary-6") : Color.white)
@@ -240,10 +270,17 @@ struct StoryView: View {
                                 .onTapGesture {
                                     isMicActive.toggle()
                                     if isMicActive {
+                                        speechManager.stop()
+                                        isSpeaking = false
                                         try? speechRecognizer.startRecording()
                                         startAudioLevelMonitor()
                                     } else {
                                         speechRecognizer.stopRecording()
+                                        if (userPrompt != "") {
+                                            isTextFieldFocused = false
+                                            generateResponse()
+                                            indexPromts = indexPromts + 1
+                                        }
                                     }
                                 }
                             
@@ -260,12 +297,17 @@ struct StoryView: View {
             .navigationBarHidden(true)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading) {
-                    //backbutton
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+                    
+                    
+                    if indexPromts == 1 {
+                        //backbutton
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+                        }
                     }
+                   
                 }
                 ToolbarItem(placement: .navigationBarTrailing){
                     Image(systemName: isSpeaking
