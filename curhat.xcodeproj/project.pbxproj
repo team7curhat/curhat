@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C642DCDADE600A9638C /* GoogleGenerativeAI */; };
-		95250C672DCDADF000A9638C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C662DCDADF000A9638C /* Lottie */; };
-		95250C6B2DCDADF000A9638C /* Lottie-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 95250C682DCDADF000A9638C /* Lottie-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		959D0DD72DCDE6BF0083DFF0 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C662DCDADF000A9638C /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +35,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				95250C6B2DCDADF000A9638C /* Lottie-Dynamic in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,8 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				959D0DD72DCDE6BF0083DFF0 /* Lottie in Frameworks */,
 				95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */,
-				95250C672DCDADF000A9638C /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
