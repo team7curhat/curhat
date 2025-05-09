@@ -27,7 +27,7 @@ struct onboarding3: View {
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                             .padding(.top,-380)
-                        VStack{
+                        VStack(spacing: 15){
                             VStack(spacing: 15){
                                 Text("Namaku Ochi!")
                                     .font(.system(.title2, design: .rounded))
