@@ -11,8 +11,10 @@ import SwiftUI
 struct curhatApp: App {
     var body: some Scene {
         WindowGroup {
-//            HomeView()
-            StoryView()
+            NavigationView{
+                onboarding1()
+            }
+           
         }
     }
 }

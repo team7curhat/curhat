@@ -38,7 +38,7 @@ struct SummaryView: View {
                             .frame(maxHeight: 400)
                             .padding(.top, 150)
                             .padding(.horizontal, 50)
-                        }
+                        }.padding(.horizontal, 12)
                         
                         VStack(alignment: .center, spacing: 10) {
                             Text("Scroll ke bawah")
@@ -92,10 +92,11 @@ struct SummaryView: View {
                         
                         
                         
-                    }.padding(.top, 20)
-                        .padding(20)
+                    }.padding(.top, 60)
+                     
                 }
             }
+            
             .navigationBarBackButtonHidden(true)
             .ignoresSafeArea(.all, edges: [.top, .bottom]) // Ignore safe areas to extend content fully
         }

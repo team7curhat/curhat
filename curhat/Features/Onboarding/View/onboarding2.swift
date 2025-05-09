@@ -51,7 +51,7 @@ struct onboarding2: View {
                 //Character
                 
                 // Button
-                NavigationLink (destination: onboarding3()){
+                NavigationLink (destination: onboarding3().navigationBarBackButtonHidden(true)){
                     Text("OK!")
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)

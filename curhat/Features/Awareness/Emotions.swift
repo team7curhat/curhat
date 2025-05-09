@@ -15,7 +15,7 @@ struct Emotions: Identifiable {
 }
 
 let listEmotions: [Emotions] = [
-    Emotions(name: "happy", label: "Senang Bingits", imageString: "awareness-happy"),
+    Emotions(name: "senang", label: "Senang Bingits", imageString: "awareness-happy"),
     Emotions(name: "sad", label: "Aku lagi sedih", imageString: "awareness-sad"),
     Emotions(name: "angry", label: "Marahh", imageString: "awareness-angry"),
     Emotions(name: "terrified", label: "Takut huhu", imageString: "awareness-terrified"),
