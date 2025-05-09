@@ -16,53 +16,62 @@ struct HomeView: View {
         ("Kecewa", "05 Mei 2025", "20:00")
     ]
     
+    @AppStorage("userNickname") private var nickname: String = ""
+    
     var body: some View {
-        VStack {
-            Spacer()
-            
-            // Greeting
-            Text("Halo Budi, Ada cerita apa hari ini?")
-                .font(.title2).bold()
-                .padding(.top, 100)
-                .frame(width:232)
-                .multilineTextAlignment(.center)
-            
-            Spacer()
+        if(nickname.isEmpty){
+            onboarding1()
+        }else{
+            VStack {
+                Spacer()
                 
-            
-            VStack (spacing: 0){
-                WaveAnimateView()
-                ZStack (alignment: .bottom){
-                    NavigationLink(destination: AwarenessView()){
-                        Image("persona-home")
-                            .frame(maxWidth:.infinity)
-                    }
-                    
-                    Text("Ketuk aku untuk mulai bercerita")
-                        .font(.body)
-                        .foregroundColor(Color.white)
-                        .padding(.bottom, 30)
+                // Greeting
+                Text("Halo \(nickname), Ada cerita apa hari ini?")
+                    .font(.title2).bold()
+                    .padding(.top, 100)
+                    .frame(width:232)
+                    .multilineTextAlignment(.center)
+                
+                Spacer()
+                
+                
+                VStack (spacing: 0){
+                    WaveAnimateView()
+                    ZStack (alignment: .bottom){
+                        NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)){
+                            Image("persona-home")
+                                .frame(maxWidth:.infinity)
+                        }
                         
+                        Text("Ketuk aku untuk mulai bercerita")
+                            .font(.body)
+                            .foregroundColor(Color.white)
+                            .padding(.bottom, 30)
+                        
+                    }
+                    .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
+                    .background(.primary2)
+                    
                 }
-                .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
-                .background(.primary2)
+                .edgesIgnoringSafeArea(.all)
+                
                 
             }
-            .edgesIgnoringSafeArea(.all)
-            
-            
-        }
-        
-        .navigationTitle("EMOCI")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Image(systemName: "text.bubble")
-                    .foregroundColor(.primary6)
+            .navigationTitle("EMOCI")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    //backbutton
+                    Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
+                        Image(systemName: "repeat")
+                    }
+                }
+                
             }
         }
-        .navigationBarBackButtonHidden(true)
     }
+    
+    //    }
 }
 
 

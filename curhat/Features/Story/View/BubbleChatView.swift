@@ -22,6 +22,7 @@ struct Triangle: Shape {
 
 struct BubbleChatView: View {
     let message: String
+    let followUp: String
     let isKeyboardActive: Bool
     
     var body: some View {
@@ -39,7 +40,7 @@ struct BubbleChatView: View {
             
             // 2. The bubble content:
             ScrollView {
-                Text(message)
+                Text("\(message) \(followUp)")
                     .font(.headline)
                     .foregroundColor(Color("primary-7"))
                     .fixedSize(horizontal: false, vertical: true)
@@ -86,5 +87,5 @@ struct BubbleChatView: View {
 [IMPORTANT] dear all - as I mentioned, untuk script dan storyboard is expected udah kalian mulai develop untuk production app/game video demo yg akan dishowcase di hari Rabu depan (14 mei). 
 
 untuk kelancaran di hari H, all teams are REQUIRED untuk mengupload final video dan Hi-Fid app/game kalian paling lambat hari Selasa (13 Mei) jam 23.59 WIB via link ini
-""", isKeyboardActive: false)
+""",followUp: "Halo", isKeyboardActive: false )
 }

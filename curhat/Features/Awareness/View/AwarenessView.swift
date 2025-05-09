@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AwarenessView: View {
     @State private var selectedEmotion: String? = nil
-
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationStack {
             VStack() {
@@ -26,43 +26,62 @@ struct AwarenessView: View {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
                     
                     ForEach(listEmotions.dropLast(listEmotions.count % 2)) { emotion in
-                        EmotionButton(
-                            emotion: emotion.label,
-                            isSelected: selectedEmotion == emotion.name,
-                            imageName: emotion.imageString
-                        ) {
-                            selectedEmotion = emotion.name
+                        
+                        NavigationLink(destination: StoryView(emotionName: emotion.name).navigationBarBackButtonHidden(true)) {
+                            EmotionButton(
+                                emotion: emotion.label,
+                                isSelected: selectedEmotion == emotion.name,
+                                imageName: emotion.imageString
+                            ) {
+                                selectedEmotion = emotion.name
+                            }
                         }
                     }
                 }
                 
                 LazyHStack {
                     ForEach(listEmotions.suffix(listEmotions.count % 2)) { emotion in
-                        EmotionButton(
-                            emotion: emotion.label,
-                            isSelected: selectedEmotion == emotion.name,
-                            imageName: emotion.imageString
-                        ) {
-                            selectedEmotion = emotion.name
+                        
+                        NavigationLink(destination: StoryView(emotionName: emotion.name).navigationBarBackButtonHidden(true)) {
+                            EmotionButton(
+                                emotion: emotion.label,
+                                isSelected: selectedEmotion == emotion.name,
+                                imageName: emotion.imageString
+                            ) {
+                                selectedEmotion = emotion.name
+                            }
                         }
+                          
+                        
+                        
                     }
                 }
                 
                 Spacer()
             }
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    //backbutton
-                    NavigationLink(destination: HomeView()) {
-                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Image(systemName: "speaker.wave.2.fill").foregroundColor(Color.primary6)
-                }
-            }
             .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+                            }
+                        }
+                    }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    //backbutton
+//                    NavigationLink(destination: HomeView()) {
+//                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+//                    }
+//                }
+////                ToolbarItem(placement: .navigationBarTrailing) {
+////                    Image(systemName: "speaker.wave.2.fill").foregroundColor(Color.primary6)
+////                }
+//            }
+//            .navigationBarBackButtonHidden(true)
         
         }
     }
@@ -76,23 +95,25 @@ struct EmotionButton: View {
     var action: () -> Void
 
     var body: some View {
-        VStack {
-            Image(imageName) // Use custom images or system icons
-                .resizable()
-                .scaledToFit()
-                .frame(width: 128, height: 93)
-                .padding(.bottom, 15)
-                .onTapGesture {
-                    action()
-                }
+        
+      
+            VStack {
+                Image(imageName) // Use custom images or system icons
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 128, height: 93)
+                    .padding(.bottom, 15)
+                    
 
-            Text(emotion)
-                .font(.caption)
-                .fontWeight(.bold)
-                .foregroundColor(.black)
+                Text(emotion)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+            }
+            .animation(.easeInOut, value: isSelected)
         }
-        .animation(.easeInOut, value: isSelected)
-    }
+        
+    
 }
 
 #Preview {
