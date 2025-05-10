@@ -29,6 +29,8 @@ struct StoryView: View {
     @State private var shouldNavigate = false
     @State private var hasKeyboardShown: Bool = false
     
+    @State private var arrayUserPrompts: [String] = []
+    
     // MARK: - Speech Manager
     @StateObject private var speechManager = SpeechManager()
     
@@ -203,14 +205,17 @@ struct StoryView: View {
                                 if isMicActive == false {
                                     //jika di nonaktifkan akan meminta response prompt
                                     speechRecognizer.stopRecording()
+                                    speechRecognizer.transcribedText = ""
                                     if promptManager.userPrompt != "" {
                                         promptManager.generateResponse()
+                                        
                                     }
                                 } else {
                                     //jika diaktifkan akan merekam suara
                                     isSpeaking = false
                                     speechManager.stop()
-                                    try! speechRecognizer.startRecording()
+                                    try! speechRecognizer.restartAudioBuffer()
+                                    
                                 }
                             }
                             
@@ -290,7 +295,7 @@ struct StoryView: View {
             .onChange(of: speechRecognizer.transcribedText) { newValue in
                 promptManager.userPrompt = newValue
             }
-        
+            
             // hidden link that actually does the navigation
             .background(
                 NavigationLink(
