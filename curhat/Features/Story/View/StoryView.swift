@@ -25,22 +25,23 @@ struct StoryView: View {
     @State private var isSpeaking: Bool = false
     @State private var showingConfirmationDialog: Bool = false
     
-    // MARK: - Speech Manager
-    @StateObject private var speechManager = SpeechManager()
+   
     
     // <-- new state for navigation
     @State private var shouldNavigate = false
     @State private var hasKeyboardShown: Bool = false
     
+    // MARK: - Speech Manager
+    @StateObject private var speechManager = SpeechManager()
+    
     // Speech to Text Coordinator
     @StateObject private var speechRecognizer = SpeechRecognizer()
-    @State private var lastAudioLevel: Float = 0.0
-    let checkInterval: TimeInterval = 1.0
+    
+    // Prompt Manager
+    @StateObject private var promptManager = PromptManager()
     
     @AppStorage("userNickname") private var nickname: String = ""
     
-    @StateObject private var promptManager = PromptManager()
-
     
     var body: some View {
         
@@ -154,12 +155,13 @@ struct StoryView: View {
                                                 Button("Selesai") {
                                                     // 3️⃣ Dismiss when “Done” is tapped
                                                     isTextFieldFocused = false
-                                                    promptManager.generateResponse()
+                                                    
+                                                    if(promptManager.userPrompt != ""){
+                                                        promptManager.generateResponse()
+                                                    }
+                                                    
                                                 }
                                             }
-                                        }
-                                        .onChange(of: isTextFieldFocused) {
-                                            hasKeyboardShown = true
                                         }
                                     
                                 }
@@ -185,12 +187,35 @@ struct StoryView: View {
                         HStack(alignment: .center, spacing: 48) {
                             
                             //keyboard button
-                            KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive).onChange(of: hasKeyboardShown) { newValue in
+                            KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking).onChange(of: hasKeyboardShown) { newValue in
                                 isTextFieldFocused = newValue
+                                print("Keyboard Button Tapped \(hasKeyboardShown)")
+                                if hasKeyboardShown == false {
+                                    isTextFieldFocused = false
+                                    if promptManager.userPrompt != "" {
+                                        promptManager.generateResponse()
+                                    }
+                                }
                             }
                             
                             //mic button
-                            MicButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking)
+                            MicButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking).onChange(of: isMicActive) { newValue in
+                                
+                                print("Mic Button Tapped \(isMicActive)")
+                                
+                                if isMicActive == false {
+                                    //jika di nonaktifkan akan meminta response prompt
+                                    speechRecognizer.stopRecording()
+                                    if promptManager.userPrompt != "" {
+                                        promptManager.generateResponse()
+                                    }
+                                } else {
+                                    //jika diaktifkan akan merekam suara
+                                    isSpeaking = false
+                                    speechManager.stop()
+                                    try! speechRecognizer.startRecording()
+                                }
+                            }
                             
                         }
                         
@@ -286,12 +311,7 @@ struct StoryView: View {
         
     }
     
-    func startAudioLevelMonitor() {
-        Timer.scheduledTimer(withTimeInterval: checkInterval, repeats: true) { _ in
-            let currentLevel = speechRecognizer.audioLevel
-            lastAudioLevel = currentLevel
-        }
-    }
+
     
     
 }

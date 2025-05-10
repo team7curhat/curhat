@@ -44,17 +44,9 @@ struct MicButtonView: View {
                 if hasKeyboardShown == false {
                     //jika diaktifkan akan menonaktifkan keyboard
                     isMicActive.toggle()
-                    if isMicActive {
-                        isSpeaking = false
-                        try! speechRecognizer.startRecording()
-                    } else {
-                        //jika di nonaktifkan akan meminta response prompt
-                        speechRecognizer.stopRecording()
-                        if promptManager.userPrompt != "" {
-                            promptManager.generateResponse()
-                        }
-                        
-                    }
+//                    if isMicActive {
+//                        
+//                    } 
                     
                 }
                     

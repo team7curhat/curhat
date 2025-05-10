@@ -9,6 +9,8 @@ struct KeyboardButtonView: View {
     
     @Binding var hasKeyboardShown: Bool
     @Binding var isMicActive: Bool
+    @Binding var isSpeaking: Bool
+    
     @StateObject private var promptManager = PromptManager()
     
     var body: some View {
@@ -32,16 +34,11 @@ struct KeyboardButtonView: View {
                 
             )
             .onTapGesture {
-                //jika mic aktif, seluruh aksi tidak dapat dilakukan
-                if isMicActive == false {
-                    hasKeyboardShown.toggle()
-                    //jika keyboard diaktifkan
-                    if hasKeyboardShown {
-                        isMicActive = false
-                    } else {
-                        promptManager.generateResponse()
-                    }
-                    
+                hasKeyboardShown.toggle()
+             
+                if hasKeyboardShown {
+                    isMicActive = false
+                    isSpeaking = false
                 }
                 
             }

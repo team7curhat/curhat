@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import GoogleGenerativeAI
 
-class PromptManager: ObservableObject {
+class PromptManager: ObservableObject, Sendable {
     
     @Published var speechManager = SpeechManager()
     let model = GeminiModel.shared.generativeModel
@@ -73,27 +73,40 @@ class PromptManager: ObservableObject {
         print(logPrompts)
         
         Task {
-            defer { isLoading = false; userPrompt = "" }
+            
+            DispatchQueue.main.async {
+                do {
+                    self.isLoading = false;
+                    self.userPrompt = ""
+                }
+            }
+           
             do {
                 print("masuk")
                 let result = try await model.generateContent(fullPrompt)
                 let text   = result.text ?? ""
-                promptLimit = promptLimit + 1
+                DispatchQueue.main.async {
+                    self.promptLimit += 1
+                }
                 print("Hasil: \(text)")
                 if
                     let data = text.data(using: .utf8),
                     let decoded = try? JSONDecoder().decode(FeedbackResponse.self, from: data)
                 {
-                    // 2. pull out the new field
-                    expression = decoded.expression.lowercased()
-                    feedback   = decoded.feedback
-                    followUp   = decoded.followUp   // now holds "apa yang membuatmu sedih?"
+                    DispatchQueue.main.async {
+                        // 2. pull out the new field
+                        self.expression = decoded.expression.lowercased()
+                        self.feedback   = decoded.feedback
+                        self.followUp   = decoded.followUp   // now holds "apa yang membuatmu sedih?"
+                    }
                     
                 } else {
                     // fallback
-                    expression = "sedih"
-                    feedback   = text
-                    followUp   = ""
+                    DispatchQueue.main.async {
+                        self.expression = "sedih"
+                        self.feedback   = text
+                        self.followUp   = ""
+                    }
                     
                 }
             } catch {
