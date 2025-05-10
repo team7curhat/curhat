@@ -8,15 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var selectedFilter: String = "Semua"
-    let filters = ["Semua", "Marah", "Kecewa"]
-    let history = [
-        ("Marah", "05 Mei 2025", "20:00"),
-        ("Senang", "05 Mei 2025", "20:00"),
-        ("Kecewa", "05 Mei 2025", "20:00")
-    ]
-    
-    @AppStorage("userNickname") private var nickname: String = ""
+
+    @AppStorage("userNickname") private var nickname: String = "dano"
     
     var body: some View {
         if(nickname.isEmpty){
@@ -27,19 +20,33 @@ struct HomeView: View {
                 
                 // Greeting
                 Text("Halo \(nickname), Ada cerita apa hari ini?")
-                    .font(.title2).bold()
-                    .padding(.top, 100)
-                    .frame(width:232)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .padding(.top, 160)
+                    .padding(.bottom, 60)
+                    .frame(width:200)
+                    .foregroundColor(.primary6)
                     .multilineTextAlignment(.center)
                 
                 Spacer()
                 
-                
-                VStack (spacing: 0){
-                    WaveAnimateView()
+                ZStack {
+                    VStack (spacing: 0){
+                        
+                        WaveAnimateView()
+                       
+                        VStack {
+                            
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity).background(.primary1)
+                        
+                    }
+                    
+                    
                     ZStack (alignment: .bottom){
                         NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)){
-                            Image("persona-home")
+                            Image("persona-homepage")
+                                .resizable()
+                                .scaledToFit()
                                 .frame(maxWidth:.infinity)
                         }
                         
@@ -50,21 +57,24 @@ struct HomeView: View {
                         
                     }
                     .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
-                    .background(.primary2)
                     
-                }
-                .edgesIgnoringSafeArea(.all)
+                }.edgesIgnoringSafeArea(.all)
+                
                 
                 
             }
-            .navigationTitle("EMOCI")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //backbutton
-                    Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
-                        Image(systemName: "repeat")
+                    Button(action: {
+                    }){
+                        Image(systemName: "text.bubble")
+                            .foregroundColor(.primary6)
                     }
+//                    Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
+//                        Image(systemName: "repeat")
+//                    }
                 }
                 
             }
@@ -77,19 +87,17 @@ struct HomeView: View {
 
 
 #Preview {
-    NavigationView {
-        HomeView()
-    }
+  HomeView()
 }
 
 
 struct WaveAnimateView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
-            AnimatedTopWaveImage(color: Color.primary3, height: 120)
-            AnimatedTopWaveImage(color: Color.white, height: 90)
-            AnimatedTopWaveImage(color: Color.primary3, height: 60)
-            AnimatedTopWaveImage(color: Color.primary2, height: 30)
+            AnimatedTopWaveImage(color: Color.primary2, height: 120)
+            AnimatedTopWaveImage(color: Color.primary1, height: 90)
+            AnimatedTopWaveImage(color: Color.primary2, height: 60)
+            AnimatedTopWaveImage(color: Color.primary1, height: 30)
         }
     }
 }

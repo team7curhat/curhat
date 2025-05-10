@@ -16,7 +16,7 @@ struct TopWaveMask: Shape {
 
         let width = rect.width
         let height = rect.height
-        let wavelength = width / 5
+        let wavelength = width / 6
 
         // Start from bottom left
         path.move(to: CGPoint(x: 0, y: height))
