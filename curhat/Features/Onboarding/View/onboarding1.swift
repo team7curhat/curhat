@@ -9,12 +9,12 @@ import SwiftUI
 
 
 struct onboarding1: View {
-    @AppStorage("userNickname") private var nickname = ""
-    
+//    @AppStorage("userNickname") private var nickname = ""
+    @State private var isNavigating = false
     var body: some View {
-        if (!nickname.isEmpty){
-            HomeView()
-        }else{
+//        if (!nickname.isEmpty){
+//            HomeView()
+//        }else{
             NavigationStack{
                 ZStack(alignment: .bottom){
                     Image("onboarding1")
@@ -49,25 +49,29 @@ struct onboarding1: View {
                         }
                         //===================================  Button Gambar  ====================================
                     }
+                    Image("Gigi")
+                        .resizable()
+                        .frame(width: 170, height: 100)
+                        .onTapGesture {
+                            print("Gambar Gigi ditekan")
+                            isNavigating = true
+                        }
+                        .padding(.bottom, 190)
                     VStack{
-                        NavigationLink (destination: onboarding2().navigationBarBackButtonHidden(true)){
-                            Image("Gigi")
-                                .padding(.bottom, 85)
-                        }
-                        VStack{
-                            Text("Ketuk gigiku untuk memulai")
-                                .font(.system(.headline, design: .rounded))
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .padding(.bottom, 60)
-                        }
+                        Text("Ketuk gigiku untuk memulai")
+                            .font(.system(.headline, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.bottom, 60)
                     }
-                    .safeAreaPadding()
+                    NavigationLink(destination: onboarding2().navigationBarBackButtonHidden(true),
+                                   isActive: $isNavigating) {
+                        EmptyView()
+                    }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
             }
-        }
+//        }
     }
 }
 struct onboarding1_Previews: PreviewProvider {

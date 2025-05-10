@@ -43,12 +43,29 @@ struct onboarding2: View {
                         Text("Ceritamu Aman dan Milikmu Seorang")
                             .font(.system(.title2, design: .rounded))
                             .foregroundStyle(.primary10)
-                            .fontWeight(.bold).frame(maxWidth: .infinity, alignment: .leading);Text("Semua cerita yang telah kamu tuangkan di Emochi tidak akan dibagikan kepada siapapun, termasuk server kami. Kami tidak akan menggunakan data-datamu tanpa persetujuanmu.").font(.body)
-                        .foregroundStyle(.black)};VStack(alignment: .leading, spacing: 10){Text("Emochi Tidak Sama dengan Terapi Psikolog").font(.system(.title2, design: .rounded)).foregroundStyle(.primary10).fontWeight(.bold)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Keberadaan Emochi tidak bisa menggantikan peran psikolog untuk membantu mengatasi masalah yang kamu hadapi. Emochi hadir sebagai garda terdepan yang akan menolong kamu untuk meluapkan emosi dalam dirimu melalui bercerita.").font(.body).foregroundStyle(.black)}
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .leading);Text("Semua cerita yang telah kamu tuangkan di Emochi tidak akan dibagikan kepada siapapun, termasuk server kami. Kami tidak akan menggunakan data-datamu tanpa persetujuanmu.")
+                            .font(.body)
+                            .foregroundStyle(.black)
+                    };
+                    VStack(alignment: .leading, spacing: 10)
+                    {Text("Emochi Tidak Sama dengan Terapi Psikolog")
+                            .font(.system(.title2, design: .rounded))
+                            .foregroundStyle(.primary10)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text("Keberadaan Emochi tidak bisa menggantikan peran psikolog untuk membantu mengatasi masalah yang kamu hadapi. Emochi hadir sebagai garda terdepan yang akan menolong kamu untuk meluapkan emosi dalam dirimu melalui bercerita.")
+                            .font(.body)
+                            .foregroundStyle(.black)
+                    }
                     //===================================  Button  ==========================================
-                    NavigationLink (destination:onboarding3().navigationBarBackButtonHidden(true)){Text("OK!").foregroundStyle(.white).frame(maxWidth:200).padding().background(.primary8).cornerRadius(10)};Spacer();Spacer()}.padding()
+                    NavigationLink (destination:onboarding3().navigationBarBackButtonHidden(true)){Text("LANJUT")
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth:200)
+                            .padding()
+                            .background(.primary8)
+                        .cornerRadius(10)};Spacer();Spacer()}.padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)}
             .safeAreaPadding()
         }
