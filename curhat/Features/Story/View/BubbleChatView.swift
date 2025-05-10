@@ -49,7 +49,7 @@ struct BubbleChatView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             // 3. Constrain to at most 5 lines tall:
-            .frame(maxHeight: maxBubbleHeight)
+            .frame(maxHeight: 100)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color("primary-1"))
@@ -77,17 +77,17 @@ struct BubbleChatView: View {
     }
     
     /// Compute five lines + vertical padding.
-    private var maxBubbleHeight: CGFloat {
-        let lineHeight = UIFont.preferredFont(forTextStyle: .body).lineHeight
-        let maxLines: CGFloat = 5
-        let verticalPadding: CGFloat = 12 * 2   // top + bottom padding on Text
-        return (lineHeight * maxLines) + verticalPadding
-    }
+//    private var maxBubbleHeight: CGFloat {
+//        let lineHeight = UIFont.preferredFont(forTextStyle: .body).lineHeight
+//        let maxLines: CGFloat = 5
+//        let verticalPadding: CGFloat = 12 * 1  // top + bottom padding on Text
+//        return 120
+//    }
 }
 #Preview {
     BubbleChatView(message:"""
 [IMPORTANT] dear all - as I mentioned, untuk script dan storyboard is expected udah kalian mulai develop untuk production app/game video demo yg akan dishowcase di hari Rabu depan (14 mei). 
 
 untuk kelancaran di hari H, all teams are REQUIRED untuk mengupload final video dan Hi-Fid app/game kalian paling lambat hari Selasa (13 Mei) jam 23.59 WIB via link ini
-""",followUp: "Halo", isKeyboardActive: true)
+""",followUp: "Halo", isKeyboardActive: false)
 }

@@ -43,7 +43,7 @@ struct HomeView: View {
                     
                     
                     ZStack (alignment: .bottom){
-                        NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)){
+                        NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)){
                             Image("persona-homepage")
                                 .resizable()
                                 .scaledToFit()

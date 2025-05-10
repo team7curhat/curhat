@@ -9,12 +9,12 @@ import SwiftUI
 
 
 struct onboarding1: View {
-//    @AppStorage("userNickname") private var nickname = ""
+    @AppStorage("userNickname") private var nickname = ""
     @State private var isNavigating = false
     var body: some View {
-//        if (!nickname.isEmpty){
-//            HomeView()
-//        }else{
+        if (!nickname.isEmpty){
+            HomeView()
+        }else{
             NavigationStack{
                 ZStack(alignment: .bottom){
                     Image("onboarding1")
@@ -71,7 +71,7 @@ struct onboarding1: View {
                 }
                 .ignoresSafeArea()
             }
-//        }
+        }
     }
 }
 struct onboarding1_Previews: PreviewProvider {

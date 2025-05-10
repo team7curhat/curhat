@@ -77,7 +77,7 @@ struct SummaryView: View {
                                             .multilineTextAlignment(.center) }
                                     }
                                     
-                                    NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)) {
+                                    NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)) {
                                         VStack(alignment: .center, spacing:0) {
                                             Image("mau cerita lagi")
                                             Text("Butuh cerita lagi")

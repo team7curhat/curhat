@@ -17,7 +17,7 @@ class PromptManager: ObservableObject, Sendable {
     @Published var userPrompt: String = ""
     @Published var logPrompts: [String] = []
     @Published var expression: String = "sedih"
-    @Published var feedback: String = "Apa yang bikin kamu sedih hari ini?"
+    @Published var feedback: String = ""
     @Published var followUp: String = ""
     @Published var isLoading: Bool = false
     @Published var promptLimit: Int = 0
@@ -65,7 +65,8 @@ class PromptManager: ObservableObject, Sendable {
         """
         
         isLoading   = true
-        feedback = "Oh jadi gitu, aku paham sih kondisinya"
+        feedback = "..."
+        followUp   = ""
         speechManager.stop()
         
         logPrompts.append(userPrompt)

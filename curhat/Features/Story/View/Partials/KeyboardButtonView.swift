@@ -10,6 +10,7 @@ struct KeyboardButtonView: View {
     @Binding var hasKeyboardShown: Bool
     @Binding var isMicActive: Bool
     @Binding var isSpeaking: Bool
+    @Binding var hasKeyboardShownOnce: Bool
     
     @StateObject private var promptManager = PromptManager()
     
@@ -35,6 +36,7 @@ struct KeyboardButtonView: View {
             )
             .onTapGesture {
                 hasKeyboardShown.toggle()
+                hasKeyboardShownOnce = true
              
                 if hasKeyboardShown {
                     isMicActive = false
