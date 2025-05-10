@@ -14,13 +14,13 @@ struct KeyboardButtonView: View {
     @StateObject private var promptManager = PromptManager()
     
     var body: some View {
-        let keyboardColor: Color = isMicActive ? .gray : (hasKeyboardShown ? Color("primary-6") : .white)
-        let keyboardBorderColor: Color = isMicActive ? .gray : Color("primary-6")
-        let keyboardIconColor: Color = isMicActive || hasKeyboardShown ? .white : Color("primary-6")
+        let keyboardColor: Color = hasKeyboardShown ? Color("primary-6") : .white
+        let keyboardBorderColor: Color = isMicActive ? Color("gray-disabled"): Color("primary-6")
+        let keyboardIconColor: Color = hasKeyboardShown ? Color(.white) : (isMicActive ? Color("gray-disabled"): Color("primary-6"))
         
         Circle()
             .fill(keyboardColor)
-            .frame(width: 56, height: 56)
+            .frame(width: 62, height: 62)
             .overlay(
                 Circle()
                     .stroke(keyboardBorderColor, lineWidth: 2)
@@ -29,7 +29,7 @@ struct KeyboardButtonView: View {
                 Image(systemName: hasKeyboardShown ? "keyboard.fill" : "keyboard")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 21, height: 21)
+                    .frame(width: 39, height: 31)
                     .foregroundColor(keyboardIconColor)
                 
             )
@@ -44,3 +44,5 @@ struct KeyboardButtonView: View {
             }
     }
 }
+
+

@@ -19,14 +19,14 @@ struct MicButtonView: View {
     
     
     var body: some View {
-        let micColor: Color = hasKeyboardShown ? .gray : (isMicActive ? Color("primary-6") : .white)
-        let micBorderColor: Color = hasKeyboardShown ? .gray : Color("primary-6")
-        let micIconColor: Color = hasKeyboardShown || isMicActive ? .white : Color("primary-6")
+        let micColor: Color = isMicActive ? Color("primary-6") : .white
+        let micBorderColor: Color = hasKeyboardShown ? Color("gray-disabled") : Color("primary-6")
+                let micIconColor: Color = isMicActive ? .white :(hasKeyboardShown ? Color("gray-disabled"): Color("primary-6"))
         
         
         Circle()
             .fill(micColor)
-            .frame(width: 56, height: 56)
+            .frame(width: 62, height: 62)
             .overlay(
                 Circle()
                     .stroke(micBorderColor, lineWidth: 2)
@@ -35,7 +35,7 @@ struct MicButtonView: View {
                 Image(systemName: isMicActive ? "microphone.fill" : "microphone")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 21, height: 21)
+                    .frame(width: 28, height: 34)
                     .foregroundColor(micIconColor)
             )
             .onTapGesture {

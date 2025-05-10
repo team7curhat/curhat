@@ -46,46 +46,36 @@ struct StoryView: View {
             VStack(spacing: 0) {
 
                 HStack {
-                    // Back button
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(Color("primary-6"))
-                            .font(.system(size: 17, weight: .semibold))
-                    }
-                    
-                    Spacer()
-                    
-                    // Speaker button
-                    Button(action: {
-                        isSpeaking.toggle()
-                        if isSpeaking {
-                            speechManager.speak("\(promptManager.feedback)\n\n\(promptManager.followUp)")
-                        } else {
-                            speechManager.stop()
-                        }
-                    }) {
-                        Image(systemName: isSpeaking ? "speaker.wave.2.fill" : "speaker.slash.fill")
-                            .resizable()
-                            .frame(width: 25, height: 22)
-                            .foregroundStyle(Color("primary-6"))
-                    }
-                    .padding(.trailing, 16)
-                    
-                    // Selesai button
-                    Button(action: {
-                        showingConfirmationDialog = true
-                    }) {
-                        Text("Selesai")
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .foregroundColor(promptManager.promptLimit == 0 ? Color.gray : Color("primary-6"))
-                    }
-                    .disabled(promptManager.promptLimit == 0)
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 12)
+                                    // Back button
+                                    if(promptManager.promptLimit == 0){
+                                        Button(action: {
+                                            dismiss()
+                                        }) {
+                                            Image(systemName: "chevron.backward")
+                                                .foregroundColor(Color("primary-6"))
+                                                .font(.system(size: 17, weight: .semibold))
+                                        }
+                                    }
+                                    
+                                    
+                                    Spacer()
+                                  
+                                
+                                    if(promptManager.promptLimit != 0){
+                                        Button(action: {
+                                            showingConfirmationDialog = true
+                                        }) {
+                                            Text("Selesai bercerita")
+                                                .font(.body)
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(promptManager.promptLimit == 0 ? Color.gray : Color("primary-6"))
+                                        }
+                                        .disabled(promptManager.promptLimit == 0)
+                                    }
+                                   
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 12)
                 
                 VStack{
                     
@@ -128,7 +118,8 @@ struct StoryView: View {
                             if promptManager.isLoading {
                                 Image("nyimak")
                             }else{
-                                Image(promptManager.expression)
+                                LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(2.5)))).animationSpeed(1.2)
+                                    .frame(width: 172, height: 174)
                             }
                         }
                     }
@@ -223,58 +214,58 @@ struct StoryView: View {
                 
             }
             .navigationBarHidden(true)
-            .toolbar{
-                ToolbarItem(placement: .navigationBarLeading) {
-                    
-                    //backbutton
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
-                    }
-                    
-                }
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Image(systemName: isSpeaking
-                          ?"speaker.wave.2.fill"
-                          : "speaker.slash.fill")
-                    .resizable()
-                    .frame(width: 25, height: 22)
-                    .foregroundStyle(Color("primary-6"))
-                    .onTapGesture {
-                        isSpeaking.toggle()
-                        if isSpeaking {
-                            // speak both feedback and follow-up
-                            speechManager.speak("\(promptManager.feedback)\n\n\(promptManager.followUp)")
-                        } else {
-                            speechManager.stop()
-                        }
-                    }
-                    
-                }
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Button(action: {
-                        showingConfirmationDialog = true
-                    }){
-                        Text("Selesai").font(.body).fontWeight(.semibold)
-                    }.disabled(promptManager.promptLimit == 0)
-                }
-            }
-            .alert(Text("Akhiri Cerita?"),
-                   isPresented: $showingConfirmationDialog,
-                   actions: {
-                Button("Ya akhiri", role: .destructive) {
-                    shouldNavigate = true
-                }
-                Button("Batal", role: .cancel) { }
-            }, message: {
-                Text("Kamu masih dalam proses bercerita. Jika berhenti sekarang, kamu akan langsung ke halaman akhir dan tidak bisa melanjutkan cerita ini.")
-            }
-            )
+//            .toolbar{
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    
+//                    //backbutton
+//                    Button(action: {
+//                        dismiss()
+//                    }) {
+//                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+//                    }
+//                    
+//                }
+//                ToolbarItem(placement: .navigationBarTrailing){
+//                    Image(systemName: isSpeaking
+//                          ?"speaker.wave.2.fill"
+//                          : "speaker.slash.fill")
+//                    .resizable()
+//                    .frame(width: 25, height: 22)
+//                    .foregroundStyle(Color("primary-6"))
+//                    .onTapGesture {
+//                        isSpeaking.toggle()
+//                        if isSpeaking {
+//                            // speak both feedback and follow-up
+//                            speechManager.speak("\(promptManager.feedback)\n\n\(promptManager.followUp)")
+//                        } else {
+//                            speechManager.stop()
+//                        }
+//                    }
+//                    
+//                }
+//                ToolbarItem(placement: .navigationBarTrailing){
+//                    Button(action: {
+//                        showingConfirmationDialog = true
+//                    }){
+//                        Text("Selesai").font(.body).fontWeight(.semibold)
+//                    }.disabled(promptManager.promptLimit == 0)
+//                }
+//            }
+//            .alert(Text("Akhiri Cerita?"),
+//                   isPresented: $showingConfirmationDialog,
+//                   actions: {
+//                Button("Ya akhiri", role: .destructive) {
+//                    shouldNavigate = true
+//                }
+//                Button("Batal", role: .cancel) { }
+//            }, message: {
+//                Text("Kamu masih dalam proses bercerita. Jika berhenti sekarang, kamu akan langsung ke halaman akhir dan tidak bisa melanjutkan cerita ini.")
+//            }
+//            )
             .onAppear {
                 
                 if(emotionName == "senang"){
-                    promptManager.feedback = "Apa yang bikin kamu senang hari ini?"
+                    promptManager.feedback = "Apa yang sedang kamu rasakan sekarang?"
                     promptManager.expression = "senang-start"
                 }
             }
