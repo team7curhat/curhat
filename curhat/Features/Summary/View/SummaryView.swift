@@ -16,84 +16,88 @@ struct SummaryView: View {
                 // Background that extends to all edges
                 Color("primary-1")
                     .edgesIgnoringSafeArea(.all)
-                
-                ScrollView {
-                    VStack {
-                        ZStack(alignment: .center) {
-                            Image("summary-bg")
-                                .resizable()
-                                .scaledToFit()
-                            
-                            Text("Dari cerita yang aku dengar darimu,")
-                                .multilineTextAlignment(.leading)
-                                .frame(width: 130, height: 100)
-                                .offset(x: -100, y: -280)
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color("primary-9"))
-                                .font(.body)
-                            
-                            ScrollView {
-                                Text("\(summary)")
-                            }
-                            .frame(maxHeight: 400)
-                            .padding(.top, 150)
-                            .padding(.horizontal, 50)
-                        }.padding(.horizontal, 12)
-                        
-                        VStack(alignment: .center, spacing: 10) {
-                            Text("Scroll ke bawah")
-                                .foregroundStyle(.secondary)
-                                .font(.caption)
-                            Image(systemName: "chevron.down")
-                                .foregroundStyle(Color("primary-7"))
-                        }
-                        .padding(.top, 16)
-                        
-                        
-                        VStack(alignment: .center, spacing:36) {
-                            Text("Bagaimana perasaanmu sekarang setelah bercerita?")
-                                .foregroundStyle(Color("primary-6"))
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .multilineTextAlignment(.center)
-                                .padding(.top,75)
-                                .frame(width: 250, height: 180)
-                            HStack(alignment: .center, spacing:36) {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack {
+                            ZStack(alignment: .center) {
+                                Image("summary-bg")
+                                    .resizable()
+                                    .scaledToFit()
                                 
-                                NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
-                                    VStack(alignment: .center, spacing:0) {
-                                        Image("lega")
-                                        Text("Lebih lega")
-                                            .foregroundStyle(Color("primary-6"))
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                        .multilineTextAlignment(.center) }
+                                Text("Dari cerita yang aku dengar darimu,")
+                                    .multilineTextAlignment(.leading)
+                                    .frame(width: 130, height: 100)
+                                    .offset(x: -100, y: -280)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("primary-9"))
+                                    .font(.body)
+                                
+                                ScrollView {
+                                    Text("\(summary)").foregroundStyle(Color("primary-6")).fontWeight(.medium)
                                 }
-                                
-                                NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)) {
-                                    VStack(alignment: .center, spacing:0) {
-                                        Image("mau cerita lagi")
-                                        Text("Butuh cerita lagi")
-                                            .foregroundStyle(Color("primary-6"))
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                            .multilineTextAlignment(.center)
+                                .frame(maxHeight: 400)
+                                .padding(.top, 150)
+                                .padding(.horizontal, 50)
+                            }.padding(.horizontal, 12)
+                            
+                            Button(action: {
+                                withAnimation {
+                                    proxy.scrollTo("_bottom", anchor: .bottom)
+                                }
+                            }){
+                                VStack(alignment: .center, spacing: 10) {
+                                    Text("Scroll ke bawah")
+                                        .foregroundStyle(Color("primary-6")).fontWeight(.medium)
+                                        .font(.caption)
+                                    Image(systemName: "chevron.down")
+                                        .foregroundStyle(Color("primary-7"))
+                                }
+                                .padding(.top, 16)
+                            }
+                            
+                            
+                            
+                            VStack(alignment: .center, spacing:36) {
+                                Text("Bagaimana perasaanmu sekarang setelah bercerita?")
+                                    .foregroundStyle(Color("primary-6"))
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top,75)
+                                    .frame(width: 250, height: 180)
+                                HStack(alignment: .center, spacing:36) {
+                                    
+                                    NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
+                                        VStack(alignment: .center, spacing:0) {
+                                            Image("lega")
+                                            Text("Lebih lega")
+                                                .foregroundStyle(Color("primary-6"))
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            .multilineTextAlignment(.center) }
                                     }
+                                    
+                                    NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)) {
+                                        VStack(alignment: .center, spacing:0) {
+                                            Image("mau cerita lagi")
+                                            Text("Butuh cerita lagi")
+                                                .foregroundStyle(Color("primary-6"))
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .multilineTextAlignment(.center)
+                                        }
+                                    }
+                                    
+                                    
+                                    
                                 }
-                                
-                                
-                               
+                                Image("bg-summary")
+                                    .padding(.top, 100)
+                                    .id("_bottom")
                             }
-                           Image("bg-summary")
-                           .padding(.top, 100)
-                        }
+                        }.padding(.top, 60)
                         
-                        
-                        
-                        
-                        
-                    }.padding(.top, 60)
-                     
+                    }
                 }
             }
             

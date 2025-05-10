@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C642DCDADE600A9638C /* GoogleGenerativeAI */; };
-		959D0DD72DCDE6BF0083DFF0 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 95250C662DCDADF000A9638C /* Lottie */; };
+		B4BC6F4D2DCDF11C00E888DA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B4BC6F4C2DCDF11C00E888DA /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +72,7 @@
 			files = (
 				959D0DD72DCDE6BF0083DFF0 /* Lottie in Frameworks */,
 				95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */,
+				B4BC6F4D2DCDF11C00E888DA /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,8 +143,7 @@
 			name = curhat;
 			packageProductDependencies = (
 				95250C642DCDADE600A9638C /* GoogleGenerativeAI */,
-				95250C662DCDADF000A9638C /* Lottie */,
-				95250C682DCDADF000A9638C /* Lottie-Dynamic */,
+				B4BC6F4C2DCDF11C00E888DA /* Lottie */,
 			);
 			productName = curhat;
 			productReference = B4BC69C92DC9FA7500E888DA /* curhat.app */;
@@ -229,7 +229,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				95250C212DCDAC3300A9638C /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
-				95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				B4BC6F4B2DCDF11C00E888DA /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B4BC69CA2DC9FA7500E888DA /* Products */;
@@ -358,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -416,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -433,7 +433,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7N4ZY27HB5;
+				DEVELOPMENT_TEAM = 43D48TSAU5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Emochi;
@@ -465,7 +465,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7N4ZY27HB5;
+				DEVELOPMENT_TEAM = 43D48TSAU5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Emochi;
@@ -612,9 +612,9 @@
 				minimumVersion = 0.5.6;
 			};
 		};
-		95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		B4BC6F4B2DCDF11C00E888DA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.5.1;
@@ -628,15 +628,10 @@
 			package = 95250C212DCDAC3300A9638C /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
 		};
-		95250C662DCDADF000A9638C /* Lottie */ = {
+		B4BC6F4C2DCDF11C00E888DA /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = B4BC6F4B2DCDF11C00E888DA /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		95250C682DCDADF000A9638C /* Lottie-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95250C222DCDAC4500A9638C /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = "Lottie-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
