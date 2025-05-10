@@ -70,7 +70,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				959D0DD72DCDE6BF0083DFF0 /* Lottie in Frameworks */,
 				95250C652DCDADE600A9638C /* GoogleGenerativeAI in Frameworks */,
 				B4BC6F4D2DCDF11C00E888DA /* Lottie in Frameworks */,
 			);

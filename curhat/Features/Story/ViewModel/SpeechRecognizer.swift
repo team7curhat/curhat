@@ -9,12 +9,11 @@ import Foundation
 import Speech
 
 class SpeechRecognizer: ObservableObject {
+    
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "id-ID"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-    
-
     
     @Published var transcribedText: String = ""
     @Published var audioLevel: Float = 0.0
@@ -37,6 +36,7 @@ class SpeechRecognizer: ObservableObject {
         let inputNode = audioEngine.inputNode
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
+                print(result.bestTranscription.formattedString)
                 DispatchQueue.main.async {
                     self.transcribedText = result.bestTranscription.formattedString
                 }
@@ -52,7 +52,6 @@ class SpeechRecognizer: ObservableObject {
         let recordingFormat = inputNode.outputFormat(forBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
             self.recognitionRequest?.append(buffer)
-            self.updateAudioLevel(buffer: buffer)
         }
         
         audioEngine.prepare()
@@ -64,18 +63,6 @@ class SpeechRecognizer: ObservableObject {
         recognitionRequest?.endAudio()
     }
     
-    
-   
-    
-    private func updateAudioLevel(buffer: AVAudioPCMBuffer) {
-        guard let channelData = buffer.floatChannelData?[0] else { return }
-        let channelDataValueArray = Array(UnsafeBufferPointer(start: channelData, count: Int(buffer.frameLength)))
-        let rms = sqrt(channelDataValueArray.map { $0 * $0 }.reduce(0, +) / Float(buffer.frameLength))
-        let avgPower = 20 * log10(rms)
-        DispatchQueue.main.async {
-            self.audioLevel = max(0, (avgPower + 50) / 50) // Normalize to 0...1
-        }
-    }
     
     
 }
