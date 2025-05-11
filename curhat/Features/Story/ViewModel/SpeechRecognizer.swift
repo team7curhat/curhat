@@ -25,7 +25,7 @@ class SpeechRecognizer: ObservableObject {
     // A Timer to offset the restart of the audiobuffer - we made it a timer so we can invalidate it in the event we just want to stop the audio.
     var startAudioIntervalTimer: Timer?
     // A time interval to restart you buffer
-    let restartTimeInterval: TimeInterval = 40
+    let restartTimeInterval: TimeInterval = 20
     
     
     func startRecording() throws {
@@ -46,18 +46,28 @@ class SpeechRecognizer: ObservableObject {
         let inputNode = audioEngine.inputNode
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
-                print(result.bestTranscription.formattedString)
+                
                 DispatchQueue.main.async {
                     let newTranscript = result.bestTranscription.formattedString
-                    if !newTranscript.hasPrefix(self.lastTranscript) {
-                        self.lastTranscript = ""
-                    }
+//                    if !newTranscript.hasPrefix(self.lastTranscript) {
+//                        self.lastTranscript = ""
+//                    }
+//                    
+//                    let diff = self.diffTranscript(previous: self.lastTranscript, current: newTranscript)
+//                    
+//                    if !diff.isEmpty {
+//                        self.transcribedText += " " + diff
+//                        self.lastTranscript = newTranscript
+//                    }
                     
-                    let diff = newTranscript.replacingOccurrences(of: self.lastTranscript, with: "").trimmingCharacters(in: .whitespacesAndNewlines)
-                    
-                    if !diff.isEmpty {
-                        self.transcribedText += " " + diff
-                        self.lastTranscript = newTranscript
+//                     Only diff if new transcript is longer
+                    if newTranscript.count > self.lastTranscript.count {
+                        let diff = self.diffTranscript(previous: self.lastTranscript, current: newTranscript)
+                        
+                        if result.isFinal || diff.split(separator: " ").count > 2 {
+                            self.transcribedText += " " + diff
+                            self.lastTranscript = newTranscript
+                        }
                     }
                 }
             }
@@ -90,7 +100,7 @@ class SpeechRecognizer: ObservableObject {
             startAudioIntervalTimer?.invalidate()
         }
         
-        
+        self.lastTranscript = ""
         self.audioEngine.stop()
         self.recognitionRequest?.endAudio()
         self.recognitionTask?.cancel()
@@ -103,14 +113,16 @@ class SpeechRecognizer: ObservableObject {
     func restartAudioBuffer() {
         
         if audioEngine.isRunning {
-            
-            self.stopRecording()
-            self.startAudioIntervalTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { timer in
-                timer.invalidate()
-                self.restartAudioBuffer()
-                self.isRestartingAudio.toggle()
-            })
-            
+            stopRecording()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                do {
+                    try self.startRecording()
+                    self.setRestartAudioBufferTimer()
+                } catch {
+                    print("Failed to restart audio buffer: \(error)")
+                }
+            }
         } else {
             do {
                 try startRecording()
@@ -119,7 +131,32 @@ class SpeechRecognizer: ObservableObject {
                 print("Failed to restart audio buffer with error \(error)")
             }
         }
+       
     }
+    
+    
+//    func restartAudioBuffer() {
+//        
+//        if audioEngine.isRunning {
+//            
+//            self.stopRecording()
+//            
+//            
+//            self.startAudioIntervalTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { timer in
+//                timer.invalidate()
+//                self.restartAudioBuffer()
+//                self.isRestartingAudio.toggle()
+//            })
+//            
+//        } else {
+//            do {
+//                try startRecording()
+//                self.setRestartAudioBufferTimer()
+//            } catch {
+//                print("Failed to restart audio buffer with error \(error)")
+//            }
+//        }
+//    }
     
     
     private func setRestartAudioBufferTimer() {
@@ -133,6 +170,23 @@ class SpeechRecognizer: ObservableObject {
             timer.invalidate()
             self.restartAudioBuffer()
         })
+    }
+    
+    func diffTranscript(previous: String, current: String) -> String {
+        let prevWords = previous.split(separator: " ")
+        let currWords = current.split(separator: " ")
+
+        var i = 0
+        while i < min(prevWords.count, currWords.count) {
+            if prevWords[i] != currWords[i] {
+                break
+            }
+            i += 1
+        }
+
+        // Only take the words that are new
+        let diffWords = currWords.dropFirst(i)
+        return diffWords.joined(separator: " ")
     }
     
     
