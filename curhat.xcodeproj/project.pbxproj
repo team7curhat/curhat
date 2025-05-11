@@ -435,7 +435,7 @@
 				DEVELOPMENT_TEAM = 43D48TSAU5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Emochi;
+				INFOPLIST_KEY_CFBundleDisplayName = Emoci;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone is require for transcribing speech";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech Recognition required for transcribing into text";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -448,7 +448,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = mejo.curhat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -467,7 +467,7 @@
 				DEVELOPMENT_TEAM = 43D48TSAU5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Emochi;
+				INFOPLIST_KEY_CFBundleDisplayName = Emoci;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone is require for transcribing speech";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech Recognition required for transcribing into text";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -480,7 +480,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = mejo.curhat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

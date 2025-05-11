@@ -67,17 +67,9 @@ struct SummaryView: View {
                                     .frame(width: 250, height: 180)
                                 HStack(alignment: .center, spacing:36) {
                                     
-                                    NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
-                                        VStack(alignment: .center, spacing:0) {
-                                            Image("lega")
-                                            Text("Lebih lega")
-                                                .foregroundStyle(Color("primary-6"))
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                            .multilineTextAlignment(.center) }
-                                    }
+                                  
                                     
-                                    NavigationLink(destination: AwarenessView().navigationBarBackButtonHidden(true)) {
+                                    NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)) {
                                         VStack(alignment: .center, spacing:0) {
                                             Image("mau cerita lagi")
                                             Text("Butuh cerita lagi")
@@ -86,6 +78,16 @@ struct SummaryView: View {
                                                 .fontWeight(.bold)
                                                 .multilineTextAlignment(.center)
                                         }
+                                    }
+                                    
+                                    NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
+                                        VStack(alignment: .center, spacing:0) {
+                                            Image("lega")
+                                            Text("Lebih lega")
+                                                .foregroundStyle(Color("primary-6"))
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            .multilineTextAlignment(.center) }
                                     }
                                     
                                     
