@@ -80,6 +80,18 @@ struct StoryView: View {
                                 promptManager.followUp = "";
                                 isStoryDone = true; hasKeyboardShownOnce = false}
                     }
+                    else{
+                        Image(systemName: "xmark").resizable().scaledToFit()
+                           .frame(width: 24, height: 24)
+                            .foregroundStyle(Color("primary-6"))
+                            .onTapGesture {
+                            promptManager.feedback = tempFeedback;
+                            promptManager.followUp = tempFollowUp;
+                            isStoryDone = false; hasKeyboardShownOnce = true}
+                    }
+                    
+                    
+                   
                     
                     
                     
@@ -88,7 +100,7 @@ struct StoryView: View {
                 }
                 
             }
-            .padding(.horizontal)
+            .padding(.horizontal,24)
             .padding(.vertical, 12)
             
             VStack{
@@ -142,16 +154,6 @@ struct StoryView: View {
                 if(isStoryDone){
                     Spacer()
                     HStack(alignment: .center, spacing: 20){
-                        VStack{
-                            Image("story-belum").resizable().scaledToFit().frame(width: 136, height: 111)
-                            Text("Belum, lanjut cerita").font(.headline).fontWeight(.semibold).foregroundStyle(Color("primary-6"))
-                        }
-                        .onTapGesture {
-                            promptManager.feedback = tempFeedback;
-                            promptManager.followUp = tempFollowUp;
-                            isStoryDone = false; hasKeyboardShownOnce = true}
-                        
-                        
                         VStack{
                             Image("story-sudah").resizable().scaledToFit().frame(width: 136, height: 111)
                             Text("Iya, sudah cukup").font(.headline).fontWeight(.semibold).foregroundStyle(Color("primary-6"))
