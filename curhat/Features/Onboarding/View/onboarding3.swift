@@ -21,12 +21,7 @@ struct onboarding3: View {
                 VStack(spacing: 20) {
                     Spacer()
                     // Title
-                    VStack{Text("Ayo kita kenalan!")
-                            .font(.system(.title, design: .rounded))
-                            .foregroundStyle(.primary10)
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.center)
-                            .padding(.top,-380)
+                    VStack{
                         VStack(spacing: 15){
                             VStack(spacing: 15){
                                 Text("Namaku Ochi!")
@@ -43,8 +38,12 @@ struct onboarding3: View {
                             VStack {
                                 TextField("Masukkan namamu di sini", text: $tempNickname)
                                     .padding(12)
+                                    .font(.system(.title2, design: .rounded))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.primary7)
+                                    .multilineTextAlignment(.center)
                                     .disableAutocorrection(true)
-                                    .background(Color(.systemGray6))
+                                    .background(Color(.primary2))
                                     .cornerRadius(8)
                                     .frame(width: 347)
                             }
@@ -57,20 +56,17 @@ struct onboarding3: View {
                                 EmptyView()
                             }
                             .hidden()
-                            // Tombol OK
-                            Button("OK!") {
+                            Button("Simpan") {
                                 nickname = tempNickname
-                                // baru set ke true saat ditekan
                                 goHome = true
                             }
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.black)
                             .frame(width: 100)
                             .padding(10)
-                            .background(tempNickname.isEmpty ? Color.gray : Color("primary-6"))
+                            .background(tempNickname.isEmpty ? Color.gray : Color.white)
                             .cornerRadius(15).disabled(tempNickname.isEmpty)
                         }
-                        .padding(.bottom, 250)
+                        .padding(.bottom, 170)
                     }
                 }
             }
