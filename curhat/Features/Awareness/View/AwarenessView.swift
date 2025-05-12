@@ -70,18 +70,6 @@ struct AwarenessView: View {
                             }
                         }
                     }
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    //backbutton
-//                    NavigationLink(destination: HomeView()) {
-//                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
-//                    }
-//                }
-////                ToolbarItem(placement: .navigationBarTrailing) {
-////                    Image(systemName: "speaker.wave.2.fill").foregroundColor(Color.primary6)
-////                }
-//            }
-//            .navigationBarBackButtonHidden(true)
         
         }
     }

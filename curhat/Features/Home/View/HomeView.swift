@@ -15,74 +15,78 @@ struct HomeView: View {
         if(nickname.isEmpty){
             onboarding1()
         }else{
-            VStack {
-                Spacer()
+            ZStack{
+                Color("bg-custom")
+                    .edgesIgnoringSafeArea(.all)
                 
-                // Greeting
-                Text("Halo \(nickname), Ada cerita apa hari ini?")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .padding(.top, 160)
-                    .padding(.bottom, 60)
-                    .frame(width:200)
-                    .foregroundColor(.primary6)
-                    .multilineTextAlignment(.center)
-                
-                Spacer()
-                
-                ZStack {
-                    VStack (spacing: 0){
-                        
-                        WaveAnimateView()
-                       
-                        VStack {
+                VStack {
+                    Spacer()
+                    
+                    // Greeting
+                    Text("Halo \(nickname), Ada cerita apa hari ini?")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.top, 160)
+                        .padding(.bottom, 60)
+                        .frame(width:200)
+                        .foregroundColor(.primary6)
+                        .multilineTextAlignment(.center)
+                    
+                    Spacer()
+                    
+                    ZStack {
+                        VStack (spacing: 0){
                             
-                        }.frame(maxWidth: .infinity, maxHeight: .infinity).background(.primary1)
-                        
-                    }
-                    
-                    
-                    ZStack (alignment: .bottom){
-                        NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)){
-                            Image("persona-homepage")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth:.infinity)
+                            WaveAnimateView()
+                           
+                            VStack {
+                                
+                            }.frame(maxWidth: .infinity, maxHeight: .infinity).background(.primary1)
+                            
                         }
                         
-                        Text("Ketuk aku untuk mulai bercerita")
-                            .font(.body)
-                            .foregroundColor(Color.white)
-                            .padding(.bottom, 30)
                         
-                    }
-                    .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
+                        ZStack (alignment: .bottom){
+                            NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)){
+                                Image("persona-homepage")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxWidth:.infinity)
+                            }
+                            
+                            Text("Ketuk aku untuk mulai bercerita")
+                                .font(.body)
+                                .foregroundColor(Color.white)
+                                .padding(.bottom, 30)
+                            
+                        }
+                        .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
+                        
+                    }.edgesIgnoringSafeArea(.all)
                     
-                }.edgesIgnoringSafeArea(.all)
-                
-                
-                
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    //backbutton
-//                    Button(action: {
-//                    }){
-//                        Image(systemName: "text.bubble")
-//                            .foregroundColor(.primary6)
-//                    }
-                    Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
-                        Image(systemName: "repeat")
-                    }
+                    
+                    
                 }
-                
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        //backbutton
+    //                    Button(action: {
+    //                    }){
+    //                        Image(systemName: "text.bubble")
+    //                            .foregroundColor(.primary6)
+    //                    }
+                        Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
+                            Image(systemName: "repeat")
+                        }
+                    }
+                    
+                }
             }
+            
             
         }
     }
-    
-    //    }
 }
 
 

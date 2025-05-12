@@ -9,17 +9,27 @@ import SwiftUI
 
 struct onboarding3: View {
     @AppStorage("userNickname") private var nickname = ""
+    @Environment(\.dismiss) var dismiss
+    
     @State private var tempNickname: String = ""
     @State private var goHome = false
+    
+    @FocusState private var isTextFieldFocused: Bool
+    
     var body: some View {
-        NavigationStack{
+      
             ZStack(alignment: .bottom){
+                Color("bg-custom")
+                    .edgesIgnoringSafeArea(.all)
+                
                 Image("onboarding3")
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
+                    .offset(x: 0, y: isTextFieldFocused ? -100 : 0)
+                    
                 VStack(spacing: 20) {
-                    Spacer()
+                    
                     // Title
                     VStack{
                         VStack(spacing: 15){
@@ -36,7 +46,7 @@ struct onboarding3: View {
                                     .multilineTextAlignment(.center)
                             }
                             VStack {
-                                TextField("Masukkan namamu di sini", text: $tempNickname)
+                                TextField("", text: $tempNickname, prompt: Text("Tuliskan di sini…").foregroundStyle(.gray))
                                     .padding(12)
                                     .font(.system(.title2, design: .rounded))
                                     .fontWeight(.bold)
@@ -46,8 +56,15 @@ struct onboarding3: View {
                                     .background(Color(.primary2))
                                     .cornerRadius(8)
                                     .frame(width: 347)
+                                    .focused($isTextFieldFocused)
                             }
-                            // Button
+                           
+                           
+                        }
+                        .padding(.bottom, isTextFieldFocused ? 100 : 0)
+                       
+                        
+                        VStack{
                             NavigationLink(
                                 destination: HomeView()
                                     .navigationBarBackButtonHidden(true),
@@ -56,6 +73,7 @@ struct onboarding3: View {
                                 EmptyView()
                             }
                             .hidden()
+                            
                             Button("Simpan") {
                                 nickname = tempNickname
                                 goHome = true
@@ -67,11 +85,20 @@ struct onboarding3: View {
                             .cornerRadius(15).disabled(tempNickname.isEmpty)
                         }
                         .padding(.bottom, 170)
+                        .padding(.top, 20)
                     }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.backward").foregroundColor(Color.primary6)
+                    }
+                }
         }
     }
     

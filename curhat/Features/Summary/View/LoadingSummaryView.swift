@@ -14,7 +14,7 @@ struct LoadingSummaryView: View {
     
     @Binding var rootIsActive : Bool
     
-    let logPrompts: [String]
+    let logPrompts: [(user: String, modelResponse: String)]
     
     @State private var summaryText: String = "ini summary"
     @State private var shouldNavigate = false
@@ -92,25 +92,25 @@ struct LoadingSummaryView: View {
     func summary() {
         let summaryPrompt = """
         
-        Nama user = \(nickname)
-        Buatkan ringkasan dari cerita  user, ini log ceritanya:
+        Nama user: \(nickname)  
+        Nama model (teman curhat): Mochi  
+
+        Berikut ini adalah log cerita lengkap dari user:
         \(logPrompts)
         
-        kamu harus pakai bahasa untuk orang berusia 18-25 tahun
-        
-        jangan terlalu kaku 
-        
-        dan tambahkan kata penyemangat diakhir berdasarkan ceritanya
+        Tugasmu:  
+        Buatkan **ringkasan singkat** dari cerita user di atas. Gunakan gaya bahasa santai dan mudah dimengerti untuk anak muda usia 18–25 tahun.  
+
+        Jangan terlalu kaku atau formal — kamu adalah Mochi, teman curhat yang bisa bikin orang ngerasa ditemenin.
+
+        Terakhir, tambahkan **kata-kata penyemangat** di akhir ringkasan, yang relevan dan sesuai dengan isi cerita user.  
+        Jangan terlalu lebay, tapi tetap hangat dan menyentuh.
         """
         
         Task {
             do {
-                print("masuk")
                 let result = try await model.generateContent(summaryPrompt)
                 summaryText = result.text ?? ""
-                
-                print("Hasil: \(summaryText)")
-                
 
                 // Complete the loading animation and then navigate
                 withAnimation(.easeOut(duration: 0.5)) {
@@ -123,7 +123,7 @@ struct LoadingSummaryView: View {
                 }
                 
             } catch {
-                summaryText = "Error: \(error.localizedDescription)"
+                summaryText = "Maaf moci tidak bisa membuat ringkasan saat ini. coba lagi beberapa saat :)"
                 print(error)
                 
                 // Complete loading bar even with error

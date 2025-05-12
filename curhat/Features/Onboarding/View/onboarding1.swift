@@ -13,11 +13,11 @@ struct onboarding1: View {
     @State private var isNavigating = false
     @Namespace private var transitionNamespace
     var body: some View {
-        //        if (!nickname.isEmpty){
-        //            HomeView()
-        //        }else{
             NavigationStack {
                 ZStack(alignment: .bottom) {
+                    Color("bg-custom")
+                        .edgesIgnoringSafeArea(.all)
+                    
                     Image("onboarding1")
                         .resizable()
                         .scaledToFit()
@@ -64,12 +64,13 @@ struct onboarding1: View {
                 }
                 .ignoresSafeArea()
             }
-        }
+        
     }
+}
 
-    struct onboarding1_Previews: PreviewProvider {
-        static var previews: some View {
-            onboarding1()
-        }
+struct onboarding1_Previews: PreviewProvider {
+    static var previews: some View {
+        onboarding1()
     }
+}
 

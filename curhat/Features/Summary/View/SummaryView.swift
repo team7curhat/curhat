@@ -69,10 +69,9 @@ struct SummaryView: View {
                                 HStack(alignment: .center, spacing:36) {
                                     
                                   
-                                    
                                     NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)) {
                                         VStack(alignment: .center, spacing:0) {
-                                            Image("mau cerita lagi")
+                                            Image("mau cerita lagi").resizable().scaledToFit().frame(width: 150, height: 150)
                                             Text("Butuh cerita lagi")
                                                 .foregroundStyle(Color("primary-6"))
                                                 .font(.title2)
@@ -83,7 +82,7 @@ struct SummaryView: View {
                                     
                                     NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
                                         VStack(alignment: .center, spacing:0) {
-                                            Image("lega")
+                                            Image("lega").resizable().scaledToFit().frame(width: 150, height: 150)
                                             Text("Lebih lega")
                                                 .foregroundStyle(Color("primary-6"))
                                                 .font(.title2)

@@ -50,266 +50,273 @@ struct StoryView: View {
     @State private var isStoryDone: Bool = false
     
     var body: some View {
-        
-        VStack(spacing: 0) {
+        ZStack{
+            Color("bg-custom")
+                .edgesIgnoringSafeArea(.all)
             
-            HStack {
-                // Back button
-                if(promptManager.promptLimit == 0){
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundColor(Color("primary-6"))
-                            .font(.system(size: 17, weight: .semibold))
-                    }
-                }
+            VStack(spacing: 0) {
                 
-                
-                Spacer()
-                
-                
-                if(promptManager.promptLimit != 0 ){
-                    if (!isStoryDone){
-                        Text("Selesai bercerita")
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .foregroundColor(Color("primary-6"))
-                            .onTapGesture {
-                                tempFeedback = promptManager.feedback;
-                                tempFollowUp = promptManager.followUp;
-                                promptManager.feedback = "Apakah kamu sudah merasa cukup untuk sekarang?";
-                                promptManager.followUp = "";
-                                isStoryDone = true; hasKeyboardShownOnce = false}
-                    }
-                    else{
-                        Image(systemName: "xmark").resizable().scaledToFit()
-                           .frame(width: 24, height: 24)
-                            .foregroundStyle(Color("primary-6"))
-                            .onTapGesture {
-                            promptManager.feedback = tempFeedback;
-                            promptManager.followUp = tempFollowUp;
-                            isStoryDone = false; hasKeyboardShownOnce = true}
-                    }
-                    
-                    
-                   
-                    
-                    
-                    
-                    
-                    
-                }
-                
-            }
-            .padding(.horizontal,24)
-            .padding(.vertical, 12)
-            
-            VStack{
-                
-                if(hasKeyboardShownOnce){
-               
-                    ZStack(alignment: .topLeading){
-                        VStack{
-                            if(promptManager.isLoading){
-                                LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                    .frame(width: 130.62, height: 106)
-                           }
-                           else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
-                               LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                   .frame(width: 130.62, height: 106)
-                           }
-                           else{
-                               LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                   .frame(width: 130.62, height: 106)
-                               
-                               
-                           }
-                        }.offset(x: -60, y: 0)
-                         
-                        
-                        BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShownOnce).frame(width: 280).offset(x: 45, y: 0)
-                    }
-                    .padding(.bottom, 8)
-                    
-                    
-                    //divider
-                    Rectangle()
-                        .fill(Color(.gray.opacity(0.2)))
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 1)
-                }else{
-                    Spacer(minLength: isTextFieldFocused ? 0 : 60 )
-                    VStack{
-                        BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShown)
-                        if promptManager.isLoading {
-                            LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                .frame(width: 172, height: 174)
+                HStack {
+                    // Back button
+                    if(promptManager.promptLimit == 0){
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Image(systemName: "chevron.backward")
+                                .foregroundColor(Color("primary-6"))
+                                .font(.system(size: 17, weight: .semibold))
                         }
-                        else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
-                            LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                .frame(width: 172, height: 174)
+                    }
+                    
+                    
+                    Spacer()
+                    
+                    
+                    if(promptManager.promptLimit != 0 ){
+                        if (!isStoryDone){
+                            Text("Selesai bercerita")
+                                .font(.body)
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color("primary-6"))
+                                .onTapGesture {
+                                    tempFeedback = promptManager.feedback;
+                                    tempFollowUp = promptManager.followUp;
+                                    promptManager.feedback = "Apakah kamu sudah merasa cukup untuk sekarang?";
+                                    promptManager.followUp = "";
+                                    isStoryDone = true; hasKeyboardShownOnce = false}
                         }
                         else{
-                            LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                .frame(width: 172, height: 174)
+                            Image(systemName: "xmark").resizable().scaledToFit()
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(Color("primary-6"))
+                                .onTapGesture {
+                                    promptManager.feedback = tempFeedback;
+                                    promptManager.followUp = tempFollowUp;
+                                    isStoryDone = false; hasKeyboardShownOnce = true}
                         }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                     }
+                    
                 }
+                .padding(.horizontal,24)
+                .padding(.vertical, 12)
                 
-                if(isStoryDone){
-                    Spacer()
-                    HStack(alignment: .center, spacing: 20){
-                        VStack{
-                            Image("story-sudah").resizable().scaledToFit().frame(width: 136, height: 111)
-                            Text("Iya, sudah cukup").font(.headline).fontWeight(.semibold).foregroundStyle(Color("primary-6"))
-                               
-                                
+                VStack{
+                    
+                    if(hasKeyboardShownOnce){
+                        
+                        ZStack(alignment: .topLeading){
+                            VStack{
+                                if(promptManager.isLoading){
+                                    LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                        .frame(width: 130.62, height: 106)
+                                }
+                                else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
+                                    LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                        .frame(width: 130.62, height: 106)
+                                }
+                                else{
+                                    LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                        .frame(width: 130.62, height: 106)
+                                    
+                                    
+                                }
+                            }.offset(x: -60, y: 0)
+                            
+                            
+                            BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShownOnce).frame(width: 280).offset(x: 45, y: 0)
                         }
-                        .onTapGesture {shouldNavigate = true}
+                        .padding(.bottom, 8)
+                        
+                        
+                        //divider
+                        Rectangle()
+                            .fill(Color(.gray.opacity(0.2)))
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 1)
+                    }else{
+                        Spacer(minLength: isTextFieldFocused ? 0 : 60 )
+                        VStack{
+                            BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShown)
+                            if promptManager.isLoading {
+                                LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                    .frame(width: 172, height: 174)
+                            }
+                            else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
+                                LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                    .frame(width: 172, height: 174)
+                            }
+                            else{
+                                LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                    .frame(width: 172, height: 174)
+                            }
+                        }
                     }
-                    Spacer()
                     
-                    
-                    
-                    
-                }else{
-                    
-                    VStack{
-                        ZStack(alignment: .bottom){
-                            ScrollView{
-                                VStack{
-                                    
-                                    TextField("Tuliskan di sini…", text: $promptManager.userPrompt, axis: .vertical)
-                                        .opacity(isMicActive ? 0 : 1)
-                                        .disableAutocorrection(true)
-                                        .multilineTextAlignment(hasKeyboardShownOnce ? .leading : .center)
-                                        .focused($isTextFieldFocused)       // ← this makes i focusable
-                                        .padding(12)
-                                        .frame(maxWidth: .infinity)
-                                    
-                                        .toolbar {
-                                            ToolbarItemGroup(placement: .keyboard) {
-                                                Spacer()
-                                                Button("Selesai") {
-                                                    // 3️⃣ Dismiss when “Done” is tapped
-                                                    isTextFieldFocused = false
-                                                    
-                                                    if(promptManager.userPrompt != ""){
-                                                        promptManager.generateResponse()
+                    if(isStoryDone){
+                        Spacer()
+                        HStack(alignment: .center, spacing: 20){
+                            VStack{
+                                Image("story-sudah").resizable().scaledToFit().frame(width: 136, height: 111)
+                                Text("Iya, sudah cukup").font(.headline).fontWeight(.semibold).foregroundStyle(Color("primary-6"))
+                                
+                                
+                            }
+                            .onTapGesture {shouldNavigate = true}
+                        }
+                        Spacer()
+                        
+                        
+                        
+                        
+                    }else{
+                        
+                        VStack{
+                            ZStack(alignment: .bottom){
+                                ScrollView{
+                                    VStack{
+                                        
+                                        TextField("", text: $promptManager.userPrompt, prompt: Text("Tuliskan di sini…").foregroundStyle(.gray), axis: .vertical)
+                                            .foregroundStyle(.black)
+                                            .opacity(isMicActive ? 0 : 1)
+                                            .disableAutocorrection(true)
+                                            .multilineTextAlignment(hasKeyboardShownOnce ? .leading : .center)
+                                            .focused($isTextFieldFocused)       // ← this makes i focusable
+                                            .padding(12)
+                                            .frame(maxWidth: .infinity)
+                                            .toolbar {
+                                                ToolbarItemGroup(placement: .keyboard) {
+                                                    Spacer()
+                                                    Button("Selesai") {
+                                                        // 3️⃣ Dismiss when “Done” is tapped
+                                                        isTextFieldFocused = false
+                                                        
+                                                        if(promptManager.userPrompt != ""){
+                                                            promptManager.generateResponse()
+                                                        }
+                                                        
                                                     }
-                                                    
                                                 }
                                             }
-                                        }
-                                        .onChange(of: isTextFieldFocused) { focused in
-                                            hasKeyboardShown = focused
-                                            hasKeyboardShownOnce = true
-                                            if focused {
-                                                isMicActive = false
-                                                isSpeaking = false
+                                            .onChange(of: isTextFieldFocused) { focused in
+                                                hasKeyboardShown = focused
+                                                hasKeyboardShownOnce = true
+                                                if focused {
+                                                    isMicActive = false
+                                                    isSpeaking = false
+                                                }
                                             }
-                                        }
                                         
-                                    
-                                }
-                            }
-                            
-                            LottieView(animation: .named("SoundWave2")).playbackMode(.playing(.toProgress(1, loopMode: .loop))).animationSpeed(1.2)
-                                .frame(width: 80, height: 80)
-                            
-                            // fixed size so layout never changes
-                                .opacity(isMicActive ? 1 : 0)
-                                .offset(x: 0, y: 10)
-                            // hidden when off
-                        }
-                        
-                    }.padding(.top,20)
-                    
-                    
-                    Spacer()
-                    
-                    
-                    
-                    
-                    
-                    ZStack{
-                        HStack(alignment: .center, spacing: 48) {
-                            
-                            //keyboard button
-                            KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, hasKeyboardShownOnce: $hasKeyboardShownOnce, isLoading: $promptManager.isLoading).onChange(of: hasKeyboardShown) { newValue in
-                                isTextFieldFocused = newValue
-                                print("Keyboard Button Tapped \(hasKeyboardShown)")
-                                if hasKeyboardShown == false {
-                                    isTextFieldFocused = false
-//                                    if promptManager.userPrompt != "" {
-//                                        promptManager.generateResponse()
-//                                    }
-                                }
-                            }
-                            
-                            //mic button
-                            MicButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, isLoading: $promptManager.isLoading).onChange(of: isMicActive) { newValue in
-                                
-                                
-                                if isMicActive == false {
-                                    //jika di nonaktifkan akan meminta response prompt
-                                    speechRecognizer.stopRecording()
-                                    speechRecognizer.transcribedText = ""
-                                    if promptManager.userPrompt != "" {
-                                        promptManager.generateResponse()
                                         
                                     }
-                                } else {
-                                    //jika diaktifkan akan merekam suara
-                                    isSpeaking = false
-                                    speechManager.stop()
-                                    try! speechRecognizer.restartAudioBuffer()
-                                    
                                 }
+                                
+                                LottieView(animation: .named("SoundWave2")).playbackMode(.playing(.toProgress(1, loopMode: .loop))).animationSpeed(1.2)
+                                    .frame(width: 80, height: 80)
+                                
+                                // fixed size so layout never changes
+                                    .opacity(isMicActive ? 1 : 0)
+                                    .offset(x: 0, y: 10)
+                                // hidden when off
+                            }
+                            
+                        }.padding(.top,20)
+                        
+                        
+                        Spacer()
+                        
+                        
+                        
+                        
+                        
+                        ZStack{
+                            HStack(alignment: .center, spacing: 48) {
+                                
+                                //keyboard button
+                                KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, hasKeyboardShownOnce: $hasKeyboardShownOnce, isLoading: $promptManager.isLoading).onChange(of: hasKeyboardShown) { newValue in
+                                    isTextFieldFocused = newValue
+                                    print("Keyboard Button Tapped \(hasKeyboardShown)")
+                                    if hasKeyboardShown == false {
+                                        isTextFieldFocused = false
+                                        //                                    if promptManager.userPrompt != "" {
+                                        //                                        promptManager.generateResponse()
+                                        //                                    }
+                                    }
+                                }
+                                
+                                //mic button
+                                MicButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, isLoading: $promptManager.isLoading).onChange(of: isMicActive) { newValue in
+                                    
+                                    
+                                    if isMicActive == false {
+                                        //jika di nonaktifkan akan meminta response prompt
+                                        speechRecognizer.stopRecording()
+                                        speechRecognizer.transcribedText = ""
+                                        if promptManager.userPrompt != "" {
+                                            promptManager.generateResponse()
+                                            
+                                        }
+                                    } else {
+                                        //jika diaktifkan akan merekam suara
+                                        isSpeaking = false
+                                        speechManager.stop()
+                                        try! speechRecognizer.restartAudioBuffer()
+                                        
+                                    }
+                                }
+                                
                             }
                             
                         }
                         
                     }
                     
+                    
                 }
-                
+                .padding(.horizontal)
                 
             }
-            .padding(.horizontal)
+            .onAppear {
+                
+                if(emotionName == "senang"){
+                    promptManager.feedback = "Apa yang sedang kamu rasakan sekarang ?"
+                    promptManager.expression = "senang-start"
+                }
+            }
+            .onChange(of: promptManager.promptLimit) { newValue in
+                if newValue >= 10 {
+                    promptManager.promptLimit = 0
+                    
+                    shouldNavigate = true
+                    
+                }
+            }
             
-        }
-        .onAppear {
+            .onChange(of: speechRecognizer.transcribedText) { newValue in
+                promptManager.userPrompt = newValue
+            }
             
-            if(emotionName == "senang"){
-                promptManager.feedback = "Apa yang sedang kamu rasakan sekarang ?"
-                promptManager.expression = "senang-start"
-            }
-        }
-        .onChange(of: promptManager.promptLimit) { newValue in
-            if newValue >= 10 {
-                promptManager.promptLimit = 0
-              
-                shouldNavigate = true
-                
-            }
-        }
-        
-        .onChange(of: speechRecognizer.transcribedText) { newValue in
-            promptManager.userPrompt = newValue
-        }
-        
-        // hidden link that actually does the navigation
-        .background(
-            NavigationLink(
-                destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: promptManager.logPrompts).navigationBarBackButtonHidden(true),      // <-- the view you want to go t
-                isActive: $shouldNavigate,
-                label: { EmptyView() }
+            // hidden link that actually does the navigation
+            .background(
+                NavigationLink(
+                    destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: promptManager.logPrompts).navigationBarBackButtonHidden(true),      // <-- the view you want to go t
+                    isActive: $shouldNavigate,
+                    label: { EmptyView() }
+                )
+                .isDetailLink(false)
+                .hidden()
             )
-            .isDetailLink(false)
-            .hidden()
-        )
+            
+        }
+        
+        
         
         
     }
