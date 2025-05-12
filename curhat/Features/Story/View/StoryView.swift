@@ -181,6 +181,7 @@ struct StoryView: View {
                                 VStack{
                                     
                                     TextField("Tuliskan di sini…", text: $promptManager.userPrompt, axis: .vertical)
+                                        .opacity(isMicActive ? 0 : 1)
                                         .disableAutocorrection(true)
                                         .multilineTextAlignment(hasKeyboardShownOnce ? .leading : .center)
                                         .focused($isTextFieldFocused)       // ← this makes i focusable
@@ -209,6 +210,7 @@ struct StoryView: View {
                                                 isSpeaking = false
                                             }
                                         }
+                                        
                                     
                                 }
                             }
