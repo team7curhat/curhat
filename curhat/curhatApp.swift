@@ -12,7 +12,7 @@ struct curhatApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView{
-                onboarding1()
+                onboarding1().font(.system(.body, design: .rounded))
             }
            
         }

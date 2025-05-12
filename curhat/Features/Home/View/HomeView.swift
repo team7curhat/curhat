@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @AppStorage("userNickname") private var nickname: String = "dano"
+    @AppStorage("userNickname") private var nickname: String = ""
     
     var body: some View {
         if(nickname.isEmpty){
@@ -67,14 +67,14 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     //backbutton
-                    Button(action: {
-                    }){
-                        Image(systemName: "text.bubble")
-                            .foregroundColor(.primary6)
-                    }
-//                    Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
-//                        Image(systemName: "repeat")
+//                    Button(action: {
+//                    }){
+//                        Image(systemName: "text.bubble")
+//                            .foregroundColor(.primary6)
 //                    }
+                    Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
+                        Image(systemName: "repeat")
+                    }
                 }
                 
             }

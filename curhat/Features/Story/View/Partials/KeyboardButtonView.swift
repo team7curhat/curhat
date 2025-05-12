@@ -11,13 +11,14 @@ struct KeyboardButtonView: View {
     @Binding var isMicActive: Bool
     @Binding var isSpeaking: Bool
     @Binding var hasKeyboardShownOnce: Bool
+    @Binding var isLoading: Bool
     
     @StateObject private var promptManager = PromptManager()
     
     var body: some View {
         let keyboardColor: Color = hasKeyboardShown ? Color("primary-6") : .white
-        let keyboardBorderColor: Color = isMicActive ? Color("gray-disabled"): Color("primary-6")
-        let keyboardIconColor: Color = hasKeyboardShown ? Color(.white) : (isMicActive ? Color("gray-disabled"): Color("primary-6"))
+        let keyboardBorderColor: Color = isLoading ? Color("gray-disabled") : (isMicActive ? Color("gray-disabled"): Color("primary-6"))
+        let keyboardIconColor: Color = isLoading ? Color("gray-disabled") : (hasKeyboardShown ? Color(.white) : (isMicActive ? Color("gray-disabled"): Color("primary-6")))
         
         Circle()
             .fill(keyboardColor)
@@ -38,10 +39,10 @@ struct KeyboardButtonView: View {
                 hasKeyboardShown.toggle()
                 hasKeyboardShownOnce = true
              
-                if hasKeyboardShown {
-                    isMicActive = false
-                    isSpeaking = false
-                }
+//                if hasKeyboardShown {
+////                    isMicActive = false
+//                    isSpeaking = false
+//                }
                 
             }
     }

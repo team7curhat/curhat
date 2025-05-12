@@ -10,6 +10,7 @@ import Lottie
 struct SummaryView: View {
     @Binding var shouldPopToRootView : Bool
     let summary: String
+    @StateObject private var promptManager = PromptManager()
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -102,9 +103,11 @@ struct SummaryView: View {
                     }
                 }
             }
-            
             .navigationBarBackButtonHidden(true)
             .ignoresSafeArea(.all, edges: [.top, .bottom]) // Ignore safe areas to extend content fully
+            .onAppear {
+                promptManager.logPrompts.removeAll()
+            }
         }
     }
 }

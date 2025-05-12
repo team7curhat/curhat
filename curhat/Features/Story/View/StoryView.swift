@@ -108,28 +108,32 @@ struct StoryView: View {
             VStack{
                 
                 if(hasKeyboardShownOnce){
-                    
-                    HStack(alignment: .top, spacing:0){
-                       
-                         if(promptManager.isLoading){
-                             LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                 .frame(width: 130.62, height: 106)
-                        }
-                        else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
-                            LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                .frame(width: 130.62, height: 106)
-                        }
-                        else{
-                            LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
-                                .frame(width: 130.62, height: 106)
-                            
-                            
-                        }
+               
+                    ZStack(alignment: .topLeading){
+                        VStack{
+                            if(promptManager.isLoading){
+                                LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                    .frame(width: 130.62, height: 106)
+                           }
+                           else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
+                               LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                   .frame(width: 130.62, height: 106)
+                           }
+                           else{
+                               LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                   .frame(width: 130.62, height: 106)
+                               
+                               
+                           }
+                        }.offset(x: -60, y: 0)
+                         
                         
-                        BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShownOnce)
+                        BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShownOnce).frame(width: 280).offset(x: 45, y: 0)
                     }
                     .padding(.bottom, 8)
                     
+                    
+                    //divider
                     Rectangle()
                         .fill(Color(.gray.opacity(0.2)))
                         .frame(maxWidth: .infinity)
@@ -231,14 +235,14 @@ struct StoryView: View {
                         HStack(alignment: .center, spacing: 48) {
                             
                             //keyboard button
-                            KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, hasKeyboardShownOnce: $hasKeyboardShownOnce).onChange(of: hasKeyboardShown) { newValue in
+                            KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, hasKeyboardShownOnce: $hasKeyboardShownOnce, isLoading: $promptManager.isLoading).onChange(of: hasKeyboardShown) { newValue in
                                 isTextFieldFocused = newValue
                                 print("Keyboard Button Tapped \(hasKeyboardShown)")
                                 if hasKeyboardShown == false {
                                     isTextFieldFocused = false
-                                    if promptManager.userPrompt != "" {
-                                        promptManager.generateResponse()
-                                    }
+//                                    if promptManager.userPrompt != "" {
+//                                        promptManager.generateResponse()
+//                                    }
                                 }
                             }
                             
@@ -284,7 +288,7 @@ struct StoryView: View {
         .onChange(of: promptManager.promptLimit) { newValue in
             if newValue >= 10 {
                 promptManager.promptLimit = 0
-                promptManager.logPrompts.removeAll()
+              
                 shouldNavigate = true
                 
             }

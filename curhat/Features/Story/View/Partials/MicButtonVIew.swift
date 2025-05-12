@@ -43,7 +43,8 @@ struct MicButtonView: View {
                 //jika keyboard aktif, seluruh aksi tidak dapat dilakukan
 //                if hasKeyboardShown == false {
                     //jika diaktifkan akan menonaktifkan keyboard
-                isMicActive.toggle(); hasKeyboardShown = false
+                isMicActive.toggle();
+                hasKeyboardShown = false
 //                    if isMicActive {
 //                        
 //                    } 
@@ -55,3 +56,4 @@ struct MicButtonView: View {
     }
     
 }
+

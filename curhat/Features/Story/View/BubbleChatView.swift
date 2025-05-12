@@ -36,7 +36,7 @@ struct BubbleChatView: View {
                         .stroke(Color("primary-3"), lineWidth: 1)
                 )
                 .rotationEffect(.degrees(isKeyboardActive ? 50 : 180))
-                .offset(x: 0, y: isKeyboardActive ? 5 : 10)
+                .offset(x: 0, y: isKeyboardActive ? 25 : 10)
             
             // 2. The bubble content:
             ScrollView {
@@ -71,7 +71,7 @@ struct BubbleChatView: View {
                 .fill(Color("primary-1"))
                 .opacity(isKeyboardActive ? 1 : 0)
                 .frame(width: 4, height: 19)
-                .offset(x: 14, y: 10)
+                .offset(x: 14, y: 30)
             
         }
     }

@@ -25,6 +25,107 @@ class PromptManager: ObservableObject, Sendable {
     
     @AppStorage("userNickname") private var nickname: String = ""
     
+//    func generateResponse() {
+//        let fullPrompt = """
+//        
+//        Nama user = \(nickname)
+//         
+//        jadilah teman curhat seperti persona ini:
+//                        - jadi pribadi yang supportive dan tidak lebay
+//                        - kamu bisa pakai bahasa untuk orang berusia 18-25 tahun
+//        
+//                          gunakan struktur percakapan curhat sebagai panduan dalam menyusun respons:
+//                        1. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, dimana, kapan, mengapa, dan bagaimana 
+//                        2. **Reflection**: bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
+//                        3. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
+//        
+//                        Berikut log cerita user, analisis dan jadikan log cerita ini acuan pertanyaan selanjutnya:
+//                        \(logPrompts)
+//        
+//                        Berikut ini adalah jawaban dari user:
+//                        \(userPrompt)
+//                        
+//                        Tugasmu:
+//        
+//                        - buat user merasa diperhatikan dengan menyebut namanya
+//                        - Analisis teks user tersebut dan tentukan ekspresi emosinya (hanya satu dari: senang atau sedih).
+//                        - Buatkan pertanyaan lanjutan (follow-up question) sesuai dengan tahap **struktur curhat** yang paling relevan saat ini.
+//                        - Berikan feedback yang singkat maksimal 5 kata namun bermakna, sesuai dengan persona yang supportive dan tidak lebay.
+//                        - runtutan setiap bertanya adalah berikan dia feedback dulu baru kamu boleh lanjut kasih pertanyaan.
+//                        - jangan mengulang ulang pertanyaan sebelumnya
+//                        - jika user tidak ingin bercerita, lanjutkan ke tahapan selanjutnya.
+//                       
+//        
+//        ⚠️ Jawab hanya dalam 1 objek JSON, contoh:
+//        {"expression":"senang","follow_up_question":"Apa …?","feedback":"Keren …"}
+//        JANGAN gunakan array untuk `expression`, dan JANGAN sertakan ```json fences```. PERHATIKAN JANGAN GUNAKAN ```json fences```.
+//        
+//        """
+//        
+//        isLoading = true
+//        feedback    = "..."
+//        followUp    = ""
+//        speechManager.stop()
+//        
+//        logPrompts.append(userPrompt)
+//        
+//        Task {
+//            let startTime = Date()
+//
+//            // 1. Do your model call + JSON parsing + UI updates
+//            do {
+//                let result = try await model.generateContent(fullPrompt)
+//                let text   = result.text ?? ""
+//                
+//                DispatchQueue.main.async {
+//                    self.promptLimit += 1
+//                    self.userPrompt = ""
+//                }
+//                
+//                if
+//                    let data    = text.data(using: .utf8),
+//                    let decoded = try? JSONDecoder().decode(FeedbackResponse.self, from: data)
+//                {
+//                    DispatchQueue.main.async {
+//                        self.expression = decoded.expression.lowercased()
+//                        self.feedback   = decoded.feedback
+//                        self.followUp   = decoded.followUp
+//                    }
+//                } else {
+//                    // fallback if JSON decode fails
+//                    DispatchQueue.main.async {
+//                        self.expression = "sedih"
+//                        self.feedback   = text
+//                        self.followUp   = ""
+//                    }
+//                }
+//                
+//            } catch {
+//                DispatchQueue.main.async {
+//                    self.promptLimit += 1
+//                    self.feedback     = "Error: \(error.localizedDescription)"
+//                    self.expression   = "sedih"
+//                    self.followUp     = ""
+//                    self.userPrompt   = ""
+//                }
+//                print("⛔️ generateResponse error:", error)
+//            }
+//
+//            // 2. Calculate elapsed and sleep to hit at least 0.75 s
+//            let elapsed    = Date().timeIntervalSince(startTime)
+//            let remaining  = max(0, 0.75 - elapsed)
+//            if remaining > 0 {
+//                try? await Task.sleep(nanoseconds: UInt64(remaining * 1_000_000_000))
+//            }
+//
+//            // 3. Finally clear the loading state
+//            DispatchQueue.main.async {
+//                self.isLoading = false
+//            }
+//        }
+//    }
+
+
     
     func generateResponse() {
         let fullPrompt = """
@@ -32,31 +133,29 @@ class PromptManager: ObservableObject, Sendable {
         Nama user = \(nickname)
          
         jadilah teman curhat seperti persona ini:
-                        - jadi pribadi yang supportive tetapi juga straight forward
+                        - jadi pribadi yang supportive dan tidak lebay
                         - kamu bisa pakai bahasa untuk orang berusia 18-25 tahun
+        
                           gunakan struktur percakapan curhat sebagai panduan dalam menyusun respons:
+                        1. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, dimana, kapan, mengapa, dan bagaimana 
+                        2. **Reflection**: bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
+                        3. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
         
-                        1. **Awareness**: tanyakan tentang emosi yang sedang dihadapi oleh user
-                        2. **Exploration**: tanyakan tentang kejadian yang mencakup siapa, apa, di mana, kapan, mengapa, dan bagaimana tapi jangan ditanya lagi kalau sudah dijelaskan diawal terkait siapa, apa, di mana, kapan, mengapa, dan bagaimananya buat bahasanya seperti best friend yang sangat care terhadap apa yang ingin diceritakan.
-                        3. **Reflection**: tanyakan kepada user apakah mereka bersedia untuk melakukan refleksi. Jika mereka setuju, bantu mereka mengeksplorasi pelajaran atau makna dari tahapan sebelumnya.
-                        4. **Regulation**: tanyakan langkah apa yang akan mereka ambil setelah melakukan refleksi.
-        
-                        Berikut log cerita user:
-                        
+                        Berikut log cerita user, analisis dan jadikan log cerita ini acuan pertanyaan selanjutnya:
                         \(logPrompts)
+        
                         Berikut ini adalah jawaban dari user:
-                        
                         \(userPrompt)
                         
                         Tugasmu:
         
-                        - buat user merasa diperhatikan dengan menyebut namanya
                         - Analisis teks user tersebut dan tentukan ekspresi emosinya (hanya satu dari: senang atau sedih).
                         - Buatkan pertanyaan lanjutan (follow-up question) sesuai dengan tahap **struktur curhat** yang paling relevan saat ini.
-                        - kamu hanya punya maksimal 10 pertanyaan
-                        - Berikan feedback yang singkat maksimal 5 kata namun bermakna, sesuai dengan persona yang supportive dan straight forward.
-                        - runtutan setiap bertanya adalah berikan dia feedback dulu baru kamu boleh lanjut kasih pertanyaan
-                        - maksimalkan 10 pertanyaan yang sesuai dengan **struktur curhat** untuk mendapatkan informasi apa, dimana, kapan, kenapa, siapa, bagaimana tapi jika sudah diceritakan dari beberapa informasi yang dibutuhkan kamu tidak perlu bertanya lagi.
+                        - Berikan feedback yang singkat maksimal 5 kata namun bermakna, sesuai dengan persona yang supportive dan tidak lebay.
+                        - runtutan setiap bertanya adalah berikan dia feedback dulu baru kamu boleh lanjut kasih pertanyaan.
+                        - jangan mengulang ulang pertanyaan sebelumnya
+                        - jika user tidak ingin bercerita, lanjutkan ke tahapan selanjutnya.
+                       
         
         ⚠️ Jawab hanya dalam 1 objek JSON, contoh:
         {"expression":"senang","follow_up_question":"Apa …?","feedback":"Keren …"}
@@ -71,25 +170,17 @@ class PromptManager: ObservableObject, Sendable {
         
         logPrompts.append(userPrompt)
         
-        print(logPrompts)
+        self.promptLimit += 1
+        print(" masuk")
         
         Task {
             
-            DispatchQueue.main.async {
-                do {
-                    self.isLoading = false;
-                    self.userPrompt = ""
-                }
-            }
+            
            
             do {
-                print("masuk")
                 let result = try await model.generateContent(fullPrompt)
                 let text   = result.text ?? ""
-                DispatchQueue.main.async {
-                    self.promptLimit += 1
-                }
-                print("Hasil: \(text)")
+                
                 if
                     let data = text.data(using: .utf8),
                     let decoded = try? JSONDecoder().decode(FeedbackResponse.self, from: data)
@@ -111,12 +202,18 @@ class PromptManager: ObservableObject, Sendable {
                     
                 }
             } catch {
-                promptLimit = promptLimit + 1
                 feedback = "Error: \(error.localizedDescription)"
                 followUp = ""
                 expression = "sedih"
                 
                 print(error)
+            }
+            
+            DispatchQueue.main.async {
+                do {
+                    self.isLoading = false;
+                    self.userPrompt = ""
+                }
             }
         }
         
