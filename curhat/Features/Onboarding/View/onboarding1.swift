@@ -12,29 +12,32 @@ struct onboarding1: View {
     //    @AppStorage("userNickname") private var nickname = ""
     @State private var isNavigating = false
     @Namespace private var transitionNamespace
+    @State private var isAnimating = false
     var body: some View {
-            NavigationStack {
-                ZStack(alignment: .bottom) {
-                    Color("bg-custom")
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    Image("onboarding1")
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                Color("bg-custom")
+                    .edgesIgnoringSafeArea(.all)
+                
+                Image("onboarding1")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
+                
+                VStack(spacing: 20) {
+                    Spacer()
+                    Image("Title")
                         .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
-                    
-                    VStack(spacing: 20) {
-                        Spacer()
-                        Image("Title")
-                            .resizable()
-                            .frame(width: 300, height: 100)
-                        Spacer()
-                        Spacer()
-                        Spacer()
+                        .frame(width: 300, height: 100)
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    VStack{
                         ZStack {
                             Image("Mulut")
                                 .resizable()
                                 .frame(width: 190, height: 101)
+                            
                             
                             Image("Gigi")
                                 .resizable()
@@ -45,25 +48,32 @@ struct onboarding1: View {
                                 }
                         }
                         .padding(.bottom, 1)
-                        
-                        Text("Ketuk gigiku untuk memulai")
-                            .font(.system(.headline, design: .rounded))
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding(.bottom, 60)
                     }
                     
-                    NavigationLink(
-                        destination: onboarding2()
-                            .navigationTransition(.zoom(sourceID: "gigi", in: transitionNamespace))
-                            .navigationBarBackButtonHidden(true),
-                        isActive: $isNavigating
-                    ) {
-                        EmptyView()
-                    }
+                    
+                    
+                    
+                    Text("Ketuk gigiku untuk memulai")
+                        .font(.system(.headline, design: .rounded))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.bottom, 60)
                 }
-                .ignoresSafeArea()
+                
+                NavigationLink(
+                    destination: onboarding2()
+                        .navigationTransition(.zoom(sourceID: "gigi", in: transitionNamespace))
+                        .navigationBarBackButtonHidden(true),
+                    isActive: $isNavigating
+                ) {
+                    EmptyView()
+                }
             }
+            .ignoresSafeArea()
+            .onAppear {
+                isAnimating = true
+            }
+        }
         
     }
 }

@@ -52,6 +52,7 @@ struct HomeView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(maxWidth:.infinity)
+                                   
                             }
                             
                             Text("Ketuk aku untuk mulai bercerita")
@@ -76,9 +77,9 @@ struct HomeView: View {
     //                        Image(systemName: "text.bubble")
     //                            .foregroundColor(.primary6)
     //                    }
-                        Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
-                            Image(systemName: "repeat")
-                        }
+//                        Button(action:{UserDefaults.standard.removeObject(forKey: "userNickname")} ){
+//                            Image(systemName: "repeat")
+//                        }
                     }
                     
                 }

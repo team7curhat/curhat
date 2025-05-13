@@ -94,6 +94,8 @@ struct SummaryView: View {
                                     
                                 }
                                 Image("bg-summary")
+                                    .resizable()
+                                    .scaledToFit()
                                     .padding(.top, 100)
                                     .id("_bottom")
                             }

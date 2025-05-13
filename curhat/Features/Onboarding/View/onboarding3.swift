@@ -26,7 +26,7 @@ struct onboarding3: View {
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
-                    .offset(x: 0, y: isTextFieldFocused ? -100 : 0)
+                    .offset(x: 0, y: isTextFieldFocused ? -100 : 0).animation(.bouncy, value: isTextFieldFocused)
                     
                 VStack(spacing: 20) {
                     
@@ -61,7 +61,7 @@ struct onboarding3: View {
                            
                            
                         }
-                        .padding(.bottom, isTextFieldFocused ? 100 : 0)
+                        .padding(.bottom, isTextFieldFocused ? 100 : 0).animation(.bouncy, value: isTextFieldFocused)
                        
                         
                         VStack{
