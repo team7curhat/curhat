@@ -49,6 +49,8 @@ struct StoryView: View {
     
     @State private var isStoryDone: Bool = false
     
+    
+    
     var body: some View {
         ZStack{
             Color("bg-custom")
@@ -74,16 +76,25 @@ struct StoryView: View {
                     
                     if(promptManager.promptLimit != 0 ){
                         if (!isStoryDone){
-                            Text("Selesai bercerita")
-                                .font(.body)
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color("primary-6"))
-                                .onTapGesture {
-                                    tempFeedback = promptManager.feedback;
-                                    tempFollowUp = promptManager.followUp;
-                                    promptManager.feedback = "Apakah kamu sudah merasa cukup untuk sekarang?";
-                                    promptManager.followUp = "";
-                                    isStoryDone = true; hasKeyboardShownOnce = false}
+                            HStack(alignment: .center, spacing: 20){
+                                
+                                   PopoverView()
+                                    
+                                    
+                                Text("Selesai bercerita")
+                                    .font(.body)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color("primary-6"))
+                                    .onTapGesture {
+                                        tempFeedback = promptManager.feedback;
+                                        tempFollowUp = promptManager.followUp;
+                                        promptManager.feedback = "Apakah kamu sudah merasa cukup untuk sekarang?";
+                                        promptManager.followUp = "";
+                                        isStoryDone = true;
+                                        hasKeyboardShownOnce = false
+                                    }
+                            }
+                            
                         }
                         else{
                             Image(systemName: "xmark").resizable().scaledToFit()
@@ -93,7 +104,7 @@ struct StoryView: View {
                                     promptManager.feedback = tempFeedback;
                                     promptManager.followUp = tempFollowUp;
                                     isStoryDone = false; hasKeyboardShownOnce = true}
-                        } 
+                        }
                     }
                     
                 }
@@ -126,6 +137,10 @@ struct StoryView: View {
                             BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShownOnce).frame(width: 280).offset(x: 45, y: 0)
                         }
                         .padding(.bottom, 8)
+                        .onShake {
+                            promptManager.reloadQuestions()
+                            print("Shaken!")
+                        }
                         
                         
                         //divider
@@ -149,6 +164,9 @@ struct StoryView: View {
                                 LottieView(animation: .named("happyDefaultIdle")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
                                     .frame(width: 172, height: 174)
                             }
+                        }.onShake {
+                            promptManager.reloadQuestions()
+                            print("Shaken!")
                         }
                     }
                     
