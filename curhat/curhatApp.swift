@@ -6,15 +6,16 @@
 // Test push Saki Pardano test
 
 import SwiftUI
+import SwiftData
 
 @main
 struct curhatApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationView{
-                onboarding1().font(.system(.body, design: .rounded))
-            }
-           
+            
+                HomeView().font(.system(.body, design: .rounded))
+         
         }
+        .modelContainer(for: [SummaryRecord.self, LogPrompt.self])
     }
 }

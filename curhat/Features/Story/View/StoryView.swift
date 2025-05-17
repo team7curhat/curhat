@@ -93,15 +93,7 @@ struct StoryView: View {
                                     promptManager.feedback = tempFeedback;
                                     promptManager.followUp = tempFollowUp;
                                     isStoryDone = false; hasKeyboardShownOnce = true}
-                        }
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                        } 
                     }
                     
                 }

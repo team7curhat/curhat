@@ -50,17 +50,12 @@ struct LoadingSummaryView: View {
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.7) // Make the bar 70% of screen width
                     .padding(.horizontal, 30)
-                    
-                    Text("Kita gak selalu harus kuat, kok! Gak papa kalau lagi merasa gak baik-baik saat ini ❤️")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .padding(.horizontal, 50).foregroundStyle(.white) .multilineTextAlignment(.center)
-                    
+              
                 }
                 .navigationBarBackButtonHidden(true) // Hide default back button
                 .background(
                     NavigationLink(
-                        destination: SummaryView(shouldPopToRootView: self.$rootIsActive, summary: summaryText ).navigationBarBackButtonHidden(true),      // Go to SummaryView
+                        destination: SummaryView(shouldPopToRootView: self.$rootIsActive, summary: summaryText, logPrompts: logPrompts ).navigationBarBackButtonHidden(true),      // Go to SummaryView
                         isActive: $shouldNavigate,
                         label: { EmptyView() }
                     )

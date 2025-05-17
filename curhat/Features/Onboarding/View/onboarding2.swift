@@ -12,7 +12,7 @@ import SwiftUI
 struct onboarding2: View {
     
     var body: some View {
-        NavigationStack{
+        VStack{
             ZStack(alignment: .bottom){
                 //=================================== Image =============================================
                 VStack {
@@ -60,14 +60,22 @@ struct onboarding2: View {
                             .foregroundStyle(.primary7)
                     }
                     //===================================  Button  ==========================================
-                    NavigationLink (destination:onboarding3().navigationBarBackButtonHidden(true)){Text("Mengerti")
+                    NavigationLink (destination:onboarding3().navigationBarBackButtonHidden(true)){
+                        Text("Mengerti")
                             .fontWeight(.bold)
                             .foregroundStyle(.primary7)
                             .frame(maxWidth:200)
                             .padding()
                             .background(Color.white)
-                        .cornerRadius(10)};Spacer();Spacer()}.padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)}
+                            .cornerRadius(10)
+                    }
+                    
+                    Spacer()
+                    Spacer()
+                }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
             .safeAreaPadding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -10,13 +10,19 @@ import Lottie
 struct SummaryView: View {
     @Binding var shouldPopToRootView : Bool
     let summary: String
+    let logPrompts: [(user: String, modelResponse: String)]
     @StateObject private var promptManager = PromptManager()
+    @Environment(\.modelContext) private var modelContext
+    @State private var navigateToHome = false
+    @State private var showingConfirmationDialog: Bool = false
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
                 // Background that extends to all edges
                 Color("primary-1")
                     .edgesIgnoringSafeArea(.all)
+                
                 ScrollViewReader { proxy in
                     ScrollView {
                         VStack {
@@ -41,78 +47,71 @@ struct SummaryView: View {
                                 .padding(.horizontal, 50)
                             }.padding(.horizontal, 12)
                             
-                            Button(action: {
-                                withAnimation {
-                                    proxy.scrollTo("_bottom", anchor: .bottom)
-                                }
-                            }){
-                                VStack(alignment: .center, spacing: 10) {
-                                    Text("Scroll ke bawah")
-                                        .foregroundStyle(Color("primary-6")).fontWeight(.medium)
-                                        .font(.caption)
-                                    Image(systemName: "chevron.down")
-                                        .foregroundStyle(Color("primary-7"))
-                                }
-                                .padding(.top, 16)
-                            }
+                            //                            Button(action: {
+                            //                                withAnimation {
+                            //                                    proxy.scrollTo("_bottom", anchor: .bottom)
+                            //                                }
+                            //                            }){
+                            //                                VStack(alignment: .center, spacing: 10) {
+                            //                                    Text("Scroll ke bawah")
+                            //                                        .foregroundStyle(Color("primary-6")).fontWeight(.medium)
+                            //                                        .font(.caption)
+                            //                                    Image(systemName: "chevron.down")
+                            //                                        .foregroundStyle(Color("primary-7"))
+                            //                                }
+                            //                                .padding(.top, 16)
+                            //                            }
+                            
+                            //                            SummaryOptionView(summary: summary, logPrompts: logPrompts)
                             
                             
                             
-                            VStack(alignment: .center, spacing:36) {
-                                Text("Bagaimana perasaanmu sekarang setelah bercerita?")
-                                    .foregroundStyle(Color("primary-6"))
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.top,75)
-                                    .frame(width: 250, height: 180)
-                                HStack(alignment: .center, spacing:36) {
-                                    
-                                  
-                                    NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)) {
-                                        VStack(alignment: .center, spacing:0) {
-                                            Image("mau cerita lagi").resizable().scaledToFit().frame(width: 150, height: 150)
-                                            Text("Butuh cerita lagi")
-                                                .foregroundStyle(Color("primary-6"))
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                                .multilineTextAlignment(.center)
-                                        }
-                                    }
-                                    
-                                    NavigationLink(destination: HomeView().navigationBarBackButtonHidden(true)) {
-                                        VStack(alignment: .center, spacing:0) {
-                                            Image("lega").resizable().scaledToFit().frame(width: 150, height: 150)
-                                            Text("Lebih lega")
-                                                .foregroundStyle(Color("primary-6"))
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                            .multilineTextAlignment(.center) }
-                                    }
-                                    
-                                    
-                                    
-                                }
-                                Image("bg-summary")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .padding(.top, 100)
-                                    .id("_bottom")
-                            }
-                        }.padding(.top, 60)
+                            
+                        }.padding(.top, 100)
                         
                     }
                 }
             }
-            .navigationBarBackButtonHidden(true)
-            .ignoresSafeArea(.all, edges: [.top, .bottom]) // Ignore safe areas to extend content fully
-            .onAppear {
-                promptManager.logPrompts.removeAll()
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingConfirmationDialog = true
+                    }) {
+                        Text("Selesai")
+                            .foregroundStyle(Color("primary-6"))
+                    }
+                    .confirmationDialog(Text("Konfirmasi"),
+                                        isPresented: $showingConfirmationDialog,
+                                        titleVisibility: .visible,
+                                        actions: {
+                        Button(action: {let logPromptModels = logPrompts.map {
+                            LogPrompt(userText: $0.user, modelResponse: $0.modelResponse)
+                        }
+                            let newSummary = SummaryRecord(summaryText: summary, logPrompts: logPromptModels)
+                            modelContext.insert(newSummary)
+                        navigateToHome = true}) { Text("Save")}
+                        Button(action: {navigateToHome = true}) {Text("Discard").foregroundStyle(Color.red) }
+                        Button("Cancel", role: .cancel) { }
+                    },
+                                        message: {
+                        Text("Simpen nggak?")
+                    }
+                    )
+                }
             }
+            .navigationBarBackButtonHidden(true)
+            .ignoresSafeArea(.all, edges: [.top, .bottom])
+            
+            NavigationLink(
+                destination: HomeView()
+                    .navigationBarBackButtonHidden(true),
+                isActive: $navigateToHome,
+                label: { EmptyView() }
+            )
         }
     }
 }
 
 #Preview {
-    SummaryView(shouldPopToRootView: .constant(false),summary: "Lorem ipsum dolor sit amet consectetur. Imperdiet donec ullamcorper purus diam pharetra tortor. Ultrices tincidunt pulvinar morbi tempor. Ultricies aenean et facilisi pellentesque odio orci. Quam velit non amet amet phasellus at eu lectus quam. Senectus tristique scelerisque in sagittis aliquam. Gravida rhoncus quam viverra porttitor donec aliquet. Elementum aliquet ut donec turpis malesuada dictum. Nunc ac proin dolor purus enim. Nunc amet volutpat phasellus ornare velit enim nec.Lorem ipsum dolor sit amet consectetur. Imperdiet donec ullamcorper purus diam pharetra tortor. Ultrices tincidunt pulvinar morbi tempor. Ultricies aenean et facilisi pellentesque odio orci. Quam velit non amet amet phasellus at eu lectus quam. Senectus tristique scelerisque in sagittis aliquam. Gravida rhoncus quam viverra porttitor donec aliquet. Elementum aliquet ut donec turpis malesuada dictum. Nunc ac proin dolor purus enim. Nunc amet volutpat phasellus ornare velit enim nec." )
+    SummaryView(shouldPopToRootView: .constant(false) ,summary: "Lorem ipsum dolor sit amet consectetur. Imperdiet donec ullamcorper purus diam pharetra tortor. Ultrices tincidunt pulvinar morbi tempor. Ultricies aenean et facilisi pellentesque odio orci. Quam velit non amet amet phasellus at eu lectus quam. Senectus tristique scelerisque in sagittis aliquam. Gravida rhoncus quam viverra porttitor donec aliquet.", logPrompts: [] )
 }

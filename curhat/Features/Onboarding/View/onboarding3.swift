@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct onboarding3: View {
-    @AppStorage("userNickname") private var nickname = ""
+    @AppStorage("userNickname") private var nickname = "joj"
     @Environment(\.dismiss) var dismiss
     
     @State private var tempNickname: String = ""
@@ -57,6 +57,9 @@ struct onboarding3: View {
                                     .cornerRadius(8)
                                     .frame(width: 347)
                                     .focused($isTextFieldFocused)
+                                    .onAppear {
+                                        tempNickname = nickname
+                                    }
                             }
                            
                            
@@ -65,14 +68,8 @@ struct onboarding3: View {
                        
                         
                         VStack{
-                            NavigationLink(
-                                destination: HomeView()
-                                    .navigationBarBackButtonHidden(true),
-                                isActive: $goHome
-                            ) {
-                                EmptyView()
-                            }
-                            .hidden()
+                           
+                           
                             
                             Button("Simpan") {
                                 nickname = tempNickname
@@ -83,6 +80,16 @@ struct onboarding3: View {
                             .padding(10)
                             .background(tempNickname.isEmpty ? Color.gray : Color.white)
                             .cornerRadius(15).disabled(tempNickname.isEmpty)
+                            
+                            NavigationLink(
+                                destination: HomeView()
+                                    .navigationBarBackButtonHidden(true),
+                                isActive: $goHome
+                            ) {
+                                EmptyView()
+                            }
+                            .hidden()
+                            
                         }
                         .padding(.bottom, 170)
                         .padding(.top, 20)

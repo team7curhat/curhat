@@ -75,14 +75,7 @@ struct BubbleChatView: View {
             
         }
     }
-    
-    /// Compute five lines + vertical padding.
-//    private var maxBubbleHeight: CGFloat {
-//        let lineHeight = UIFont.preferredFont(forTextStyle: .body).lineHeight
-//        let maxLines: CGFloat = 5
-//        let verticalPadding: CGFloat = 12 * 1  // top + bottom padding on Text
-//        return 120
-//    }
+
 }
 #Preview {
     BubbleChatView(message:"""

@@ -9,12 +9,10 @@ import SwiftUI
 
 
 struct onboarding1: View {
-    //    @AppStorage("userNickname") private var nickname = ""
     @State private var isNavigating = false
     @Namespace private var transitionNamespace
-    @State private var isAnimating = false
     var body: some View {
-        NavigationStack {
+        
             ZStack(alignment: .bottom) {
                 Color("bg-custom")
                     .edgesIgnoringSafeArea(.all)
@@ -50,9 +48,6 @@ struct onboarding1: View {
                         .padding(.bottom, 1)
                     }
                     
-                    
-                    
-                    
                     Text("Ketuk gigiku untuk memulai")
                         .font(.system(.headline, design: .rounded))
                         .fontWeight(.bold)
@@ -70,12 +65,7 @@ struct onboarding1: View {
                 }
             }
             .ignoresSafeArea()
-            .onAppear {
-                isAnimating = true
-            }
         }
-        
-    }
 }
 
 struct onboarding1_Previews: PreviewProvider {
