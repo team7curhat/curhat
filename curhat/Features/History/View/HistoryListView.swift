@@ -11,33 +11,93 @@ import SwiftData
 struct HistoryListView: View {
     @Query var summaries: [SummaryRecord]
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        return formatter
+    }()
+    
+    private let monthYearFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM"
+        return formatter
+    }()
     
     var body: some View {
-  
-                    List {
-                        ForEach(summaries) { summary in
-                            NavigationLink(destination: HistoryDetailView(summary: summary)) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(summary.summaryText)
-                                        .lineLimit(2)
-                                        .font(.headline)
-                                    
-                                    Text("Total prompts: \(summary.logPrompts.count)")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
+        List {
+            ForEach(summaries) { summary in
+                NavigationLink(destination: HistoryDetailView(summary: summary)) {
+                    VStack(alignment: .leading){
+                        HStack(alignment: .center, spacing: 12) {
+                            VStack{
+                                Text(dateFormatter.string(from: summary.createdAt))
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                Text(monthYearFormatter.string(from: summary.createdAt))
+                                    .font(.caption2)
                             }
+                            .frame(width:50, height:50)
+                            .foregroundColor(.white)
+                            .background(Color("primary-9"))
+                            .cornerRadius(8)
+                            
+                            
+                            
+                            Text(summary.summaryText)
+                                .lineLimit(3)
+                                .font(.headline)
+                                .fontWeight(.regular)
+                                .foregroundStyle(.black)
+                                .multilineTextAlignment(.leading)
+                            
+                            
                         }
-                        .onDelete { indexSet in
-                                for index in indexSet {
-                                    let summary = summaries[index]
-                                    modelContext.delete(summary)
-                                }
-                            }
                     }
-                    .navigationTitle("Histori Curhat")
+                    
+                    
+                    
                 }
-
+                
+                
+                .padding(.horizontal, 14)
+                .padding(.vertical,12)
+                .background(Color("primary-1"))
+                .cornerRadius(10)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                
+            }
+            .onDelete { indexSet in
+                for index in indexSet {
+                    let summary = summaries[index]
+                    modelContext.delete(summary)
+                }
+            }
+        }
+        .navigationTitle("Daftar cerita")
+        .foregroundStyle(.black)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(Color("bg-custom"))
+        .toolbar{
+            ToolbarItem(placement: .navigationBarLeading){
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(Color("primary-6"))
+                        .font(.system(size: 17, weight: .semibold))
+                }
+            }
+        }
+    }
+    
+    
+    
 }
 
 extension SummaryRecord {
@@ -46,23 +106,25 @@ extension SummaryRecord {
             LogPrompt(userText: "Aku capek banget hari ini", modelResponse: "Capeknya karena apa tuh? Cerita dong."),
             LogPrompt(userText: "Banyak tugas kuliah", modelResponse: "Wajar sih kalau lagi banyak tugas bisa kerasa berat.")
         ]
-        return SummaryRecord(summaryText: "Kamu cerita soal kelelahan karena kuliah dan tugas-tugas yang numpuk.", logPrompts: logs)
+        return SummaryRecord(summaryText: "Kamu cerita soal kelelahan karena kuliah dan tugas-tugas yang numpuk. dan kenapa kamu pergi kemapus", logPrompts: logs)
     }
 }
 
 
 #Preview {
     do {
-            let container = try ModelContainer(for: SummaryRecord.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-            let context = container.mainContext
-
-            // Insert dummy data
-            let record = SummaryRecord.preview
-            context.insert(record)
-
-            return HistoryListView()
-                .modelContainer(container)
-        } catch {
-            return Text("Failed to load preview: \(error.localizedDescription)")
+        let container = try ModelContainer(for: SummaryRecord.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let context = container.mainContext
+        
+        // Insert dummy data
+        let record = SummaryRecord.preview
+        context.insert(record)
+        
+        return NavigationStack {
+            HistoryListView()
         }
+        .modelContainer(container)
+    } catch {
+        return Text("Failed to load preview: \(error.localizedDescription)")
+    }
 }

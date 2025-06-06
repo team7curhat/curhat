@@ -28,29 +28,29 @@ struct SummaryOptionView: View {
                 
                 
                 // ✅ Custom button + navigasi manual
-//                Button(action: {
-//                    // Simpan data
-//                    let logPromptModels = logPrompts.map {
-//                        LogPrompt(userText: $0.user, modelResponse: $0.modelResponse)
-//                    }
-//                    let newSummary = SummaryRecord(summaryText: summary, logPrompts: logPromptModels)
-//                    modelContext.insert(newSummary)
-//                    
-//                    // Pindah ke StoryView
-//                    navigateToStory = true
-//                }) {
-//                    VStack {
-//                        Image("mau cerita lagi")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 150, height: 150)
-//                        Text("Butuh cerita lagi")
-//                            .foregroundStyle(Color("primary-6"))
-//                            .font(.title2)
-//                            .fontWeight(.bold)
-//                            .multilineTextAlignment(.center)
-//                    }
-//                }
+                Button(action: {
+                    // Simpan data
+                    let logPromptModels = logPrompts.map {
+                        LogPrompt(userText: $0.user, modelResponse: $0.modelResponse)
+                    }
+                    let newSummary = SummaryRecord(summaryText: summary, logPrompts: logPromptModels)
+                    modelContext.insert(newSummary)
+                    
+                    // Pindah ke StoryView
+                    navigateToStory = true
+                }) {
+                    VStack {
+                        Image("mau cerita lagi")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                        Text("Butuh cerita lagi")
+                            .foregroundStyle(Color("primary-6"))
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                    }
+                }
                 
                 
                 // ✅ Custom button + navigasi manual

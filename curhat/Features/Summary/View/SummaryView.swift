@@ -47,23 +47,23 @@ struct SummaryView: View {
                                 .padding(.horizontal, 50)
                             }.padding(.horizontal, 12)
                             
-                            //                            Button(action: {
-                            //                                withAnimation {
-                            //                                    proxy.scrollTo("_bottom", anchor: .bottom)
-                            //                                }
-                            //                            }){
-                            //                                VStack(alignment: .center, spacing: 10) {
-                            //                                    Text("Scroll ke bawah")
-                            //                                        .foregroundStyle(Color("primary-6")).fontWeight(.medium)
-                            //                                        .font(.caption)
-                            //                                    Image(systemName: "chevron.down")
-                            //                                        .foregroundStyle(Color("primary-7"))
-                            //                                }
-                            //                                .padding(.top, 16)
-                            //                            }
-                            
-                            //                            SummaryOptionView(summary: summary, logPrompts: logPrompts)
-                            
+//                                                        Button(action: {
+//                                                            withAnimation {
+//                                                                proxy.scrollTo("_bottom", anchor: .bottom)
+//                                                            }
+//                                                        }){
+//                                                            VStack(alignment: .center, spacing: 10) {
+//                                                                Text("Scroll ke bawah")
+//                                                                    .foregroundStyle(Color("primary-6")).fontWeight(.medium)
+//                                                                    .font(.caption)
+//                                                                Image(systemName: "chevron.down")
+//                                                                    .foregroundStyle(Color("primary-7"))
+//                                                            }
+//                                                            .padding(.top, 16)
+//                                                        }
+//                            
+//                                                        SummaryOptionView(summary: summary, logPrompts: logPrompts)
+//                            
                             
                             
                             
@@ -90,7 +90,9 @@ struct SummaryView: View {
                             let newSummary = SummaryRecord(summaryText: summary, logPrompts: logPromptModels)
                             modelContext.insert(newSummary)
                         navigateToHome = true}) { Text("Save")}
+                        
                         Button(action: {navigateToHome = true}) {Text("Discard").foregroundStyle(Color.red) }
+                        
                         Button("Cancel", role: .cancel) { }
                     },
                                         message: {

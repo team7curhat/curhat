@@ -79,8 +79,6 @@ struct BubbleChatView: View {
 }
 #Preview {
     BubbleChatView(message:"""
-[IMPORTANT] dear all - as I mentioned, untuk script dan storyboard is expected udah kalian mulai develop untuk production app/game video demo yg akan dishowcase di hari Rabu depan (14 mei). 
-
-untuk kelancaran di hari H, all teams are REQUIRED untuk mengupload final video dan Hi-Fid app/game kalian paling lambat hari Selasa (13 Mei) jam 23.59 WIB via link ini
+This example text
 """,followUp: "Halo", isKeyboardActive: false)
 }

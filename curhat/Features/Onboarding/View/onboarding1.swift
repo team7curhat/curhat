@@ -40,7 +40,7 @@ struct onboarding1: View {
                             Image("Gigi")
                                 .resizable()
                                 .frame(width: 170, height: 100)
-                                .matchedTransitionSource(id: "gigi", in: transitionNamespace)
+//                                .matchedTransitionSource(id: "gigi", in: transitionNamespace)
                                 .onTapGesture {
                                     isNavigating = true
                                 }
@@ -57,7 +57,7 @@ struct onboarding1: View {
                 
                 NavigationLink(
                     destination: onboarding2()
-                        .navigationTransition(.zoom(sourceID: "gigi", in: transitionNamespace))
+//                        .navigationTransition(.zoom(sourceID: "gigi", in: transitionNamespace))
                         .navigationBarBackButtonHidden(true),
                     isActive: $isNavigating
                 ) {

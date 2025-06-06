@@ -13,92 +13,88 @@ struct HomeView: View {
     @StateObject private var promptManager = PromptManager()
     
     var body: some View {
-        NavigationStack{
-            if(nickname.isEmpty){
+        NavigationStack {
+            if(nickname.isEmpty) {
                 onboarding1()
-            }else{
-                
-                ZStack{
+            } else {
+                ZStack {
+                    // Background
                     Color("bg-custom")
                         .edgesIgnoringSafeArea(.all)
                     
-                    VStack {
+                    // Main content
+                    VStack(alignment: .leading) {
+                        // Recent History Section - contained in its own fixed frame
+                        Spacer()
+                        VStack {
+                            RecentHistoryView()
+                        }
+                        .padding(.horizontal, 20)
+                        .frame(maxWidth: .infinity)
+                        .fixedSize(horizontal: false, vertical: true) // Prevent vertical expansion
+                        
                         Spacer()
                         
-                        // Greeting
-                        Text("Halo \(nickname), Ada cerita apa hari ini?")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .padding(.top, 160)
-                            .padding(.bottom, 60)
-                            .frame(width:200)
-                            .foregroundColor(.primary6)
-                            .multilineTextAlignment(.center)
+                        // Greeting Section
+                        VStack {
+                            Text("Halo \(nickname), ada cerita apa hari ini?")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .padding(.top, 60) // Reduced from 160 to account for RecentHistoryView
+                                .padding(.bottom, 40) // Reduced from 60
+                                .frame(width: 200)
+                                .foregroundColor(.primary6)
+                                .multilineTextAlignment(.center)
+                            
+//                            Spacer()
+                        }
+                        .frame(maxWidth: .infinity)
                         
-                        Spacer()
-                        
+                        // Bottom section with wave and persona
                         ZStack {
-                            VStack (spacing: 0){
-                                
+                            VStack(spacing: 0) {
                                 WaveAnimateView()
                                 
                                 VStack {
-                                    
-                                }.frame(maxWidth: .infinity, maxHeight: .infinity).background(.primary1)
-                                
+                                    // Empty VStack for background
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(.primary1)
                             }
                             
-                            
-                            ZStack (alignment: .bottom){
-                                NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)){
+                            ZStack(alignment: .bottom) {
+                                NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)) {
                                     Image("persona-homepage")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(maxWidth:.infinity)
-                                    
+                                        .frame(maxWidth: .infinity)
                                 }
                                 
                                 Text("Ketuk aku untuk mulai bercerita")
                                     .font(.body)
                                     .foregroundColor(Color.white)
                                     .padding(.bottom, 30)
-                                
                             }
-                            .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
-                            
-                        }.edgesIgnoringSafeArea(.all)
-                        
-                        
-                        
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .edgesIgnoringSafeArea(.bottom)
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: HistoryListView()){
-                                Image(systemName: "text.bubble")
-                                    .foregroundColor(Color("primary-6"))
-                            }
-                            
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-
-                            NavigationLink(destination: SettingsView()){
+                            NavigationLink(destination: SettingsView()) {
                                 Image(systemName: "gearshape")
                                     .foregroundColor(Color("primary-6"))
                             }
-                            
                         }
-                        
                     }
-                }.onAppear{
+                }
+                .onAppear {
                     promptManager.logPrompts.removeAll()
                 }
             }
-            
-            
-            
         }
-    }
-}
+    }}
 
 
 

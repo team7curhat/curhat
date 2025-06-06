@@ -30,14 +30,16 @@ class PromptManager: ObservableObject, Sendable {
     func generateResponse() {
         let fullPrompt = """
         
-        Berikut log cerita user dan respons sebelumnya:
+        Berikut log cerita user dan respon sebelumnya:
         \(logPrompts)
+        - Pelajari log cerita user diatas
+        - jangan bertanya suatu hal yang sudah user jawab pada log cerita user
 
         Berikut ini adalah jawaban terbaru dari user:
         \(userPrompt)
 
-        Nama user: \(nickname)
-        Nama model (teman curhat): Mochi
+        Nama user : \(nickname)
+        Nama kamu adalah : Mochi
 
         ---
 
@@ -61,18 +63,18 @@ class PromptManager: ObservableObject, Sendable {
 
         📝 Tugasmu:
 
-        - Analisis jawaban user dan tentukan ekspresi emosinya: hanya pilih salah satu dari **"senang"** atau **"sedih"**  
+        - Analisis jawaban user dan tentukan ekspresi emosinya: hanya pilih salah satu dari **"senang"**, **"sedih"** dan **"netral"**  
         - Buat satu **follow-up question** yang pendek, relevan, dan sesuai dengan tahapan struktur curhat (jangan diulang-ulang)  
         - Berikan **feedback singkat** yang hangat dan supportive, tapi gak lebay  
         - Kalau user terlihat tidak ingin bercerita lebih jauh, kamu boleh ganti topik yang masih relevan atau lanjut ke tahap berikutnya  
-        - Kamu cuma boleh bertanya maksimal **10 kali** (jadi manfaatkan setiap pertanyaan dengan bijak)
+        - Kamu cuma boleh bertanya maksimal **10 kali** (jadi maksimalkan pertanyaanmu untuk mengcover semua paduan obrolan)
         - Jangan terlalu panjang, cukup satu pertanyaan dan satu feedback
 
         ---
                        
-        ⚠️ Jawab hanya dalam 1 objek JSON, contoh:
+        ⚠️ Jawab hanya dalam 1 bentuk object seperti ini:
         {"expression":"senang","follow_up_question":"Apa …?","feedback":"Keren …"}
-        JANGAN gunakan array untuk `expression`, dan JANGAN sertakan ```json fences```. PERHATIKAN JANGAN GUNAKAN ```json fences```.
+        JANGAN gunakan array untuk `expression`.
         
         """
         
@@ -93,9 +95,12 @@ class PromptManager: ObservableObject, Sendable {
                 let result = try await model.generateContent(fullPrompt)
                 let text   = result.text ?? ""
                 
-                if
-                    let data = text.data(using: .utf8),
-                    let decoded = try? JSONDecoder().decode(FeedbackResponse.self, from: data)
+                // Clean the text to ensure it's valid JSON
+                let cleanedText = text.replacingOccurrences(of: "```json", with: "")
+                    .replacingOccurrences(of: "```", with: "")
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                if let data = cleanedText.data(using: .utf8), let decoded = try? JSONDecoder().decode(FeedbackResponse.self, from: data)
                 {
                     DispatchQueue.main.async {
                         // Combine feedback and follow-up into a single string
@@ -116,7 +121,7 @@ class PromptManager: ObservableObject, Sendable {
                     // fallback
                     DispatchQueue.main.async {
                         // Use previous follow-up if available
-                        let fallbackResponse = text.isEmpty ? self.previousFollowUp : text
+                        let fallbackResponse = cleanedText.isEmpty ? self.previousFollowUp : cleanedText
                         
                         // Store both user prompt and model response
                         self.logPrompts.append((user: self.userPrompt, modelResponse: fallbackResponse))
@@ -220,8 +225,13 @@ class PromptManager: ObservableObject, Sendable {
                 let result = try await model.generateContent(fullPrompt)
                 let text   = result.text ?? ""
                 
+                // Clean the text to ensure it's valid JSON
+                let cleanedText = text.replacingOccurrences(of: "```json", with: "")
+                    .replacingOccurrences(of: "```", with: "")
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                
                 if
-                    let data = text.data(using: .utf8),
+                    let data = cleanedText.data(using: .utf8),
                     let decoded = try? JSONDecoder().decode(FeedbackResponse.self, from: data)
                 {
                     DispatchQueue.main.async {
@@ -243,13 +253,13 @@ class PromptManager: ObservableObject, Sendable {
                     // fallback
                     DispatchQueue.main.async {
                         // Use previous follow-up if available
-                        let fallbackResponse = text.isEmpty ? self.previousFollowUp : text
+                        let fallbackResponse = cleanedText.isEmpty ? self.previousFollowUp : cleanedText
                         
                         // Store both user prompt and model response
                         self.logPrompts.append((user: self.userPrompt, modelResponse: fallbackResponse))
                         
                         self.expression = "sedih"
-                        self.feedback = text.isEmpty ? "Maaf, ada kendala. boleh ku tanya lagi" : text
+                        self.feedback = cleanedText.isEmpty ? "Maaf, ada kendala. boleh ku tanya lagi" : cleanedText
                         
                         // Use previous follow-up if new follow-up is empty
                         self.followUp = fallbackResponse

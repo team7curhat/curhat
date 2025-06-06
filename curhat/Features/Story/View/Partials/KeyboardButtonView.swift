@@ -39,10 +39,7 @@ struct KeyboardButtonView: View {
                 hasKeyboardShown.toggle()
                 hasKeyboardShownOnce = true
              
-//                if hasKeyboardShown {
-////                    isMicActive = false
-//                    isSpeaking = false
-//                }
+
                 
             }
     }
