@@ -20,27 +20,43 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-            List {
+        
+        ZStack(alignment: .topLeading){
+            Color("primary-1")
+                .ignoresSafeArea(edges: .all)
+            
+            VStack(alignment:.leading){
                 NavigationLink("Change username") {
                     onboarding3().navigationBarBackButtonHidden(true)
-                }
+                        
+                }.frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(.white)
+                    .foregroundStyle(.black)
+                    .multilineTextAlignment(.leading)
+                    .cornerRadius(8)
                 
                 Button("Delete account", role: .destructive) {
                     showDeleteAlert = true
-                }
+                }.frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(.white)
+                    .foregroundStyle(.black)
+                    .multilineTextAlignment(.leading)
+                    .cornerRadius(8)
             }
-            .navigationTitle("Settings")
-            // Hidden nav link for post-delete navigation
-           
-            .alert(
-                "Are you sure you want to delete your account and all history?",
-                isPresented: $showDeleteAlert
-            ) {
-                Button("Delete", role: .destructive) {
-                    deleteAccount()
-                }
-                Button("Cancel", role: .cancel) { }
+            .padding( 20)
+        }.alert(
+            "Are you sure you want to delete your account and all history?",
+            isPresented: $showDeleteAlert
+        ) {
+            Button("Delete", role: .destructive) {
+                deleteAccount()
             }
+            Button("Cancel", role: .cancel) { }
+        }
+
+            
     }
     
     private func deleteAccount() {
@@ -56,9 +72,6 @@ struct SettingsView: View {
         navigateToOnboarding1 = true
         
         dismiss()
-        
-        // If you're using manual save:
-        // try? modelContext.save()
     }
 }
 

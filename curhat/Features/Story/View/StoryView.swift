@@ -153,7 +153,7 @@ struct StoryView: View {
                         VStack{
                             BubbleChatView(message: promptManager.feedback, followUp: promptManager.followUp, isKeyboardActive: hasKeyboardShown)
                             if promptManager.isLoading {
-                                LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
+                                LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(.infinity)))).animationSpeed(1)
                                     .frame(width: 172, height: 174)
                             }
                             else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
@@ -194,7 +194,7 @@ struct StoryView: View {
                                     VStack{
                                         
                                         TextField("", text: $promptManager.userPrompt, prompt: Text("Tuliskan di sini…").foregroundStyle(.gray), axis: .vertical)
-                                            .foregroundStyle(.black)
+                                            .foregroundStyle(Color("body-text"))
                                             .opacity(isMicActive ? 0 : 1)
                                             .disableAutocorrection(true)
                                             .multilineTextAlignment(hasKeyboardShownOnce ? .leading : .center)
@@ -252,12 +252,9 @@ struct StoryView: View {
                                 //keyboard button
                                 KeyboardButtonView(hasKeyboardShown: $hasKeyboardShown, isMicActive: $isMicActive, isSpeaking: $isSpeaking, hasKeyboardShownOnce: $hasKeyboardShownOnce, isLoading: $promptManager.isLoading).onChange(of: hasKeyboardShown) { newValue in
                                     isTextFieldFocused = newValue
-                                    print("Keyboard Button Tapped \(hasKeyboardShown)")
+                                 
                                     if hasKeyboardShown == false {
                                         isTextFieldFocused = false
-                                        //                                    if promptManager.userPrompt != "" {
-                                        //                                        promptManager.generateResponse()
-                                        //                                    }
                                     }
                                 }
                                 

@@ -35,8 +35,10 @@ struct HistoryListView: View {
                                 Text(dateFormatter.string(from: summary.createdAt))
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
+                                    .foregroundStyle(Color("primary-1"))
                                 Text(monthYearFormatter.string(from: summary.createdAt))
                                     .font(.caption2)
+                                    .foregroundStyle(Color("primary-1"))
                             }
                             .frame(width:50, height:50)
                             .foregroundColor(.white)
@@ -49,7 +51,7 @@ struct HistoryListView: View {
                                 .lineLimit(3)
                                 .font(.headline)
                                 .fontWeight(.regular)
-                                .foregroundStyle(.black)
+                                .foregroundStyle(Color("body-text"))
                                 .multilineTextAlignment(.leading)
                             
                             
@@ -77,7 +79,7 @@ struct HistoryListView: View {
             }
         }
         .navigationTitle("Daftar cerita")
-        .foregroundStyle(.black)
+        .foregroundStyle(.white)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .listStyle(.plain)
@@ -91,6 +93,17 @@ struct HistoryListView: View {
                     Image(systemName: "chevron.backward")
                         .foregroundColor(Color("primary-6"))
                         .font(.system(size: 17, weight: .semibold))
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing){
+                Button(action: {
+                    for record in summaries {
+                                modelContext.delete(record)
+                            }
+                }) {
+                    Image(systemName: "trash")
+                        .foregroundColor(Color("primary-6"))
+                        .font(.system(size: 16, weight: .semibold))
                 }
             }
         }

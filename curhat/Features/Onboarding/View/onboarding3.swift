@@ -28,21 +28,20 @@ struct onboarding3: View {
                     .frame(maxWidth: .infinity)
                     .offset(x: 0, y: isTextFieldFocused ? -100 : 0).animation(.bouncy, value: isTextFieldFocused)
                     
-                VStack(spacing: 20) {
+                VStack() {
                     
-                    // Title
-                    VStack{
+                 
                         VStack(spacing: 15){
-                            VStack(spacing: 15){
+                            VStack(spacing: 12){
                                 Text("Namaku Ochi!")
-                                    .font(.system(.title2, design: .rounded))
+                                    .font(.title2)
                                     .foregroundStyle(.white)
                                     .fontWeight(.bold)
                                     .multilineTextAlignment(.center)
                                 Text("Kamu lebih nyaman dipanggil siapa?")
-                                    .font(.system(.body, design: .rounded))
+                                    .font(.subheadline)
                                     .foregroundStyle(.white)
-                                    .fontWeight(.bold)
+                                    .fontWeight(.medium)
                                     .multilineTextAlignment(.center)
                             }
                             VStack {
@@ -53,9 +52,9 @@ struct onboarding3: View {
                                     .foregroundStyle(.primary7)
                                     .multilineTextAlignment(.center)
                                     .disableAutocorrection(true)
-                                    .background(Color(.primary2))
-                                    .cornerRadius(8)
-                                    .frame(width: 347)
+                                    .background(Color("text-input"))
+                                    .cornerRadius(10)
+                                    .frame(maxWidth: .infinity)
                                     .focused($isTextFieldFocused)
                                     .onAppear {
                                         tempNickname = nickname
@@ -75,9 +74,12 @@ struct onboarding3: View {
                                 nickname = tempNickname
                                 goHome = true
                             }
-                            .foregroundStyle(.black)
-                            .frame(width: 100)
-                            .padding(10)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.primary7)
+                            .frame(maxWidth:.infinity)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
                             .background(tempNickname.isEmpty ? Color.gray : Color.white)
                             .cornerRadius(15).disabled(tempNickname.isEmpty)
                             
@@ -91,11 +93,13 @@ struct onboarding3: View {
                             .hidden()
                             
                         }
-                        .padding(.bottom, 170)
+                        .padding(.bottom, 120)
                         .padding(.top, 20)
-                    }
+                
                 }
+                .padding()
             }
+         
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
             .toolbar {

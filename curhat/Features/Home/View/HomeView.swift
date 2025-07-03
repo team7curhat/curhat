@@ -40,8 +40,8 @@ struct HomeView: View {
                             Text("Halo \(nickname), ada cerita apa hari ini?")
                                 .font(.title2)
                                 .fontWeight(.semibold)
-                                .padding(.top, 60) // Reduced from 160 to account for RecentHistoryView
-                                .padding(.bottom, 40) // Reduced from 60
+                                .padding(.top, 60) 
+                                .padding(.bottom, 40)
                                 .frame(width: 200)
                                 .foregroundColor(.primary6)
                                 .multilineTextAlignment(.center)

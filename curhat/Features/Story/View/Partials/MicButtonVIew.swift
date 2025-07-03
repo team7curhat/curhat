@@ -19,9 +19,9 @@ struct MicButtonView: View {
     
     
     var body: some View {
-        let micColor: Color = isMicActive ? Color("primary-6") : .white
-        let micBorderColor: Color = isLoading ? Color("gray-disabled") : Color("primary-6")
-        let micIconColor: Color = isLoading ? Color("gray-disabled") : (  isMicActive ? .white : Color("primary-6"))
+        let micColor: Color = isMicActive ? Color("story-icon-color") : Color("bg-custom")
+        let micBorderColor: Color = isLoading ? Color("gray-disabled") : Color("story-icon-color")
+        let micIconColor: Color = isLoading ? Color("gray-disabled") : (  isMicActive ? .white : Color("story-icon-color"))
         
         
         Circle()
@@ -40,17 +40,9 @@ struct MicButtonView: View {
             )
             .onTapGesture {
                 
-                //jika keyboard aktif, seluruh aksi tidak dapat dilakukan
-//                if hasKeyboardShown == false {
-                    //jika diaktifkan akan menonaktifkan keyboard
+
                 isMicActive.toggle();
                 hasKeyboardShown = false
-//                    if isMicActive {
-//                        
-//                    } 
-//                    
-//                }
-                    
                 
         }
     }

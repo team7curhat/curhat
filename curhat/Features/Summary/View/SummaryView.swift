@@ -40,30 +40,30 @@ struct SummaryView: View {
                                     .font(.body)
                                 
                                 ScrollView {
-                                    Text("\(summary)").foregroundStyle(Color("primary-6")).fontWeight(.medium)
+                                    Text("\(summary)").foregroundStyle(Color("primary-10")).fontWeight(.medium)
                                 }
                                 .frame(maxHeight: 400)
                                 .padding(.top, 150)
                                 .padding(.horizontal, 50)
                             }.padding(.horizontal, 12)
                             
-//                                                        Button(action: {
-//                                                            withAnimation {
-//                                                                proxy.scrollTo("_bottom", anchor: .bottom)
-//                                                            }
-//                                                        }){
-//                                                            VStack(alignment: .center, spacing: 10) {
-//                                                                Text("Scroll ke bawah")
-//                                                                    .foregroundStyle(Color("primary-6")).fontWeight(.medium)
-//                                                                    .font(.caption)
-//                                                                Image(systemName: "chevron.down")
-//                                                                    .foregroundStyle(Color("primary-7"))
-//                                                            }
-//                                                            .padding(.top, 16)
-//                                                        }
-//                            
-//                                                        SummaryOptionView(summary: summary, logPrompts: logPrompts)
-//                            
+                                                        Button(action: {
+                                                            withAnimation {
+                                                                proxy.scrollTo("_bottom", anchor: .bottom)
+                                                            }
+                                                        }){
+                                                            VStack(alignment: .center, spacing: 10) {
+                                                                Text("Scroll ke bawah")
+                                                                    .foregroundStyle(Color("primary-6")).fontWeight(.medium)
+                                                                    .font(.caption)
+                                                                Image(systemName: "chevron.down")
+                                                                    .foregroundStyle(Color("primary-7"))
+                                                            }
+                                                            .padding(.top, 16)
+                                                        }
+                            
+                                                        SummaryOptionView(summary: summary, logPrompts: logPrompts)
+                            
                             
                             
                             

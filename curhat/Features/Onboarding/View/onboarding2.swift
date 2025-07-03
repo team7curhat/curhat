@@ -28,43 +28,44 @@ struct onboarding2: View {
                     VStack(){
                         Text("RUANG AMAN")
                             .font(.system(.title, design: .rounded))
-                            .foregroundStyle(.primary7)
+                            .foregroundStyle(.primary9)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                         Text("UNTUK SEMUA")
                             .font(.system(.title, design: .rounded))
-                            .foregroundStyle(.primary7)
+                            .foregroundStyle(.primary9)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                     }
-                    Spacer()
+                    .padding(.bottom,20)
+              
                     //=================================== Body =============================================
                     VStack(alignment: .leading, spacing: 10){
                         Text("Ceritamu Aman dan Milikmu Seorang")
                             .font(.system(.title2, design: .rounded))
-                            .foregroundStyle(.primary7)
+                            .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Text("Semua cerita yang telah kamu tuangkan di Emochi tidak akan dibagikan kepada siapapun, termasuk server kami. Kami tidak akan menggunakan data-datamu tanpa persetujuanmu.")
                             .font(.body)
-                            .foregroundStyle(.primary7)
+                            .foregroundStyle(.black)
                     };
                     VStack(alignment: .leading, spacing: 10)
                     {Text("Emochi Tidak Sama dengan Terapi Psikolog")
                             .font(.system(.title2, design: .rounded))
-                            .foregroundStyle(.primary7)
+                            .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Text("Keberadaan Emochi tidak bisa menggantikan peran psikolog untuk membantu mengatasi masalah yang kamu hadapi. Emochi hadir sebagai garda terdepan yang akan menolong kamu untuk meluapkan emosi dalam dirimu melalui bercerita.")
                             .font(.body)
-                            .foregroundStyle(.primary7)
+                            .foregroundStyle(.black)
                     }
                     //===================================  Button  ==========================================
                     NavigationLink (destination:onboarding3().navigationBarBackButtonHidden(true)){
                         Text("Mengerti")
                             .fontWeight(.bold)
                             .foregroundStyle(.primary7)
-                            .frame(maxWidth:200)
+                            .frame(maxWidth:.infinity)
                             .padding()
                             .background(Color.white)
                             .cornerRadius(10)

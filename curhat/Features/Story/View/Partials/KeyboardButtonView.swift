@@ -16,9 +16,9 @@ struct KeyboardButtonView: View {
     @StateObject private var promptManager = PromptManager()
     
     var body: some View {
-        let keyboardColor: Color = hasKeyboardShown ? Color("primary-6") : .white
-        let keyboardBorderColor: Color = isLoading ? Color("gray-disabled") : (isMicActive ? Color("gray-disabled"): Color("primary-6"))
-        let keyboardIconColor: Color = isLoading ? Color("gray-disabled") : (hasKeyboardShown ? Color(.white) : (isMicActive ? Color("gray-disabled"): Color("primary-6")))
+        let keyboardColor: Color = hasKeyboardShown ? Color("story-icon-color") : Color("bg-custom")
+        let keyboardBorderColor: Color = isLoading ? Color("gray-disabled") : (isMicActive ? Color("gray-disabled"): Color("story-icon-color"))
+        let keyboardIconColor: Color = isLoading ? Color("gray-disabled") : (hasKeyboardShown ? Color(.white) : (isMicActive ? Color("gray-disabled"): Color("story-icon-color")))
         
         Circle()
             .fill(keyboardColor)

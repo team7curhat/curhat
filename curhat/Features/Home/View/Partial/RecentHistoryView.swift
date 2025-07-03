@@ -32,8 +32,10 @@ struct RecentHistoryView: View {
                             VStack(alignment: .center) {
                                 Text("\(day)")
                                     .font(.subheadline)
+                                    .foregroundStyle(Color("primary-1"))
                                 Text(monthName)
                                     .font(.caption)
+                                    .foregroundStyle(Color("primary-1"))
                             }
                             .frame(width:45, height: 45)
                             .background(Color("primary-9"))
@@ -59,7 +61,7 @@ struct RecentHistoryView: View {
                                     .frame(width: 28, height: 28)
                                 
                                 Image(systemName: "chevron.right")
-                                    .foregroundColor(Color(.white))
+                                    .foregroundStyle(Color("primary-1"))
                             }
                         }
                         .padding(.vertical, 12)
@@ -70,7 +72,7 @@ struct RecentHistoryView: View {
                     
                     NavigationLink(destination: HistoryListView()) {
                         HStack(alignment: .center) {
-                            Text("Lihat cerita lainnya").font(.caption2).fontWeight(.bold).foregroundColor(.white)
+                            Text("Lihat cerita lainnya").font(.caption2).fontWeight(.bold).foregroundStyle(Color("primary-1"))
                             Spacer()
                             Image(systemName: "arrow.right")
                                 .resizable()

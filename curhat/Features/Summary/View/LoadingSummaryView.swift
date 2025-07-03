@@ -23,7 +23,7 @@ struct LoadingSummaryView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-                Color("primary-9")
+                Color("primary-10")
                     .ignoresSafeArea(.all)
                    
                 VStack(alignment:.center, spacing: 20) {
