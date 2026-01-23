@@ -7,16 +7,14 @@
 
 import SwiftUI
 
-struct onboarding3: View {
+struct ChangeUsernameView: View {
     @AppStorage("userNickname") private var nickname = "joj"
     @Environment(\.dismiss) var dismiss
     
     @State private var tempNickname: String = ""
-    @State private var goHome = false
     
     @FocusState private var isTextFieldFocused: Bool
     
-    @ObservedObject var navigationManager = NavigationManager.shared
     
     var body: some View {
       
@@ -74,13 +72,10 @@ struct onboarding3: View {
                             
                             Button("Save") {
                                 nickname = tempNickname
-                                print(navigationManager.hasHomeActive)
-                                if(navigationManager.hasHomeActive == true){
+                                
                                     
                                     dismiss()
-                                }else{
-                                    goHome = true
-                                }
+                               
                             }
                             .fontWeight(.bold)
                             .foregroundStyle(.primary7)
@@ -91,14 +86,7 @@ struct onboarding3: View {
                             .background(tempNickname.isEmpty ? Color.gray : Color.white)
                             .cornerRadius(15).disabled(tempNickname.isEmpty)
                             
-                            NavigationLink(
-                                destination: HomeView()
-                                    .navigationBarBackButtonHidden(true),
-                                isActive: $goHome
-                            ) {
-                                EmptyView()
-                            }
-                            .hidden()
+        
                             
                         }
                         .padding(.bottom, 120)
@@ -122,8 +110,7 @@ struct onboarding3: View {
     }
     
 }
-struct onboarding3_Previews: PreviewProvider {
-    static var previews: some View {
-        onboarding3()
-    }
+
+#Preview{
+    ChangeUsernameView()
 }

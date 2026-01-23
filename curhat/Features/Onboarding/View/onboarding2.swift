@@ -26,14 +26,14 @@ struct onboarding2: View {
                     //=================================== Title =============================================
                     Spacer()
                     VStack(){
-                        Text("RUANG AMAN")
+                        Text("A SAFE PLACE")
                             .font(.system(.title, design: .rounded))
-                            .foregroundStyle(.primary9)
+                            .foregroundStyle(.primary10)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
-                        Text("UNTUK SEMUA")
+                        Text("FOR EVERYONE")
                             .font(.system(.title, design: .rounded))
-                            .foregroundStyle(.primary9)
+                            .foregroundStyle(.primary10)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
                     }
@@ -41,28 +41,28 @@ struct onboarding2: View {
               
                     //=================================== Body =============================================
                     VStack(alignment: .leading, spacing: 10){
-                        Text("Ceritamu Aman dan Milikmu Seorang")
+                        Text("Your Stories Are Yours")
                             .font(.system(.title2, design: .rounded))
                             .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text("Semua cerita yang telah kamu tuangkan di Emochi tidak akan dibagikan kepada siapapun, termasuk server kami. Kami tidak akan menggunakan data-datamu tanpa persetujuanmu.")
+                        Text("all the stories you have poured in Emoci will not be shared with anyone, including our servers. We will not use your data without your consent.")
                             .font(.body)
                             .foregroundStyle(.black)
                     };
                     VStack(alignment: .leading, spacing: 10)
-                    {Text("Emochi Tidak Sama dengan Terapi Psikolog")
+                    {Text("Emoci is not the same as psychotherapy")
                             .font(.system(.title2, design: .rounded))
                             .foregroundStyle(.black)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        Text("Keberadaan Emochi tidak bisa menggantikan peran psikolog untuk membantu mengatasi masalah yang kamu hadapi. Emochi hadir sebagai garda terdepan yang akan menolong kamu untuk meluapkan emosi dalam dirimu melalui bercerita.")
+                        Text("Emoci's existence cannot replace the role of a psychologist to help overcome the problems you face. Emoci is here as a frontline that will help you to express your emotions through storytelling.")
                             .font(.body)
                             .foregroundStyle(.black)
                     }
                     //===================================  Button  ==========================================
                     NavigationLink (destination:onboarding3().navigationBarBackButtonHidden(true)){
-                        Text("Mengerti")
+                        Text("Understand")
                             .fontWeight(.bold)
                             .foregroundStyle(.primary7)
                             .frame(maxWidth:.infinity)

@@ -8,16 +8,18 @@
 import SwiftUI
 import SwiftData
 
+
 struct SummaryOptionView: View {
     let summary: String
     let logPrompts: [(user: String, modelResponse: String)]
+    @ObservedObject var navigationManager = NavigationManager.shared
     @Environment(\.modelContext) private var modelContext
     @State private var navigateToStory = false
     @State private var navigateToHome = false
     
     var body: some View {
         VStack(alignment: .center, spacing:36) {
-            Text("Bagaimana perasaanmu sekarang setelah bercerita?")
+            Text("How do you feel now?")
                 .foregroundStyle(Color("primary-6"))
                 .font(.title2)
                 .fontWeight(.bold)
@@ -36,15 +38,17 @@ struct SummaryOptionView: View {
                     let newSummary = SummaryRecord(summaryText: summary, logPrompts: logPromptModels)
                     modelContext.insert(newSummary)
                     
-                    // Pindah ke StoryView
-                    navigateToStory = true
+                    
+                    navigationManager.setStoryActive(setStoryActive: false)
+                    print(navigationManager.hasStoryActive)
+                    
                 }) {
                     VStack {
-                        Image("mau cerita lagi")
+                        Image("summary-cerita-lagi")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 150, height: 150)
-                        Text("Butuh cerita lagi")
+                        Text("I'd like to tell more")
                             .foregroundStyle(Color("primary-6"))
                             .font(.title2)
                             .fontWeight(.bold)
@@ -53,7 +57,7 @@ struct SummaryOptionView: View {
                 }
                 
                 
-                // ✅ Custom button + navigasi manual
+              
                 Button(action: {
                     // Simpan data
                     let logPromptModels = logPrompts.map {
@@ -63,14 +67,18 @@ struct SummaryOptionView: View {
                     modelContext.insert(newSummary)
                     
                     // Pindah ke HomeView
-                    navigateToHome = true
+//                    navigateToHome = true
+                    
+                    navigationManager.setHomeActive(setHomeActive: false)
+                    
+                    
                 }) {
                     VStack {
-                        Image("lega")
+                        Image("summary-lega")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 150, height: 150)
-                        Text("Lebih lega")
+                        Text("I feel better")
                             .foregroundStyle(Color("primary-6"))
                             .font(.title2)
                             .fontWeight(.bold)
@@ -93,13 +101,13 @@ struct SummaryOptionView: View {
 //                isActive: $navigateToStory,
 //                label: { EmptyView() }
 //            )
-            
-            NavigationLink(
-                destination: HomeView()
-                    .navigationBarBackButtonHidden(true),
-                isActive: $navigateToHome,
-                label: { EmptyView() }
-            )
+//            
+//            NavigationLink(
+//                destination: HomeView()
+//                    .navigationBarBackButtonHidden(true),
+//                isActive: $navigateToHome,
+//                label: { EmptyView() }
+//            )
         }
     }
 }

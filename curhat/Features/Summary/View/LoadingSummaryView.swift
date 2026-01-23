@@ -21,13 +21,12 @@ struct LoadingSummaryView: View {
     @State private var progress: CGFloat = 0.0 // For loading bar progress
     @AppStorage("userNickname") private var nickname: String = ""
     var body: some View {
-        NavigationStack {
             ZStack{
                 Color("primary-10")
                     .ignoresSafeArea(.all)
                    
                 VStack(alignment:.center, spacing: 20) {
-                    Text("Makasih ya kamu udah mau cerita sama aku!")
+                    Text("Thank you for sharing your story with me!")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 50).foregroundStyle(.white) .multilineTextAlignment(.center)
@@ -55,14 +54,15 @@ struct LoadingSummaryView: View {
                 .navigationBarBackButtonHidden(true) // Hide default back button
                 .background(
                     NavigationLink(
-                        destination: SummaryView(shouldPopToRootView: self.$rootIsActive, summary: summaryText, logPrompts: logPrompts ).navigationBarBackButtonHidden(true),      // Go to SummaryView
+                        destination: SummaryView(summary: summaryText, logPrompts: logPrompts ).navigationBarBackButtonHidden(true),      // Go to SummaryView
                         isActive: $shouldNavigate,
                         label: { EmptyView() }
                     )
-                    .isDetailLink(false)
                     .hidden()
                 )
                 .onAppear {
+                    
+                    shouldNavigate = false
                     // Start loading animation when view appears
                     startLoadingAnimation()
                     
@@ -71,7 +71,7 @@ struct LoadingSummaryView: View {
                 }
             }
             
-        }
+      
     }
     
     func startLoadingAnimation() {
@@ -87,19 +87,19 @@ struct LoadingSummaryView: View {
     func summary() {
         let summaryPrompt = """
         
-        Nama user: \(nickname)  
-        Nama model (teman curhat): Mochi  
+        User name: \(nickname) 
+         Model name (confidant): Mochi  
 
-        Berikut ini adalah log cerita lengkap dari user:
-        \(logPrompts)
+                The following is the user's full story log:
+                \(logPrompts)
         
-        Tugasmu:  
-        Buatkan **ringkasan singkat** dari cerita user di atas. Gunakan gaya bahasa santai dan mudah dimengerti untuk anak muda usia 18–25 tahun.  
+        Your assignment:  
+                Write a short **summary** of the user story above. Use a casual and understandable language style for young people aged 18-25.
 
-        Jangan terlalu kaku atau formal — kamu adalah Mochi, teman curhat yang bisa bikin orang ngerasa ditemenin.
+                Don't be too stiff or formal - you're Mochi, the confidante who makes people feel like they're being looked after.
 
-        Terakhir, tambahkan **kata-kata penyemangat** di akhir ringkasan, yang relevan dan sesuai dengan isi cerita user.  
-        Jangan terlalu lebay, tapi tetap hangat dan menyentuh.
+                Finally, add **words of encouragement** at the end of the summary, which are relevant and appropriate to the content of the user story.  
+                Don't overdo it, but keep it warm and touching.
         """
         
         Task {
@@ -118,7 +118,7 @@ struct LoadingSummaryView: View {
                 }
                 
             } catch {
-                summaryText = "Maaf moci tidak bisa membuat ringkasan saat ini. coba lagi beberapa saat :)"
+                summaryText = "Sorry moci can't make a summary at the moment. try again in a while :)"
                 print(error)
                 
                 // Complete loading bar even with error

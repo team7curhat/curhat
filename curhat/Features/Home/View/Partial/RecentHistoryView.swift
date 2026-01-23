@@ -24,7 +24,7 @@ struct RecentHistoryView: View {
                
                 
                 VStack(alignment: .leading, spacing: 4){
-                    Text("Cerita terbarumu!")
+                    Text("Your latest story!")
                         .font(.body)
                         .fontWeight(.bold)
                     NavigationLink(destination: HistoryDetailView(summary: mostRecent)) {
@@ -72,13 +72,13 @@ struct RecentHistoryView: View {
                     
                     NavigationLink(destination: HistoryListView()) {
                         HStack(alignment: .center) {
-                            Text("Lihat cerita lainnya").font(.caption2).fontWeight(.bold).foregroundStyle(Color("primary-1"))
+                            Text("View more stories").font(.caption2).fontWeight(.bold).foregroundStyle(Color("primary-1"))
                             Spacer()
                             Image(systemName: "arrow.right")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width:16, height:16)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color("primary-1"))
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 6)

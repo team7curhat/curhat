@@ -13,6 +13,9 @@ struct HistoryListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
+    @State var isShowingAlert = false
+    @State private var isShowingPopover = false
+    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd"
@@ -78,7 +81,7 @@ struct HistoryListView: View {
                 }
             }
         }
-        .navigationTitle("Daftar cerita")
+        .navigationTitle("List of stories")
         .foregroundStyle(.white)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -96,15 +99,49 @@ struct HistoryListView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing){
-                Button(action: {
-                    for record in summaries {
-                                modelContext.delete(record)
+                HStack{
+                    Button(action: { self.isShowingPopover = true}) {
+                        Image(systemName: "info.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                            .foregroundStyle(Color("primary-6"))
                             }
-                }) {
-                    Image(systemName: "trash")
-                        .foregroundColor(Color("primary-6"))
-                        .font(.system(size: 16, weight: .semibold))
+                            .popover(
+                                isPresented: $isShowingPopover, arrowEdge: .top
+                            ) {
+                                VStack {
+                                    HStack(alignment:.center, spacing: 0) {
+                                        
+                                        Text("Swipe summary to left to delete")
+                                    }
+                                    .font(.caption)
+                                    
+                                }
+                                .padding(.horizontal,12)
+                                .presentationCompactAdaptation((.popover))
+                            }
+                    Button(action: {
+                        isShowingAlert = true
+                        
+                       
+                    }) {
+                        Image(systemName: "trash")
+                            .foregroundColor(Color("primary-6"))
+                            .font(.system(size: 16, weight: .semibold))
+                    }
                 }
+               
+            }
+        }
+        .alert("Are you sure to delete all the summary?", isPresented: $isShowingAlert){
+            Button("Yes"){
+                for record in summaries {
+                            modelContext.delete(record)
+                        }
+            }
+            Button("No", role: .cancel){
+                //dismiss
             }
         }
     }

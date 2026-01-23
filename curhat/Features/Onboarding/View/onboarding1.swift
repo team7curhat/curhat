@@ -17,7 +17,7 @@ struct onboarding1: View {
                 Color("bg-custom")
                     .edgesIgnoringSafeArea(.all)
                 
-                Image("onboarding1")
+               Image("onboarding1")
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
@@ -26,7 +26,8 @@ struct onboarding1: View {
                     Spacer()
                     Image("Title")
                         .resizable()
-                        .frame(width: 300, height: 100)
+                        .scaledToFit()
+                        .frame(width: 300, height: 90)
                     Spacer()
                     Spacer()
                     Spacer()
@@ -48,7 +49,7 @@ struct onboarding1: View {
                         .padding(.bottom, 1)
                     }
                     
-                    Text("Ketuk gigiku untuk memulai")
+                    Text("Tap my teeth to start!")
                         .font(.system(.headline, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundColor(.white)

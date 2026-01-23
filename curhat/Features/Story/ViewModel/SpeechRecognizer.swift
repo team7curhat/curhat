@@ -10,7 +10,7 @@ import Speech
 
 class SpeechRecognizer: ObservableObject {
     
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "id-ID"))
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()

@@ -23,7 +23,7 @@ struct HistoryDetailView: View {
                         .scaledToFit()
                         .frame(height: 725)
                     
-                    Text("Kamu kemarin cerita kalau")
+                    Text("You told me that")
                         .multilineTextAlignment(.leading)
                         .frame(width: 130, height: 100)
                         .offset(x: -100, y: -280)
@@ -37,8 +37,8 @@ struct HistoryDetailView: View {
                             .foregroundStyle(.black)
                            
                     }
-                    .frame(maxHeight: 400)
-                    .padding(.top, 150)
+                    .frame(maxHeight: 360)
+                    .padding(.top, 80)
                     .padding(.horizontal, 50)
                     
                 }
@@ -48,101 +48,7 @@ struct HistoryDetailView: View {
                 Divider()
 
               
-                
-//                HStack{
-//                    Image("ai-respon")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 44, height:54)
-//                    ScrollView {
-//                        Text("Apa yang sedang kamu rasakan sekarang")
-//                            .font(.headline)
-//                            .foregroundColor(Color("primary-6"))
-//                            .fixedSize(horizontal: false, vertical: true)
-//                            .padding(.horizontal, 16)
-//                            .padding(.vertical, 16)
-//                            .frame(maxWidth: .infinity, alignment: .leading)
-//                    }
-//                    // 3. Constrain to at most 5 lines tall:
-//                    .frame(maxHeight: 100)
-//                    .background(
-//                        RoundedRectangle(cornerRadius: 8)
-//                            .fill(Color("primary-1"))
-//                    )
-//                    .overlay(
-//                        RoundedRectangle(cornerRadius: 8)
-//                            .stroke(Color("primary-3"), lineWidth: 1)
-//                    )
-//                    .padding(.horizontal, 16)
-//                    .padding(.vertical, 4)
-//                  
-//                }
-
-//                ForEach(summary.logPrompts, id: \.self) { log in
-//                    VStack(alignment: .leading, spacing: 8) {
-//                       
-//                        
-//                        HStack{
-//                           
-//                            ScrollView {
-//                                Text("\(log.userText)")
-//                                    .font(.headline)
-//                                    .foregroundColor(Color("primary-6"))
-//                                    .fixedSize(horizontal: false, vertical: true)
-//                                    .padding(.horizontal, 16)
-//                                    .padding(.vertical, 16)
-//                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                            }
-//                            // 3. Constrain to at most 5 lines tall:
-//                            .frame(maxHeight: 100)
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 8)
-//                                    .fill(Color("primary-1"))
-//                            )
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 8)
-//                                    .stroke(Color("primary-3"), lineWidth: 1)
-//                            )
-//                            .padding(.horizontal, 16)
-//                            .padding(.vertical, 4)
-//                            
-//                            Image("user-respon")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 44, height:54)
-//                          
-//                        }
-//                        
-//                        HStack{
-//                            Image("ai-respon")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 44, height:54)
-//                            ScrollView {
-//                                Text("\(log.modelResponse)")
-//                                    .font(.headline)
-//                                    .foregroundColor(Color("primary-6"))
-//                                    .fixedSize(horizontal: false, vertical: true)
-//                                    .padding(.horizontal, 16)
-//                                    .padding(.vertical, 16)
-//                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                            }
-//                            // 3. Constrain to at most 5 lines tall:
-//                            .frame(maxHeight: 100)
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 8)
-//                                    .fill(Color("primary-1"))
-//                            )
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 8)
-//                                    .stroke(Color("primary-3"), lineWidth: 1)
-//                            )
-//                            .padding(.horizontal, 16)
-//                            .padding(.vertical, 4)
-//                          
-//                        }
-//                    }
-//                }
+              
             }
            
         }

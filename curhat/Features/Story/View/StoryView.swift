@@ -26,7 +26,7 @@ struct StoryView: View {
     @State private var showingConfirmationDialog: Bool = false
     
     // <-- new state for navigation
-    @State private var shouldNavigate = false
+    @ObservedObject var navigationManager = NavigationManager.shared
     @State private var hasKeyboardShown: Bool = false
     @State private var hasKeyboardShownOnce: Bool = false
     
@@ -81,14 +81,14 @@ struct StoryView: View {
                                    PopoverView()
                                     
                                     
-                                Text("Selesai bercerita")
+                                Text("Finish the story")
                                     .font(.body)
                                     .fontWeight(.semibold)
                                     .foregroundColor(Color("primary-6"))
                                     .onTapGesture {
                                         tempFeedback = promptManager.feedback;
                                         tempFollowUp = promptManager.followUp;
-                                        promptManager.feedback = "Apakah kamu sudah merasa cukup untuk sekarang?";
+                                        promptManager.feedback = "Have you had enough for now?";
                                         promptManager.followUp = "";
                                         isStoryDone = true;
                                         hasKeyboardShownOnce = false
@@ -121,7 +121,7 @@ struct StoryView: View {
                                     LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
                                         .frame(width: 130.62, height: 106)
                                 }
-                                else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
+                                else if (promptManager.expression == "happy" || promptManager.expression == "sad"){
                                     LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
                                         .frame(width: 130.62, height: 106)
                                 }
@@ -139,7 +139,6 @@ struct StoryView: View {
                         .padding(.bottom, 8)
                         .onShake {
                             promptManager.reloadQuestions()
-                            print("Shaken!")
                         }
                         
                         
@@ -156,7 +155,7 @@ struct StoryView: View {
                                 LottieView(animation: .named("nyimakNeutral")).playbackMode(.playing(.toProgress(1, loopMode: .repeat(.infinity)))).animationSpeed(1)
                                     .frame(width: 172, height: 174)
                             }
-                            else if (promptManager.expression == "senang" || promptManager.expression == "sedih"){
+                            else if (promptManager.expression == "happy" || promptManager.expression == "sad"){
                                 LottieView(animation: .named(promptManager.expression)).playbackMode(.playing(.toProgress(1, loopMode: .repeat(10)))).animationSpeed(1)
                                     .frame(width: 172, height: 174)
                             }
@@ -166,7 +165,6 @@ struct StoryView: View {
                             }
                         }.onShake {
                             promptManager.reloadQuestions()
-                            print("Shaken!")
                         }
                     }
                     
@@ -175,11 +173,14 @@ struct StoryView: View {
                         HStack(alignment: .center, spacing: 20){
                             VStack{
                                 Image("story-sudah").resizable().scaledToFit().frame(width: 136, height: 111)
-                                Text("Iya, sudah cukup").font(.headline).fontWeight(.semibold).foregroundStyle(Color("primary-6"))
+                                Text("Yes, it's enough").font(.headline).fontWeight(.semibold).foregroundStyle(Color("primary-6"))
                                 
                                 
                             }
-                            .onTapGesture {shouldNavigate = true}
+                            .onTapGesture {
+                                navigationManager.setStoryActive(setStoryActive:  true)
+                                
+                                print(navigationManager.hasStoryActive)}
                         }
                         Spacer()
                         
@@ -193,7 +194,7 @@ struct StoryView: View {
                                 ScrollView{
                                     VStack{
                                         
-                                        TextField("", text: $promptManager.userPrompt, prompt: Text("Tuliskan di sini…").foregroundStyle(.gray), axis: .vertical)
+                                        TextField("", text: $promptManager.userPrompt, prompt: Text("Write it here...").foregroundStyle(.gray), axis: .vertical)
                                             .foregroundStyle(Color("body-text"))
                                             .opacity(isMicActive ? 0 : 1)
                                             .disableAutocorrection(true)
@@ -204,7 +205,7 @@ struct StoryView: View {
                                             .toolbar {
                                                 ToolbarItemGroup(placement: .keyboard) {
                                                     Spacer()
-                                                    Button("Selesai") {
+                                                    Button("Done") {
                                                         // 3️⃣ Dismiss when “Done” is tapped
                                                         isTextFieldFocused = false
                                                         
@@ -292,8 +293,8 @@ struct StoryView: View {
             }
             .onAppear {
                 
-                if(emotionName == "senang"){
-                    promptManager.feedback = "Apa yang sedang kamu rasakan sekarang ?"
+                if(emotionName == "happy"){
+                    promptManager.feedback = "What are you feeling right now?"
                     promptManager.expression = "senang-start"
                 }
             }
@@ -301,7 +302,9 @@ struct StoryView: View {
                 if newValue >= 10 {
                     promptManager.promptLimit = 0
                     
-                    shouldNavigate = true
+                  
+                    
+                    navigationManager.setStoryActive(setStoryActive: true)
                     
                 }
             }
@@ -313,12 +316,10 @@ struct StoryView: View {
             // hidden link that actually does the navigation
             .background(
                 NavigationLink(
-                    destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: promptManager.logPrompts).navigationBarBackButtonHidden(true),      // <-- the view you want to go t
-                    isActive: $shouldNavigate,
-                    label: { EmptyView() }
-                )
-                .isDetailLink(false)
-                .hidden()
+                    destination: LoadingSummaryView(rootIsActive: self.$isActive, logPrompts: promptManager.logPrompts).navigationBarBackButtonHidden(true),
+                    isActive: $navigationManager.hasStoryActive){
+                        EmptyView()
+                    }
             )
             
         }
@@ -333,5 +334,5 @@ struct StoryView: View {
 
 
 #Preview {
-    StoryView(emotionName: "senang")
+    StoryView(emotionName: "happy")
 }

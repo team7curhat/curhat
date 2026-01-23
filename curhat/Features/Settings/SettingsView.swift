@@ -26,8 +26,10 @@ struct SettingsView: View {
                 .ignoresSafeArea(edges: .all)
             
             VStack(alignment:.leading){
+                
                 NavigationLink("Change username") {
-                    onboarding3().navigationBarBackButtonHidden(true)
+                    ChangeUsernameView().navigationBarBackButtonHidden(true)
+                    
                         
                 }.frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
@@ -40,8 +42,8 @@ struct SettingsView: View {
                     showDeleteAlert = true
                 }.frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
-                    .background(.white)
-                    .foregroundStyle(.black)
+                    .background(.red)
+                    .foregroundStyle(.white)
                     .multilineTextAlignment(.leading)
                     .cornerRadius(8)
             }

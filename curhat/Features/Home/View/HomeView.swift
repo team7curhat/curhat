@@ -11,6 +11,7 @@ struct HomeView: View {
     
     @AppStorage("userNickname") private var nickname: String = ""
     @StateObject private var promptManager = PromptManager()
+    @ObservedObject var navigationManager = NavigationManager.shared
     
     var body: some View {
         NavigationStack {
@@ -37,16 +38,16 @@ struct HomeView: View {
                         
                         // Greeting Section
                         VStack {
-                            Text("Halo \(nickname), ada cerita apa hari ini?")
+                            Text("Hello \(nickname), what's the story today?")
                                 .font(.title2)
                                 .fontWeight(.semibold)
-                                .padding(.top, 60) 
+                                .padding(.top, 60)
                                 .padding(.bottom, 40)
                                 .frame(width: 200)
                                 .foregroundColor(.primary6)
                                 .multilineTextAlignment(.center)
                             
-//                            Spacer()
+                            //                            Spacer()
                         }
                         .frame(maxWidth: .infinity)
                         
@@ -63,14 +64,23 @@ struct HomeView: View {
                             }
                             
                             ZStack(alignment: .bottom) {
-                                NavigationLink(destination: StoryView(emotionName: "senang").navigationBarBackButtonHidden(true)) {
+                                
+                                Button(action:{
+                                    navigationManager.setHomeActive(setHomeActive: true)
+                                   
+                                } ){
                                     Image("persona-homepage")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(maxWidth: .infinity)
                                 }
                                 
-                                Text("Ketuk aku untuk mulai bercerita")
+                                NavigationLink(destination: StoryView(emotionName: "happy").navigationBarBackButtonHidden(true), isActive: $navigationManager.hasHomeActive){
+                                    EmptyView()
+                                }
+
+                                
+                                Text("Tap me to start the story")
                                     .font(.body)
                                     .foregroundColor(Color.white)
                                     .padding(.bottom, 30)
@@ -80,6 +90,7 @@ struct HomeView: View {
                         .frame(maxWidth: .infinity)
                         .edgesIgnoringSafeArea(.bottom)
                     }
+                    
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             NavigationLink(destination: SettingsView()) {
@@ -88,10 +99,17 @@ struct HomeView: View {
                             }
                         }
                     }
+                    
+                    
                 }
-                .onAppear {
-                    promptManager.logPrompts.removeAll()
-                }
+                    .onAppear {
+                        promptManager.logPrompts.removeAll()
+                    }
+                
+                
+                
+                
+                
             }
         }
     }}

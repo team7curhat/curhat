@@ -15,7 +15,7 @@ final class SpeechManager: ObservableObject {
         // Sets the voice language. Default is system locale voice.
         // Here we use Indonesian:
         //   language: "id-ID"
-        utterance.voice = AVSpeechSynthesisVoice(language: "id-ID")
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         
         // MARK: – Rate
         // Speaking rate, from 0.0 (slowest) to 1.0 (fastest).
